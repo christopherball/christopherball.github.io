@@ -1080,7 +1080,7 @@ E ::= IE | I/I                       Expression
         </div>
         <script>
             (function() {
-                document.getElementById('source').value = '"Root Mean Square"\n\nsqrt((sum color(red)(x_i)^2)/color(blue)(n))\n\ncolor(red)(x_i)="each residual value", in RR\ncolor(blue)(n)="number of residual values"'
+                document.getElementById('source').value = '"Root Mean Square Error"\n\nsqrt((sum_(i=1)^n (color(red)(P_i)-color(blue)(O_i))^2)/n)\n\ncolor(red)(P_i)="a predicted value"\ncolor(blue)(O_i)="an observation value"\nn="total number of residual values"'
                 change('source', 'output', false);
             })();
         </script>
