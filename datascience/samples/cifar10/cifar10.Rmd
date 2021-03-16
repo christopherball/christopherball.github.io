@@ -1,0 +1,137 @@
+---
+title: "CIFAR10 Image Analysis"
+output: html_notebook
+---
+
+## Library Includes
+
+```{r}
+library(tidyverse)      # General utility packages
+library(keras)          # Used for deep learning
+```
+
+## Parameters
+
+```{r}
+batch_size <- 32
+epochs <- 25
+data_augmentation <- TRUE
+```
+
+## Data Preparation
+
+```{r}
+cifar10 <- dataset_cifar10()
+```
+
+```{r}
+# We have 50,000 train and 10,000 test images, with x-data having the shape: [sampleNum, 32, 32, 3].
+# Each pixel value holds a value from 0 through 255, which we will standardize to between 0 and 1. If you
+# wanted to access any particular data, you'd do so via:
+# cifar10$test$x[sampleNum, row, col, colorChannelNum].
+x_train <- cifar10$train$x/255
+x_test <- cifar10$test$x/255
+```
+
+```{r}
+glimpse(x_train)
+```
+
+```{r}
+# The y-data is an array of category labels (integers in range 0-9) with shape [sampleNum, 1]. 
+# 0=airplane, 1=automobile, 2=bird, 3=cat, 4=deer, 5=dog, 6=frog, 7=horse, 8=ship, 9=truck.
+# Converting to shape [sampleNum, 1:10] where only 1 flag is set at a time for the label.
+y_train <- to_categorical(cifar10$train$y, num_classes = 10)
+y_test <- to_categorical(cifar10$test$y, num_classes = 10)
+```
+
+```{r}
+glimpse(y_train[1,])
+```
+
+## Defining Model
+
+```{r}
+# Initialize sequential model
+model <- keras_model_sequential()
+
+model %>%
+ 
+  # Start with hidden 2D convolutional layer being fed 32x32 pixel images
+  layer_conv_2d(filter = 32, kernel_size = c(3,3), padding = "same", input_shape = c(32, 32, 3)) %>%
+  layer_activation("relu") %>%
+
+  # Second hidden layer
+  layer_conv_2d(filter = 32, kernel_size = c(3,3)) %>%
+  layer_activation("relu") %>%
+
+  # Use max pooling
+  layer_max_pooling_2d(pool_size = c(2,2)) %>%
+  layer_dropout(0.25) %>%
+  
+  # 2 additional hidden 2D convolutional layers
+  layer_conv_2d(filter = 32, kernel_size = c(3,3), padding = "same") %>%
+  layer_activation("relu") %>%
+  layer_conv_2d(filter = 32, kernel_size = c(3,3)) %>%
+  layer_activation("relu") %>%
+
+  # Use max pooling once more
+  layer_max_pooling_2d(pool_size = c(2,2)) %>%
+  layer_dropout(0.25) %>%
+  
+  # Flatten max filtered output into feature vector 
+  # and feed into dense layer
+  layer_flatten() %>%
+  layer_dense(512) %>%
+  layer_activation("relu") %>%
+  layer_dropout(0.5) %>%
+
+  # Outputs from dense layer are projected onto 10 unit output layer
+  layer_dense(10) %>%
+  layer_activation("softmax")
+```
+
+```{r}
+options(width = 105)
+model
+```
+
+```{r}
+opt <- optimizer_rmsprop(lr = 0.0001, decay = 1e-6)
+
+model %>% compile(
+  loss = "categorical_crossentropy",
+  optimizer = opt,
+  metrics = "accuracy"
+)
+```
+
+## Training
+
+```{r}
+if(!data_augmentation){
+  model %>% fit(
+    x_train, y_train,
+    batch_size = batch_size,
+    epochs = epochs,
+    validation_data = list(x_test, y_test),
+    shuffle = TRUE
+  )
+} else {
+  datagen <- image_data_generator(
+    rotation_range = 20,
+    width_shift_range = 0.2,
+    height_shift_range = 0.2,
+    horizontal_flip = TRUE
+  )
+  
+  datagen %>% fit_image_data_generator(x_train)
+  
+  model %>% fit_generator(
+    flow_images_from_data(x_train, y_train, datagen, batch_size = batch_size),
+    steps_per_epoch = as.integer(50000/batch_size), 
+    epochs = epochs, 
+    validation_data = list(x_test, y_test)
+  )
+}
+```

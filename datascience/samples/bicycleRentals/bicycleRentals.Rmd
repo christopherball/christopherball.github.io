@@ -1,0 +1,423 @@
+---
+title: "Bicycle Rentals"
+output: html_notebook
+---
+
+## Library Includes
+
+```{r}
+library(tidyverse)      # General utility packages
+library(corrplot)       # Visual correlation plotting
+library(cowplot)        # Plotting ggplot's side by side
+library(olsrr)          # Useful toolset specific to linear regression models
+library(car)            # Useful toolset specific to linear regression models
+library(lubridate)      # Used for date manipulation
+```
+
+## Preparing Data
+
+```{r, message=FALSE}
+bikes <- read_csv("data/bikes.csv")
+```
+
+```{r}
+options(width = 100)
+glimpse(bikes)
+```
+
+Examining feature correlations.
+
+```{r}
+bike_correlations <- bikes %>%
+  select(-date) %>%
+  cor()
+
+corrplot(bike_correlations, mar=c(1,0,1,4))
+```
+
+Taking a visual look at the higher correlations to rentals.
+
+```{r}
+p1 <- ggplot(bikes, aes(x=season, y=rentals)) +
+  geom_jitter(colour="red", alpha = 0.4)
+
+p2 <- ggplot(bikes, aes(x=weather, y=rentals)) +
+  geom_jitter(colour="darkgreen", alpha = 0.4) +
+  theme(axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank())
+
+p3 <- ggplot(bikes, aes(x=temperature, y=rentals)) +
+  geom_point(colour="blue", alpha = 0.4)
+
+p4 <- ggplot(bikes, aes(x=realfeel, y=rentals)) +
+  geom_point(colour="purple", alpha = 0.4) +
+  theme(axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank())
+
+plot_grid(p1, p2, p3, p4, nrow = 2)
+```
+
+Taking a look at distribution curves for all continuous feature data.
+
+```{r}
+bikes %>%
+  select(-rentals, -holiday, -season, -weather, -weekday) %>%
+  keep(is.numeric) %>%
+  pivot_longer(cols = everything()) %>%
+  ggplot(aes(x=value,fill=name)) +
+    geom_histogram(color = "black", bins = 30) +
+    facet_wrap(~ name, scales = "free") +
+    theme_minimal()
+  
+```
+
+## Model Preparation
+
+Building a simple linear regression model. The coefficient estimates below represent the actual (m and b) coefficients for y = mx + b, specifically y = 78.495x - 166.877. Residuals represent the observed value minus the predicted value (error in prediction). Also take note that the temperature coefficient has \*\*\* next to it, signifying its predictive power as a feature, which in this case is highly significant.
+
+Most importantly, take a look at the Multiple R-squared value, which indicates that simple linear regression model explains about 39.7% of the variability in our dataset. The Adjusted R-squared value is a slight modification to the Multiple R-squared in that it penalizes models with a large number of independent variables. Think of it as a more conservative measure of variance, particularly when the sample size is small compared to the number of parameters.
+
+```{r}
+bikes_mod1 <- lm(data = bikes, rentals ~ temperature)
+summary(bikes_mod1)
+```
+
+Let's use the model itself to now predict a plot line over the top of a rentals \~ temperature scatter plot to see how it looks. The line seems to capture the general direction, but we can't overlook the fact that the model only explains 39.7% of the data.
+
+```{r}
+bikes$pred1 <- predict(bikes_mod1)
+
+ggplot(bikes, aes(x=temperature, y=rentals)) +
+  geom_point(colour="blue", alpha = 0.4) +
+  geom_line(aes(x=temperature, y=pred1))
+```
+
+Let's give multiple linear regression a try now to improve upon our simple linear regression model. What's interesting with the results of the model is the asterisks appearing after the coefficients appear to all be \*\*\* which signals that they are all significant predictors. However, when looking back at the original correlation matrix, my natural instincts would have led me to believe that humidity wouldn't be good and windspeed would only be moderately good (based on the correlation to rentals). Also of note is our Adjusted R-squared is 45.8%, so our model has improved it's ability to describe the variability of the dataset.
+
+```{r}
+bikes_mod2 <- lm(data = bikes, rentals ~ humidity + windspeed + temperature)
+summary(bikes_mod2)
+```
+
+Let's take a look at how the new model predicts for all 3 contributing features. Visually we are examining a given feature independently, but realize that the prediction y values are as a result of "all" contributing model features for the given observation.
+
+```{r}
+bikes$pred2 <- predict(bikes_mod2)
+
+p1 <- ggplot(bikes, aes(x=humidity, y=rentals)) +
+  geom_point(colour="orange", alpha = 0.4) +
+  geom_line(aes(x=humidity, y=pred2))
+
+p2 <- ggplot(bikes, aes(x=windspeed, y=rentals)) +
+  geom_point(colour="darkgrey", alpha = 0.4) +
+  geom_line(aes(x=windspeed, y=pred2))
+
+p3 <- ggplot(bikes, aes(x=temperature, y=rentals)) +
+  geom_point(colour="blue", alpha = 0.4) +
+  geom_line(aes(x=temperature, y=pred2))
+
+plot_grid(p1, p2, p3, ncol = 2)
+```
+
+Here's a concrete query to compare different days all hovering around the same temperature. We can see that the pred2 value indicating rentals varies considerably based on whether it's low/high humidity and low/high windspeed for the day.
+
+```{r}
+bikes %>% 
+  filter(round(temperature) == 70) %>% 
+  select(temperature, humidity, windspeed, pred2)
+```
+
+Here's a clean example showing how to use our model, along with never-before-seen feature input data, to produce predictions (rentals). We can see that the model makes logical choices, when the humidity or wind is high, rentals seem to go down.
+
+```{r}
+freshInput <- tibble(temperature = 65, humidity = c(0.0, 0.4, 0.9, 0.4, 0.9), windspeed = c(0,5,5,15,15))
+freshInput$pred <- predict(bikes_mod2, freshInput)
+freshInput
+```
+
+## Model Evaluation
+
+#### Residual Diagnostics
+
+Linear regression models make assumptions that are true, and if it turns out that some of these aren't true, the accuracy of the model becomes suspect:
+
+1.  Have a mean of zero (or very close to it).
+2.  Are normally distributed.
+3.  Have equal variance across the values of the independent variable (homoscedasticity).
+4.  Are not correlated (that is, the residuals are not correlated).
+
+Assumption \#1 validation. As we can see below, this is very close to zero.
+
+```{r}
+mean(bikes_mod2$residuals)
+```
+
+Assumption \#2 validation. As we can see below, the residual errors are indeed normally distributed.
+
+```{r}
+ols_plot_resid_hist(bikes_mod2)
+```
+
+Assumption \#3 validation. Since this is a well balanced plot, without a funnel shape leading to the right or left, this passes this check.
+
+```{r}
+ols_plot_resid_fit(bikes_mod2)
+```
+
+Assumption \#4 validation. The DW statistic of 0.404 and p-value of 0 signal there is strong evidence suggesting the model's residuals are positively correlated. To remediate this, we would need to identify which additional predictors, from our dataset, we need to include in our model. If that is unsuccessful in reducing residual autocorrelation, then we need to also look into transforming some of our predictor variables.
+
+```{r}
+durbinWatsonTest(bikes_mod2)
+```
+
+#### Influential Point Analysis
+
+Extreme values for predictor variables can create problems with the accuracy of linear regression models and with how well they can be generalized. If we have a model that can be heavily influenced or invalidated by a change in the value of a few observations, then we have a rather brittle model.
+
+With simple linear regression, influential points are easy to identify by simply identifying the outlier values in a single predictor variable. However, with multiple linear regression, it is possible to have an observation with a variable whose value is not considered an outlier, when compared to other values for that variable, but is extreme when compared with the full set of predictors. To quantify these influential points when we're dealing with multiple predictors, we use a statistical test known as Cook's distance.
+
+As can be seen below, there are several influential points, starting with a significant one (69).
+
+```{r}
+ols_plot_cooksd_chart(bikes_mod2)
+```
+
+Here we're tapping into the underlying data from above, and viewing the biggest influential outliers toward the top. In total there appear to be 25 outliers based on exceeding Cook's distance threshold.
+
+```{r}
+cooksObj <- ols_plot_cooksd_chart(bikes_mod2, print_plot = FALSE)
+cooksObj$outliers %>% arrange(desc(cooks_distance))
+```
+
+Let's compare observation values between observation 69 and the rest. We see that humidity is clearly an outlier for 69, namely, 0, the lowest in the entire set of data. Likewise, windspeed is higher than the 3rd quartile. Through all of this, the temperature is not extreme.
+
+```{r}
+bikes[69, c("rentals", "humidity", "windspeed", "temperature")]
+```
+
+```{r}
+summary(bikes[-69, c("rentals", "humidity", "windspeed", "temperature")])
+```
+
+Let's go ahead and compare a statistical summary of all of the outlier observations to the rest of the data as a whole. If we eyeball the mean and median, we see that rentals and humidity are quite a bit lower in the outlier group, and windspeed and temperature are quite a bit higher.
+
+```{r}
+cooksIndices <- cooksObj$outliers %>% 
+  rownames() %>% 
+  as.numeric()
+
+summary(bikes[cooksIndices, c("rentals", "humidity", "windspeed", "temperature")])
+```
+
+```{r}
+summary(bikes[-cooksIndices, c("rentals", "humidity", "windspeed", "temperature")])
+```
+
+Now let's compare the above summary excluding outliers to the original data to see what the impact will be if we remove outliers altogether. The mean and median values don't really seem to differ between the above and below, signaling that if we remove outliers, it won't have an adverse impact on distributions.
+
+```{r}
+summary(bikes[, c("rentals", "humidity", "windspeed", "temperature")])
+```
+
+To retain our original data, we'll make a copy for this outlier subtraction change.
+
+```{r}
+bikes2 <- bikes[-cooksIndices,]
+summary(bikes2[,c("rentals", "humidity", "windspeed", "temperature")])
+```
+
+#### Multicollinearity
+
+Multicollinearity is a phenomenon that occurs when two or more predictor variables are highly correlated with each other. Multicollinearity in linear regression models is a problem because it leads to standard errors that are highly inflated, and it makes it rather difficult to separate out the impact of individual predictors on the response.
+
+There are several approaches to test for collinearity, one of which is to use a simple correlation matrix (which we did using corrplot way up top) to assess the degree of correlation between pairs of predictor variables. However, this approach is not useful in detecting situations where no individual pair of variables is highly correlated, but three or more variables are highly correlated with each other.
+
+To detect the presence of such a scenario, we can compute the variance inflation factor (VIF) for each predictor. The VIF for a variable is the measure of how much the variance of the estimated regression coefficient for that variable is inflated by the existence of correlation among the predictor variables in the model.
+
+As can be seen below, in our case, multicollinearity is not a problem. If the value of tolerance is less than 0.2 and, simultaneously, the value of VIF is 5 and above, then the multicollinearity is problematic. In the event that the VIF analysis does indicate multicollinearity, there are two common approaches to dealing with this situation. One approach is to drop one of the problematic variables from the model, while the other approach is to combine the collinear predictors into a single variable.
+
+```{r}
+ols_vif_tol(bikes_mod2)
+```
+
+## Model Improvement
+
+#### Nonlinear Relationships
+
+Let's take a fresh look at the visual relationships between our features against our bikes2 dataset and see if anything seems possibly nonlinear. That is, the data seems like it might be better suited to a simple curve shape rather than a straight line. The blue lines represent a standard linear regression against each feature, and the red lines represent proposed changes to feature (x) data to make the line fits generalize more accurately.
+
+Given how much better the red lines fit, this signals that we need to create new features of the x\^2 shape for each.
+
+```{r, fig.height=1.5, fig.width=6}
+p1 <- ggplot(bikes2, aes(x=humidity, y=rentals)) +
+  geom_point(colour="orange", alpha = 0.4) +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, color = "blue") +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2), se = FALSE, color = "red")
+
+p2 <- ggplot(bikes2, aes(x=windspeed, y=rentals)) +
+  geom_point(colour="darkgrey", alpha = 0.4) +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, color = "blue") +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 1), se = FALSE, color = "red")
+
+p3 <- ggplot(bikes2, aes(x=temperature, y=rentals)) +
+  geom_point(colour="blue", alpha = 0.4) +
+  geom_smooth(method = "lm", formula = y ~ x, se = FALSE, color = "blue") +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 3), se = FALSE, color = "red")
+
+plot_grid(p1, p2, p3, nrow = 1)
+```
+
+```{r}
+bikes_mod3 <- lm(
+  data = bikes2,
+  rentals ~
+    poly(humidity, 2) +
+    poly(windspeed, 1) +
+    poly(temperature, 3))
+
+summary(bikes_mod3)
+```
+
+Our results now show that all our predictors are significant. The model diagnostics show an improvement over our previous model (bikes \_mod2). Our residual standard error decreased from 1425 to 1213, and our adjusted R-squared increased from 0.4587 to 0.5993.
+
+#### Categorical Variables
+
+```{r}
+options(width = 100)
+glimpse(bikes2)
+```
+
+```{r}
+bikes2 <- bikes2 %>%
+  mutate(
+    season = as.factor(season),
+    holiday = as.factor(holiday),
+    weekday = as.factor(weekday),
+    weather = as.factor(weather)
+  )
+summary(bikes2[,c("season", "holiday", "weekday", "weather")])
+```
+
+Before we start making use of our categorical features in our model, let's go ahead and revalue them from numbers which are hard to interpret as a human to more readable values.
+
+```{r}
+bikes2 <- bikes2 %>%
+  mutate(
+    season = recode_factor(season, `1`="Winter", `2`="Spring", `3`="Summer", `4`="Fall"),
+    holiday = recode_factor(holiday, `0`="No", `1`="Yes"),
+    weekday = recode_factor(weekday, 
+                            `0`="Sunday", 
+                            `1`="Monday", 
+                            `2`="Tuesday", 
+                            `3`="Wednesday", 
+                            `4`="Thursday", 
+                            `5`="Friday", 
+                            `6`="Saturday"),
+    weather = recode_factor(weather, `1`="Clear", `2`="Light precipitation", `3`="Heavy precipitation"))
+```
+
+Now let's start incrementally adding in some of our new categorical features and see how the model performs.
+
+```{r}
+bikes_mod4 <- lm(
+  data = bikes2,
+  rentals ~ 
+    poly(humidity, 2) +
+    poly(windspeed, 1) +
+    poly(temperature, 3) +
+    season)
+
+summary(bikes_mod4)
+```
+
+Take note of something special that just happened here. We now have coefficients of seasonSpring, seasonSummer and seasonFall. When including categorical variables into a linear regression model, the lm() function automatically creates dummy variables (with values of 0 and 1) for each of the values of the categorical variable. Take note that although there are 4 distinct values for season, seasonWinter was not dummified as it's considered the baseline, whereby if all other seasons are 0, it's assumed to be seasonWinter=1 implicitly.
+
+Unlike with the continuous variables, where we interpret the coefficient of a predictor variable as the degree of change in the response variable as a result of a unit change in the value of the predictor (assuming all other predictors are held constant), we interpret the coefficients of the categorical predictors as the average difference in the change of the response variable between each predictor value and the baseline. In other words, in our model, the coefficient for seasonSpring is the average difference in the number of bike rentals between spring and the baseline of winter. Similarly, the coefficients for seasonSummer and seasonFall are the average differences in the number of bike rentals between summer and winter, and between fall and winter, respectively.
+
+Our model outputs tell us that these new predictors for the season variable are all significant and that adding them improves the quality of our model. We see that our residual standard error goes down as compared to our previous model. Our adjusted R-squared tells us that our new model now explains 62.4 percent of the variability in our response variable. That's an improvement from our previous model.
+
+#### Variable Interactions
+
+In our bikes2 data, we could expect some sort of interaction effect between the windspeed and weather predictors or between the weather and temperature predictors. It is reasonable to assume that if both the overall weather condition worsened and windspeeds increased, it would have a more significant impact on the number of bike rentals than if either windspeeds alone increased or overall weather conditions alone worsened. R provides us with a way to specify these interaction effects in our model by using the \* operator.
+
+```{r}
+bikes_mod5 <- lm(
+  data = bikes2,
+  rentals ~ 
+    poly(humidity, 2) +
+    poly(temperature, 3) +
+    season +
+    windspeed * weather)
+
+summary(bikes_mod5)
+```
+
+We can see from the model output that compared to bikes \_mod4, we improve upon both our residual standard error and adjusted R-squared. We also see that some of our new coefficients are significant.
+
+Before we get into the final variable selection phase (we will be using a combination of forward and backward selection known as mixed selection), let's create some additional candidate predictors first.
+
+```{r}
+bikes2 <- bikes2 %>%
+  mutate(
+    day = as.numeric(date-min(date)),
+    month = as.factor(month(date)),
+    year = as.factor(year(date))) %>%
+  select(-date)
+```
+
+## Predictor Selection Phase
+
+It's time to proceed with mixed selection now. Now that we have our new candidate predictors, we proceed with the ols_step_both \_p() function. The function takes four parameters, and the first is a linear model with all candidate predictors (model). Our candidate predictors include all the independent variables in our bikes2 data as well as the interaction term for windspeed and weather. The second parameter of the function is the p-value threshold for entry into the process (pent), the third is the p-value threshold for removal (prem), and the last is a flag indicating how much detail to print (details). For our example, we set the values for pent, prem, and details as 0.2, 0.01, and FALSE, respectively.
+
+```{r}
+options(width = 100)
+stepwiseRegression <- ols_step_both_p(
+  model = lm(
+    data = bikes2,
+    rentals ~ 
+      poly(humidity, 2) +
+      poly(temperature, 3) +
+      season +
+      windspeed * weather +
+      weekday +
+      holiday +
+      day +
+      month +
+      year),
+  pent = 0.2,
+  prem = 0.01,
+  details = FALSE)
+
+stepwiseRegression
+```
+
+As can be seen above, the following steps were taken to decide whether a given predictor was included or not in the final model. Ultimately it looks like 11 predictors were included. Keep in mind that 11 represents the predictors before they are dummy coded.
+
+As can be seen below, the summary of the final model shows all of the coefficients, composed of the predictors (and dummy codings of predictors where applicable). The Adjusted R-Squared indicates a model accuracy of 87.7%!
+
+```{r}
+summary(stepwiseRegression$model)
+```
+
+```{r, fig.height=1.25, fig.width=4}
+p1 <- ggplot(
+  as.data.frame(stepwiseRegression$rsquare), 
+  aes(x=seq(1, stepwiseRegression$steps, 1), y=stepwiseRegression$rsquare)) +
+    geom_path(colour="blue", alpha = 0.4) +
+    geom_point(colour="blue") +
+    labs(title = "R-Square", x = "Step #", y = "Accuracy %")
+
+p2 <- ggplot(
+  as.data.frame(stepwiseRegression$adjr), 
+  aes(x=seq(1, stepwiseRegression$steps, 1), y=stepwiseRegression$adjr)) +
+    geom_path(colour="darkgreen", alpha = 0.4) +
+    geom_point(colour="darkgreen") +
+    labs(title = "Adjusted R-Square", x = "Step #", y = "Accuracy %")
+
+p3 <- ggplot(
+  as.data.frame(stepwiseRegression$rmse), 
+  aes(x=seq(1, stepwiseRegression$steps, 1), y=stepwiseRegression$rmse)) +
+    geom_path(colour="purple", alpha = 0.4) +
+    geom_point(colour="purple") +
+    labs(title = "RMSE", x = "Step #", y = "Target Variance")
+
+plot_grid(p1, p2, p3, nrow = 1, ncol = 3)
+```

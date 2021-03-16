@@ -1,0 +1,263 @@
+---
+title: "Titanic Survivor Analysis"
+output: html_notebook
+---
+
+## Library Includes
+
+```{r message=FALSE}
+library(tidyverse)      # General utility packages
+library(party)          # Random Forest conditional inference tree utilization
+library(missForest)     # Imputation (for both factor and numeric)
+library(cowplot)        # Plotting ggplot's side by side
+library(corrplot)       # Visual correlation plotting
+library(fastDummies)    # Used for dummy coding
+library(caret)          # Used for k-fold cross validation
+library(ggthemes)       # Provides extra themes for styling ggplots.
+```
+
+## Data Loading
+
+```{r message=FALSE}
+train <- read_csv("data/train.csv") # Returns tibble
+test <- read_csv("data/test.csv")   # Returns tibble
+test$Survived <- NA
+combi <- rbind(train, test)
+```
+
+## Utility Functions
+
+```{r}
+createSubmission <- function(submissionName = "submit.csv", prediction) {
+  submit <- data.frame(PassengerId = test$PassengerId, Survived = prediction)
+  write_csv(submit, submissionName)
+}
+```
+
+## Feature Eng. (Categorical / Factors)
+
+```{r}
+# Creating a new Title feature by parsing it using a regular expression.
+combi$Title <- sapply(combi$Name, FUN = function(x) { strsplit(x, split = "[,.]")[[1]][2]})
+combi$Title <- sub(' ', '', combi$Title)
+
+# Combining some rare Title values to simplify our factor counts.
+combi$Title[combi$Title %in% c("Mme", "Mlle")] <- "Mlle"
+combi$Title[combi$Title %in% c("Capt", "Don", "Major", "Sir")] <- "Sir"
+combi$Title[combi$Title %in% c("Dona", "Lady", "the Countess", "Jonkheer")] <- "Lady"
+combi$Title <- factor(combi$Title)
+
+# Creating a new Surname feature by parsing it using a regular expression.
+combi$Surname <- sapply(combi$Name, FUN = function(x) { strsplit(x, split = "[,.]")[[1]][1]})
+
+# Creating a new FamilySize feature including self, parents, siblings, spouse, and children.
+combi$FamilySize <- combi$SibSp + combi$Parch + 1
+
+# Creating simple flag indicating whether person has any family on board.
+combi$FamilyOnBoard <- ifelse(combi$SibSp + combi$Parch > 0, 1, 0)
+
+# Creating a new CabinLetter feature by parsing it using a regular expression.
+combi$CabinLetter <- sapply(combi$Cabin, 
+                            FUN = function(x) { ifelse(is.na(x), NA_character_, substr(x, 1, 1)) })
+combi$CabinLetter <- factor(combi$CabinLetter)
+
+# Keeping track of whether an observation had a Cabin noted at all
+combi$HasCabin <- ifelse(is.na(combi$Cabin), 0, 1)
+
+# Creating socioeconomic feature
+combi$SocioEconomic <- ifelse(
+  is.na(combi$CabinLetter), 
+  paste(combi$Pclass, "X", sep=""),
+  paste(combi$Pclass, combi$CabinLetter, sep=""))
+```
+
+## Feature Eng. (Continuous)
+
+#### Normalization (Standardization)
+
+#### Binning (Discretization)
+
+```{r}
+# Binning Age into 3 factor bins (so that future imputation picks a factor before conversion).
+combi$Age <- sapply(combi$Age, 
+                    FUN = function(x) { 
+                      if (is.na(x)) NA
+                      else if (x < 18) "Child"
+                      else if (x >= 18 & x < 50) "Adult"
+                      else "Elder"
+                    })
+```
+
+```{r}
+ggplot(combi) +
+  aes(x = Age) +
+  geom_bar(width = 0.2,
+           stat = "count") +
+  theme_clean(base_size = 10) +
+  labs(x = "Age", y = "Frequency")
+```
+
+## Data Imputation & Cleanup
+
+```{r}
+# In order to leverage missForest for imputation, it only supports consuming / predicting factor 
+# and numeric data types so all applicable passed-in features should be in one of those two formats.
+combi$Age <- as.factor(combi$Age)
+combi$Sex <- as.factor(combi$Sex)
+combi$Embarked <- as.factor(combi$Embarked)
+combi$SocioEconomic <- as.factor(combi$SocioEconomic)
+glimpse(combi, width = 105)
+```
+
+```{r paged.print=FALSE}
+# Examining how many NA's and blanks our dataset has.
+sapply(combi, function(x) sum(is.na(x) | x == "")) %>%
+  as.data.frame()
+```
+
+```{r}
+# Imputation Step: excluding irrelevant / unsupported data type features, plus casting to dataframe 
+# for missForest.
+set.seed(420)
+combi.imp <- combi %>%
+  select(-c("Survived", "Name", "Ticket", "Surname", "Cabin", "CabinLetter")) %>%
+  as.data.frame() %>%
+  missForest()
+```
+
+```{r}
+# Observing results + error rates for imputation (~4.72% for numeric, and ~9.82% for factors).
+combi.imp$OOBerror
+```
+
+```{r}
+# Merging imputed features back into "combi".
+combi$Age <- combi.imp$ximp$Age
+combi$Fare <- combi.imp$ximp$Fare
+combi$Embarked <- combi.imp$ximp$Embarked
+```
+
+```{r paged.print=FALSE}
+# Examining how many NA's and blanks our dataset has.
+sapply(combi, function(x) sum(is.na(x) | x == "")) %>%
+  as.data.frame()
+```
+
+```{r}
+ggplot(combi) +
+  aes(x = Age) +
+  geom_bar(width = 0.2,
+           stat = "count") +
+  theme_clean(base_size = 10) +
+  labs(x = "Age", y = "Frequency")
+```
+
+## Dimensional Reduction
+
+#### Feature Selection
+
+#### Feature Extraction
+
+## Dummy Coding
+
+```{r}
+# All features selected for dummification must be character or factor columns. Also decided to remove 
+# said selected columns after they have been dummified to conserve space and boost future correlation
+# performance.
+combi <- dummy_cols(combi, 
+                    select_columns = c("Age", "Sex", "Embarked", "Title", "SocioEconomic"),
+                    remove_selected_columns = TRUE)
+```
+
+```{r}
+glimpse(combi, width = 105)
+```
+
+## Data Splitting & Sampling
+
+```{r}
+train <- combi[1:891,]
+test <- combi[892:1309,]
+```
+
+## Feature Correlation Analysis
+
+```{r fig.height=7, fig.width=7}
+# Examine correlations between dependent Survived feature and independent input features. Excluding
+# specific features.
+trainCor <- cor(
+  train %>%
+    select(-PassengerId, -Name, -Ticket, -Cabin, -Surname, -CabinLetter)
+)
+corrplot(trainCor, type = "upper")
+```
+
+```{r}
+# Examining frequency distribution for all dummy coding values to get a sense of which features
+# have the widest usage.
+trainDummies <- train[sapply(train, is.numeric)] %>%
+  colSums(na.rm = TRUE) %>%
+  t() %>%
+  data.frame() %>%
+  select(contains("_")) %>%
+  t() %>%
+  data.frame()
+```
+
+```{r}
+# Moving the row names into a new column, and updating the row names to simply be numbers.
+trainDummies <- cbind(DummyCode = rownames(trainDummies), trainDummies)
+rownames(trainDummies) <- 1:nrow(trainDummies)
+```
+
+```{r}
+# Plotting the dummy-coded features from most to least used.
+ggplot(trainDummies) +
+  aes(x = reorder(DummyCode,.), weight = .) +
+  geom_bar() +
+  coord_flip() +
+  theme_clean(base_size = 10) +
+  labs(x = "Dummy Code", y = "Frequency")
+```
+
+## Model Creation & Tuning
+
+```{r}
+#Defining our repeated k-fold cross validation to split into c chunks, and cycle process t times.
+train_control <- trainControl(method = "repeatedcv", number = 5, repeats = 3)
+survivalModel <- train(as.factor(Survived) ~ 
+                         FamilyOnBoard + 
+                         Title_Miss + 
+                         Sex_female + 
+                         Title_Mrs + 
+                         Fare + 
+                         HasCabin + 
+                         Embarked_C +
+                         Title_Mr + 
+                         Sex_male + 
+                         Age_Child +
+                         Pclass + 
+                         Embarked_S + 
+                         Age_Adult +
+                         Title_Master +
+                         SocioEconomic_3X,
+                       data = train,
+                       method = "cforest",
+                       trControl = train_control,
+                       controls = party::cforest_unbiased(ntree = 1000))
+```
+
+## Model Scoring & Prediction
+
+```{r}
+# Examining the model scoring after cross validation (uses portions of the train set as validation).
+survivalModel
+```
+
+```{r}
+# Make predictions based on resulting trained model.
+predictions <- predict(survivalModel, newdata = test, OOB = TRUE, type = "raw")
+
+# Creating submission.
+createSubmission("submit.csv", predictions)
+```

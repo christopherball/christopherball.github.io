@@ -1,0 +1,106 @@
+---
+title: "Kyphosis Diagnoser"
+output: html_notebook
+---
+
+## Library Includes
+
+```{r}
+library(tidyverse)      # General utility packages
+library(keras)          # Used for deep learning
+library(ggthemes)       # Provides extra themes for styling ggplots
+library(janitor)        # Used for everyday use, such as nice console-based distributions.
+library(fastDummies)    # Used for dummy coding
+library(caTools)        # Used for train-test splitting
+library(scales)         # Used for scaling and normalization
+```
+
+## Preparing Data
+
+```{r}
+sourceData <- read_csv("data/kyphosis.csv", col_types = "fnnn")
+```
+
+Taking a look at our data.
+
+```{r}
+options(width = 100)
+glimpse(sourceData)
+```
+
+```{r}
+options(width = 100)
+summary(sourceData)
+```
+
+Dummy coding the Kyphosis target.
+
+```{r}
+options(width = 100)
+sourceData <- fastDummies::dummy_cols(sourceData,
+                                      select_columns = c("Kyphosis"),
+                                      remove_selected_columns = TRUE,
+                                      remove_first_dummy = TRUE)
+
+glimpse(sourceData)
+```
+
+## Splitting & Shaping Data
+
+```{r}
+set.seed(420)
+sample <- caTools::sample.split(sourceData$Kyphosis_present, SplitRatio = 0.7)
+train <- subset(sourceData, sample == TRUE)
+test <- subset(sourceData, sample == FALSE)
+```
+
+```{r}
+train_x <- train %>%
+  select(-Kyphosis_present) %>%
+  sapply(function(x)rescale(x)) # scale() is an alternative approach here
+
+train_y <- keras::to_categorical(train$Kyphosis_present)
+
+test_x <- test %>%
+  select(-Kyphosis_present) %>%
+  sapply(function(x)rescale(x)) # scale() is an alternative approach here
+
+test_y <- keras::to_categorical(test$Kyphosis_present)
+```
+
+```{r}
+summary(train_x)
+```
+
+## Model Selection & Training
+
+```{r}
+model <- keras_model_sequential() 
+
+model %>% 
+  layer_dense(units = 256, activation = 'relu', input_shape = ncol(train_x)) %>% 
+  layer_dropout(rate = 0.4) %>% 
+  layer_dense(units = 128, activation = 'relu') %>%
+  layer_dropout(rate = 0.3) %>%
+  layer_dense(units = 2, activation = 'sigmoid')
+
+model %>% compile(
+  loss = 'binary_crossentropy',
+  optimizer = optimizer_adam(lr = 0.0005), # optimizer_adam(),
+  metrics = c('accuracy')
+)
+```
+
+```{r}
+history <- model %>% fit(
+  train_x, 
+  train_y, 
+  epochs = 38, 
+  batch_size = 5,
+  validation_split = 0.3
+)
+```
+
+```{r}
+plot(history)
+```
