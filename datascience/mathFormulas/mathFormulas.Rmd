@@ -86,7 +86,7 @@ This notebook isn't really about code as much as it's about math. As my knowledg
 
 #### Residual Sum of Squares
 
-![](images/paste-2E989DE2.png)
+![](images/paste-2E989DE2.png){width="550"}
 
 **Formula Source**:
 
