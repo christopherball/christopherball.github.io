@@ -1082,7 +1082,7 @@ E ::= IE | I/I                       Expression
         </div>
         <script>
             (function() {
-                document.getElementById('source').value = '"Root Mean Square Error"\n\nsqrt((sum_(i=1)^n (color(red)(y_i)-color(blue)(hat y_i))^2)/n)\n\ncolor(red)(y_i)="given predicted value"\ncolor(blue)(hat y_i)="given response value"\nn="total number of residual values"'
+                document.getElementById('source').value = 'RMSE=sqrt(1/Nsum_(i=1)^N (color(red)(x_i)-color(blue)(hat x_i))^2)\n\ncolor(red)(x_i)=i^(th)"observation value"\ncolor(blue)(hat x_i)=i^(th)"prediction value"\nN="population size"'
                 change('source', 'output', false);
             })();
         </script>

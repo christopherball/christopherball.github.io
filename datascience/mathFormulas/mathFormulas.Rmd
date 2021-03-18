@@ -13,21 +13,120 @@ This notebook isn't really about code as much as it's about math. As my knowledg
 
 ## Model Accuracy
 
+#### Population Standard Deviation
+
+![](images/paste-0F2BCFC2.png){width="550"}
+
+**Formula Source**:
+
+    σ=sqrt(1/Nsum_(i=1)^N (color(red)(x_i)-color(blue)(mu))^2)
+
+    color(red)(x_i)=i^(th)"observation value"
+    color(blue)(mu)="population mean"
+    N="population size"
+
+**Summary**: Population Standard Deviation (SD) is typically represented in math equations using the Greek letter sigma σ. Standard deviations apply to normal distributions and speak about deviations from the mean. The value of a standard deviation is in the same units as the response variable.
+
+**Interpretation**: There is a n empirical rule (68%/95%/99.7%) corresponding to 1, 2, and 3 SD +/-. It states that approximately 68% of the given population values will fall within 1 SD +/- (that is, 1 SD above, 1 SD below), 95% within 2 SD +/-, and 99.7% within 3 SD +/-. This means that all but .03% of your normal population should fall within 3 SD.
+
+------------------------------------------------------------------------
+
+#### Sample Standard Deviation
+
+![](images/paste-29CCDEBF.png){width="550"}
+
+**Formula Source**:
+
+    s=sqrt(1/(n-1)sum_(i=1)^n (color(red)(x_i)-color(blue)(bar x))^2)
+
+    color(red)(x_i)=i^(th)"observation value"
+    color(blue)(bar x)="sample mean"
+    n="sample size"
+
+**Summary**: Sample Standard Deviation is typically represented in math equations using a lowercase s, to differentiate it from the full population flavor. The only other difference worth calling out is that the final mean taken uses 1 less than the sample size, known as Bessel's Correction.
+
+**Interpretation**: Same as for Population Standard Deviation, keeping in mind that this calculation here is an estimate based on the sample.
+
+------------------------------------------------------------------------
+
+#### Root Mean Square
+
+![](images/paste-6D6AF2E9.png){width="550"}
+
+**Formula Source**:
+
+    RMS=sqrt(1/nsum_(i=1)^n color(red)(x_i)^2)
+
+    color(red)(x_i)=i^(th)"observation value"
+    n="sample size"
+
+**Summary**: Also known as the quadratic mean.
+
+**Interpretation**:
+
 ------------------------------------------------------------------------
 
 #### Root Mean Square Error
 
-![](images/paste-78B59D3A.png){width="300"}
+![](images/paste-49B2AE09.png){width="550"}
 
-**Summary**: Given a set of numeric model predictions, and their corresponding observational response values, for every prediction, we're basically diffing how far off our prediction is, squaring that diff to eliminate negative sign issues, summing up all of these across our set, taking the mean of these values, and finally taking the square root to bring the final value back into the same scale as the predictions and observations.
+**Formula Source**:
+
+    RMSE=sqrt(1/Nsum_(i=1)^N (color(red)(x_i)-color(blue)(hat x_i))^2)
+
+    color(red)(x_i)=i^(th)"observation value"
+    color(blue)(hat x_i)=i^(th)"prediction value"
+    N="population size"
+
+**Summary**: RMSE is also known as the Root Mean Square Deviation (RMSD). Given a set of numeric model predictions, and their corresponding observational response values, for every prediction, we're basically diffing how far off our prediction is, squaring that diff to eliminate negative sign issues, summing up all of these across our set, taking the mean of these values, and finally taking the square root to bring the final value back into the same scale as the predictions and observations.
 
 **Interpretation**: Numbers are absolute values in the same unit as the predicted / observation values. As a model improves and matures, your RMSE should get smaller and smaller because your predictions should become closer and closer to the actual observational values (as modeled by a linear regression, etc...).
 
 ------------------------------------------------------------------------
 
+#### Residual Sum of Squares
+
+![](images/paste-2E989DE2.png)
+
+**Formula Source**:
+
+    RSS=sum_(i=1)^n(color(red)(y_i)-color(blue)(hat y_i))^2
+
+    color(red)(y_i)=i^(th)"observation value"
+    color(blue)(hat y_i)=i^(th)"prediction value"
+    n="sample size"
+
+**Summary**:
+
+**Interpretation**:
+
+------------------------------------------------------------------------
+
+#### Total Sum of Squares
+
+![](images/paste-AA50F75D.png){width="550"}
+
+**Formula Source**:
+
+    TSS=sum_(i=1)^n(color(red)(y_i)-color(blue)(bar y))^2
+
+    color(red)(y_i)=i^(th)"observation value"
+    color(blue)(bar y)="sample mean"
+    n="sample size"
+
+**Summary**:
+
+**Interpretation**:
+
+------------------------------------------------------------------------
+
 #### R-Squared
 
-![](images/paste-12B4741D.png){width="300"}
+![](images/paste-50B194CA.png){width="550" height="51"}
+
+**Formula Source**:
+
+    R^2=1-(RSS)/(TSS)
 
 **Summary**: Otherwise known as the "Coefficient of Determination", to be used for assessing model accuracy where only one independent variable is used in the model. If you add more independent variables, R-squared will go up which is why you should use Adjusted R-Squared instead for such situations (see below). For normal R-squared, you can think of the numerator as "explained variation" and the denominator as "total variation".
 
@@ -37,7 +136,14 @@ This notebook isn't really about code as much as it's about math. As my knowledg
 
 #### Adjusted R-Squared
 
-![](images/paste-4F2DBEC1.png){width="550"}
+![](images/paste-6DB139DD.png){width="550"}
+
+**Formula Source**:
+
+    R_(adj)^2=1-(1-R^2)((color(red)n-1)/(color(red)n-color(blue)k-1))
+
+    color(blue)k="number of independent variables, excluding constant"
+    color(red)n="sample size"
 
 **Summary**: Like R-Squared, Adjusted R-Squared also indicates how well a model curve explains response values. Unlike regular R-Squared, the Adjusted version handles models that are built on top of multiple independent variables, and will penalize the score if additional independent variables don't add to the model accuracy. Adjusted R-Squared values can't be higher than regular R-Squared.
 
