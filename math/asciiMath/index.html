@@ -33,11 +33,15 @@
         <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
         <script type="text/javascript" src="ASCIIMathML.js"></script>
         <style type="text/css">
+            body {
+                background-color: #EEEEEE;
+            }
             #source, #output {
                 border: 1px black solid;
                 width: 490px;
                 min-height: 220px;
                 padding: 10px;
+                background-color: #FFFFFF;
             }
             .row { 
                 display: flex; 
@@ -55,10 +59,10 @@
             }
             caption {
                 font-weight: bold;
-                background-color: #CCCCCC;
-                border-top: 1px black solid;
-                border-left: 1px black solid;
-                border-right: 1px black solid;
+                border-top: 0px black solid;
+                border-left: 0px black solid;
+                border-right: 0px black solid;
+                text-align: left;
             }
             table {
                 width: 100%;
@@ -73,18 +77,20 @@
             }
             th {
                 font-weight: normal;
-                font-style: italic;
-                background-color: #EEEEEE;
-                border: 1px black solid;
+                text-decoration: underline;
             }
             code {
                 background-color: #FDEFB2;
                 border: 1px #AAAAAA solid;
             }
-            /*.rcolumn2 table td:nth-child(1) {
-                background-color: #FDEFB2;
-                border: 1px #AAAAAA solid;
-            }*/
+            button {
+                background-color: #CCCCCC;
+                border-radius: 6px;
+            }
+            button:hover {
+                background-color: #EEEEEE;
+                cursor: pointer;
+            }
             #copyBtn {
                 margin-top: 5px;
                 margin-bottom: 3px;
