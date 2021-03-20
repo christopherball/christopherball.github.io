@@ -8,12 +8,27 @@
         </script>
         <script type="text/javascript">
             function change(sourceId, destId, reEval = true) { 
-                content = document.getElementById(sourceId).value.replace(/\n/g, '`<br>`');
+                var content = document.getElementById(sourceId).value.replace(/\n/g, '`<br>`');
                 document.getElementById(destId).innerHTML = "`" + content + "`";
                 
                 // The following call ensures that MathJax re-evaluates page contents for typesetting on event fire.
                 if (reEval)
                     MathJax.typeset();
+            }
+
+            function getEncodedInput() {
+                var content = document.getElementById("source").value;
+                return btoa(content);
+            }
+
+            function copyToClipboard(value) {
+                console.log(value);
+                var tempInput = document.createElement("input");
+                tempInput.value = value;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
             }
         </script>
         <script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
@@ -73,6 +88,7 @@
                     <b>Output</b><br>
                     <div id="output"></div>
                 </div>
+                <button id="copyBtn">Copy Formula Link</button>
                 <br>
                 <b>Standard Functions</b>
                 <div class="info">
@@ -1082,8 +1098,21 @@ E ::= IE | I/I                       Expression
         </div>
         <script>
             (function() {
-                document.getElementById('source').value = 'RMSE=sqrt(1/Nsum_(i=1)^N (color(red)(x_i)-color(blue)(hat x_i))^2)\n\ncolor(red)(x_i)=i^(th)"observation value"\ncolor(blue)(hat x_i)=i^(th)"prediction value"\nN="population size"'
+                const params = new URLSearchParams(window.location.search);
+                const formula = params.get("formula");
+
+                if (formula) {
+                    document.getElementById('source').value = atob(formula); 
+                }
+                else {
+                    document.getElementById('source').value = 'RMSE=sqrt(1/Nsum_(i=1)^N (color(red)(x_i)-color(blue)(hat x_i))^2)\n\ncolor(red)(x_i)=i^(th)"observation value"\ncolor(blue)(hat x_i)=i^(th)"prediction value"\nN="population size"'
+                }
+                
                 change('source', 'output', false);
+            
+                document.querySelector('#copyBtn').onclick = function() {
+                    copyToClipboard(window.location.href.split('?')[0] + "?formula=" + getEncodedInput());
+                }
             })();
         </script>
     </body>
