@@ -22,7 +22,6 @@
             }
 
             function copyToClipboard(value) {
-                console.log(value);
                 var tempInput = document.createElement("input");
                 tempInput.value = value;
                 document.body.appendChild(tempInput);
@@ -1117,6 +1116,9 @@ E ::= IE | I/I                       Expression
             
                 document.querySelector('#copyBtn').onclick = function() {
                     copyToClipboard(window.location.href.split('?')[0] + "?formula=" + getEncodedInput());
+                }
+                document.querySelector('#copyBtn2').onclick = function() {
+                    copyToClipboard(window.location.href.split('?')[0].replace('index.html','viewer.html') + "?formula=" + getEncodedInput());
                 }
             })();
         </script>
