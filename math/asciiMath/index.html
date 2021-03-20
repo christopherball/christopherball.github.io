@@ -37,7 +37,7 @@
             #source, #output {
                 border: 1px black solid;
                 width: 490px;
-                height: 220px;
+                min-height: 220px;
                 padding: 10px;
             }
             .row { 
@@ -75,6 +75,10 @@
                 background-color: #CCCCCC;
                 border: 1px #AAAAAA solid;
             }
+            #copyBtn {
+                margin-top: 5px;
+                margin-bottom: 3px;
+            }
         </style>
    </head>
     <body>
@@ -88,7 +92,8 @@
                     <b>Output</b><br>
                     <div id="output"></div>
                 </div>
-                <button id="copyBtn">Copy Formula Link</button>
+                <button id="copyBtn">Copy Formula Editor Link</button>
+                <button id="copyBtn2">Copy Formula Viewer Link</button>
                 <br>
                 <b>Standard Functions</b>
                 <div class="info">
