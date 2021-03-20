@@ -93,6 +93,7 @@
                 </div>
                 <button id="copyBtn">Copy Formula Editor Link</button>
                 <button id="copyBtn2">Copy Formula Viewer Link</button>
+                <button id="genBtn">Generate Short URL</button>
                 <br>
                 <b>Standard Functions</b>
                 <div class="info">
@@ -1120,6 +1121,9 @@ E ::= IE | I/I                       Expression
                 document.querySelector('#copyBtn2').onclick = function() {
                     const regex = /\/(index.html)?$/i;
                     copyToClipboard(window.location.href.split('?')[0].replace(regex, '/viewer.html') + "?formula=" + getEncodedInput());
+                }
+                document.querySelector('#genBtn').onclick = function() {
+                    window.open("http://git.io", "_blank");
                 }
             })();
         </script>
