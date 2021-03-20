@@ -1118,7 +1118,8 @@ E ::= IE | I/I                       Expression
                     copyToClipboard(window.location.href.split('?')[0] + "?formula=" + getEncodedInput());
                 }
                 document.querySelector('#copyBtn2').onclick = function() {
-                    copyToClipboard(window.location.href.split('?')[0].replace('index.html','viewer.html') + "?formula=" + getEncodedInput());
+                    const regex = /\/(index.html)?$/i;
+                    copyToClipboard(window.location.href.split('?')[0].replace(regex, '/viewer.html') + "?formula=" + getEncodedInput());
                 }
             })();
         </script>
