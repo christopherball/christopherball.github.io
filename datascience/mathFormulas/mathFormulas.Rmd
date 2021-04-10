@@ -17,9 +17,41 @@ output:
 
 ## About
 
-This notebook isn't really about code as much as it's about math. As my knowledge grows with respect to statistics and data science, this notebook will gradually expand, and the organizational structure will shift to accommodate. All math formulas were made using my custom tool at: <https://christopherball.github.io/math/asciiMath/>.
+This notebook isn't really about code as much as it's about math. As my knowledge grows (and/or refreshes) with respect to statistics, calculus and other maths, this notebook will gradually expand, and the organizational structure will shift to accommodate. All math formulas were made using my custom tool at: <https://christopherball.github.io/math/asciiMath/>.
 
-## Model Accuracy
+## Algebra
+
+#### Logarithms
+
+![](images/paste-E6E02BB5.png){width="550"}
+
+**Formula Source**:
+
+    log_color(red)bcolor(blue)x=color(green)y hArrcolor(red)b^color(green)y=color(blue)x
+
+    log_(color(red)b)(color(red)b^color(blue)x)=color(blue)x\ " for every"\ color(blue)x in RR
+
+    color(red)b^(log_color(red)bcolor(blue)x)=color(blue)x\ " for every"\ color(blue)x>0
+
+    log_color(red)b(color(blue)xcolor(green)y)=log_color(red)bcolor(blue)x+log_color(red)bcolor(green)y
+
+    log_color(red)b(color(blue)x/color(green)y)=log_color(red)bcolor(blue)x-log_color(red)bcolor(green)y
+
+    log_color(red)b(color(blue)x^color(green)r)=color(green)rlog_color(red)bcolor(blue)x\ " for every"\ color(green)r in RR
+
+    log_ecolor(red)x=lncolor(red)x
+
+    lncolor(red)x=color(blue)y hArre^color(blue)y=color(red)x
+
+    ln(e^color(red)x)=color(red)x\ " for every"\ color(red)x in RR
+
+    e^lncolor(red)x=color(red)x\ " for every"\ color(red)x>0
+
+    lne=1
+
+    log_color(red)bcolor(blue)x=lncolor(blue)x/lncolor(red)b\ " for every"\ color(red)b>1
+
+## Statistics
 
 #### Population Standard Deviation
 
