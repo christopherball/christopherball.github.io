@@ -1,0 +1,381 @@
+---
+title: "Donor Prospecting"
+output: html_notebook
+---
+
+## Library Includes
+
+```{r}
+library(tidyverse)      # General utility packages
+library(caret)          # Used for up/down sampling imbalanced classes.
+library(unbalanced)     # Class imbalance management via Synthetic Minority Oversampling TEchnique.
+library(janitor)        # Used for everyday use, such as nice console-based distributions.
+library(caTools)        # Used for train-test splitting
+library(corrplot)       # Visual correlation plotting
+library(car)            # Useful toolset specific to regression models
+library(InformationValue) # Useful for finding precise cutoff values for probabilistic predictions.
+```
+
+## Preparing Data
+
+```{r, message=FALSE}
+donors <- read_csv("data/donors.csv", col_types = "nnffnnnnnnnnffffffffff")
+```
+
+```{r}
+options(width = 100)
+glimpse(donors)
+```
+
+Examining categorical features first.
+
+```{r}
+options(width = 100)
+donors %>%
+  select(where(is.factor)) %>%
+  summary()
+```
+
+We see there are lots of NA's to clean up / handle. We'll start with incomeRating, for which we see below that 22.31% of the data is missing. Since logistic regression can't handle any NA's, we need to choose whether to delete or otherwise handle these types of situations. Since there's so much missing data for this feature, we can't delete the associated observations and will instead create a new factor value UNK for unknown.
+
+```{r}
+donors %>%
+  select(incomeRating) %>%
+  table(exclude = NULL) %>%
+  prop.table()
+```
+
+```{r}
+donors <- donors %>%
+  mutate(incomeRating = as.character(incomeRating)) %>%
+  mutate(incomeRating = as.factor(ifelse(is.na(incomeRating), "UNK", incomeRating)))
+```
+
+```{r}
+donors %>%
+  select(incomeRating) %>%
+  table(exclude = NULL) %>%
+  prop.table()
+```
+
+Let's use the same approach for other factor features with missing data.
+
+```{r}
+options(width = 100)
+donors <- donors %>%
+  mutate(wealthRating = as.character(wealthRating)) %>%
+  mutate(wealthRating = as.factor(ifelse(
+    is.na(wealthRating), 
+    "UNK", 
+    wealthRating))) %>%
+  mutate(urbanicity = as.character(urbanicity)) %>%
+  mutate(urbanicity = as.factor(ifelse(
+    is.na(urbanicity), 
+    "UNK", 
+    urbanicity))) %>%
+  mutate(socioEconomicStatus = as.character(socioEconomicStatus)) %>%
+  mutate(socioEconomicStatus = as.factor(ifelse(
+    is.na(socioEconomicStatus), 
+    "UNK", 
+    socioEconomicStatus))) %>%
+  mutate(isHomeowner = as.character(isHomeowner)) %>%
+  mutate(isHomeowner = as.factor(ifelse(
+    is.na(isHomeowner), 
+    "UNK", 
+    isHomeowner))) %>%
+  mutate(gender = as.character(gender)) %>%
+  mutate(gender = as.factor(ifelse(
+    is.na(gender), 
+    "UNK", 
+    gender)))
+
+donors %>%
+  select(where(is.factor)) %>%
+  summary()
+```
+
+Examining continuous numeric features next.
+
+```{r}
+options(width = 100)
+donors %>%
+  select(where(is.numeric)) %>%
+  summary()
+```
+
+We see that both age and numberChildren have significant amounts of missing data. Let's handle age first. In this instance, we will impute age based on the average age value of the given gender. This should prove more accurate than simply taking the age across the entire dataset.
+
+```{r}
+donors <- donors %>%
+  group_by(gender) %>%
+  mutate(age = ifelse(is.na(age), mean(age, na.rm = TRUE), age)) %>%
+  ungroup()
+
+donors %>%
+  select(age) %>%
+  summary()
+```
+
+As can be seen above, age is now imputed, and the before and after summary statistics for the feature remained pretty similar. The second numeric feature to cleanup is numberChildren. In this case, grouping by gender doesn't make any sense, and taking a mean wouldn't either as we'd end up with fractional children. Here we will simply go for median imputation.
+
+```{r}
+donors <- donors %>%
+  mutate(numberChildren = ifelse(
+    is.na(numberChildren), 
+    median(numberChildren, na.rm = TRUE), 
+    numberChildren))
+
+donors %>%
+  select(numberChildren) %>%
+  summary()
+```
+
+Now that missingness is dealt with, let's look for outliers in our continuous numeric features.
+
+```{r, fig.width=5}
+donors %>%
+  select(where(is.numeric)) %>%
+  pivot_longer(cols = everything()) %>%
+  ggplot(aes(x=value,fill=name)) +
+    geom_histogram(color = "black", bins = 30, show.legend = FALSE) +
+    facet_wrap(~ name, scales = "free", ncol = 4) +
+    theme_minimal()
+```
+
+If we look above at the distributions, there's two things I'm looking for - the shape of the distribution to be skewed, and the scale of the x-axis to span orders of magnitude with little if any data indexing under said bins. The following features meet this criteria: averageGiftAmount, largestGiftAmount, mailOrderPurchases, numberGifts, smallestGiftAmount, totalGivingAmount.
+
+While sometimes outlier data might be deemed important with meaning to be gleaned, in this instance, we are going to simply remove them. The rule of thumb we'll be using is that anything not in the range of (Q1 - 1.5 IQR) and (Q3 + 1.5 IQR) is an outlier, and can be removed.
+
+```{r}
+options(width = 100)
+donors <- donors %>%
+  filter(averageGiftAmount >= (quantile(averageGiftAmount, .25) - (1.5 * IQR(averageGiftAmount)))) %>%
+  filter(averageGiftAmount <= (quantile(averageGiftAmount, .75) + (1.5 * IQR(averageGiftAmount)))) %>%
+  filter(largestGiftAmount >= (quantile(largestGiftAmount, .25) - (1.5 * IQR(largestGiftAmount)))) %>%
+  filter(largestGiftAmount <= (quantile(largestGiftAmount, .75) + (1.5 * IQR(largestGiftAmount)))) %>%
+  filter(mailOrderPurchases >= (quantile(mailOrderPurchases, .25) - (1.5 * IQR(mailOrderPurchases)))) %>%
+  filter(mailOrderPurchases <= (quantile(mailOrderPurchases, .75) + (1.5 * IQR(mailOrderPurchases)))) %>%
+  filter(smallestGiftAmount >= (quantile(smallestGiftAmount, .25) - (1.5 * IQR(smallestGiftAmount)))) %>%
+  filter(smallestGiftAmount <= (quantile(smallestGiftAmount, .75) + (1.5 * IQR(smallestGiftAmount)))) %>%
+  filter(totalGivingAmount >= (quantile(totalGivingAmount, .25) - (1.5 * IQR(totalGivingAmount)))) %>%
+  filter(totalGivingAmount <= (quantile(totalGivingAmount, .75) + (1.5 * IQR(totalGivingAmount))))
+
+donors %>%
+  select(where(is.numeric)) %>%
+  select(averageGiftAmount, 
+         largestGiftAmount, 
+         mailOrderPurchases, 
+         numberGifts, 
+         smallestGiftAmount, 
+         totalGivingAmount) %>%
+  summary()
+```
+
+```{r, fig.width=5, fig.height=2.5}
+donors %>%
+  select(where(is.numeric)) %>%
+  select(averageGiftAmount, 
+         largestGiftAmount, 
+         mailOrderPurchases, 
+         numberGifts, 
+         smallestGiftAmount, 
+         totalGivingAmount) %>%
+  pivot_longer(cols = everything()) %>%
+  ggplot(aes(x=value,fill=name)) +
+    geom_histogram(color = "black", bins = 30, show.legend = FALSE) +
+    facet_wrap(~ name, scales = "free", ncol = 3) +
+    theme_minimal()
+```
+
+Out of curiosity, let's see what the average age of respondents is by state.
+
+```{r, fig.asp=1, fig.width=6, fig.height=24}
+ggplot(donors %>% group_by(state) %>% summarise(age = mean(age), n = n()), 
+       aes(reorder(state, age, FUN = sum), 
+           age, 
+           fill = cut(n,
+                      breaks = c(-Inf, 20, 3000, Inf),
+                      labels = c("n <= 20", "20 < n <= 3,000", "n > 3,000")))) +
+  geom_col() +
+  coord_flip() +
+  theme_clean() +
+  labs(fill = "sample size", x = "state")
+```
+
+As can be seen above, average age of respondents by state does seem to vary. What's also worth noting is that state respondent participation is quite varied, with 12 states having less than or equal to 20 respondents. This may prove troubling when splitting our data in train/test as 'state' is a predictor for our target response, however the odds of capturing examples for each state in our train data is not high, in which case our model won't be able to make predictions for unrecognized state predictors that show up in test data.
+
+Let's make our response variable simply 1 and 0 instead of TRUE and FALSE.
+
+```{r}
+donors <- donors %>%
+  mutate(respondedMailing = as.factor(ifelse(respondedMailing==TRUE, 1, 0)))
+```
+
+## Splitting Data
+
+```{r}
+set.seed(420)
+sampleSet <- sample.split(donors$respondedMailing, SplitRatio = 0.75)
+donorsTrain <- subset(donors, sampleSet == TRUE)
+donorsTest <- subset(donors, sampleSet == FALSE)
+```
+
+We'll do a quick gut check to ensure our train and test sets look to have sampled in a truly random fashion by checking the proportion of TRUE(1)/FALSE(0) values for our desired response variable 'respondedMailing'.
+
+```{r}
+donorsTrain %>%
+  tabyl(respondedMailing) %>%
+  arrange(desc(n))
+```
+
+```{r}
+donorsTest %>%
+  tabyl(respondedMailing) %>%
+  arrange(desc(n))
+```
+
+With the above clearly showing an equitable split has occurred, we now turn our heads toward the class imbalance issue for our response variable. Currently there's roughly 95% to 5% class imbalance, so our model will be way better at predicting FALSE (0) than TRUE (1). Let's balance this out for the training phase.
+
+## Class Imbalance Management
+
+Two approaches that could be taken for addressing our response class imbalance is over-sampling of the minority class, or under-sampling of the majority class. Both of these approaches can be accomplished using caret in the following way but this leaves us with a very small amount of train data given the extreme imbalance if we down sample, and a very large amount of duplicate train data if we up sample.
+
+```{r}
+set.seed(420)
+downSample(donorsTrain, donorsTrain$respondedMailing) %>%
+  select(-Class) %>% 
+  tabyl(respondedMailing) %>%
+  arrange(desc(n))
+```
+
+As can be seen above, we've just dropped about 47K worth of training observations. Another option we can examine is the synthesis of new minority class instances. This can be accomplished using Synthetic Minority Oversampling TEchnique (SMOTE).
+
+```{r}
+set.seed(420)
+smoted <- ubSMOTE(select(donorsTrain, -respondedMailing), 
+                  donorsTrain$respondedMailing, 
+                  perc.over = 100, 
+                  perc.under = 200)
+
+donorsTrain <- smoted$X
+donorsTrain$respondedMailing <- smoted$Y
+
+donorsTrain %>%
+  tabyl(respondedMailing) %>%
+  arrange(desc(n))
+```
+
+## Model Preparation
+
+A popular approach for building binomial logistic regression models is to use the generalized linear model (GLM) glm() function.
+
+```{r}
+donorsModel <- glm(data = donorsTrain, family = binomial, formula = respondedMailing ~ .)
+```
+
+## Model Evaluation
+
+```{r}
+donorsModel %>%
+  summary()
+```
+
+```{r}
+donorsPred1 <- predict(donorsModel, donorsTest, type = "response")
+```
+
+The above situation is a reflection of our train/test split, paired with uncommon factor values for the 'state' predictor. That is, our test set has values for the 'state' predictor that weren't provided in the train dataset so the model doesn't know what to do with them.
+
+For the sake of simplicity, we'll simply remove the nominal amount of records from donorsTest blocking our progress. In a production environment, you wouldn't want to do this as you should train your model to account for all possible inputs.
+
+```{r}
+donorsTest <- donorsTest %>%
+  filter(!state %in% c("ME", "VT", "GU", "NH", "VI"))
+```
+
+```{r}
+donorsPred1 <- predict(donorsModel, donorsTest, type = "response")
+head(donorsPred1)
+```
+
+As can be seen above, these predictions are saying that donor 1 has a 59.87% probability of responding, while donor 2 has a 35.8% probability of responding. So a logical approach for translating these probabilities into binary predictions is anything \>= 0.5 is 1, and anything \< 0.5 is 0.
+
+```{r}
+donorsPred1 <- ifelse(donorsPred1 >= 0.5, 1, 0)
+head(donorsPred1)
+```
+
+To compare the results of our predictions to the actual responses in our test set, we use a confusion matrix like so.
+
+```{r}
+donorsPred1Table <- table(donorsTest$respondedMailing, donorsPred1)
+donorsPred1Table
+```
+
+Interpretation is as follows. The top left to bottom right diagonal signals where our predictions matched actual responses in test. That is, our model correctly predicted 12491 responses of 0, and 321 responses of 1. Therefore, to get the accuracy of our model, we need to sum the diagonals and divide that by the number of rows in our test data.
+
+```{r}
+sum(diag(donorsPred1Table)) / nrow(donorsTest)
+```
+
+## Model Improvement
+
+#### Multicollinearity
+
+```{r}
+donors %>%
+  select(where(is.numeric)) %>%
+  cor() %>%
+  corrplot()
+```
+
+```{r}
+vif(donorsModel)
+```
+
+As can be seen above, there are some correlated features in our corrplot, and our VIF helps us confirm by examining anything with a VIF greater than 5, which points at: totalGivingAmount, numberGifts, smallestGiftAmount, averageGiftAmount. What's interesting is we can see that our initial suspicions based purely on the corrplot were reduced by confirmation from our vif. Namely, yearsSinceFirstDonation and largestGiftAmount are safe to use as they're less than 5, even though they appear highly correlated in the corrplot.
+
+Let's rebuild our model, this time cherry picking the significant features from our first model, and removing any identified high correlations.
+
+```{r}
+donorsModel2 <- glm(data = donorsTrain,
+                    family = binomial,
+                    formula = respondedMailing ~ numberChildren + incomeRating + wealthRating +
+                      mailOrderPurchases + largestGiftAmount + yearsSinceFirstDonation +
+                      monthsSinceLastDonation + inHouseDonor + plannedGivingDonor + sweepstakesDonor +
+                      P3Donor + state + urbanicity + socioEconomicStatus + gender)
+
+summary(donorsModel2)
+```
+
+As can be seen above, our model now has all significant features, or in the case of dummy-coded factors, specific significant dummy codings.
+
+```{r}
+vif(donorsModel2)
+```
+
+The vif confirms we no longer have multicollinearity issues since all values are below 5 now.
+
+```{r}
+donorsPred2 <- predict(donorsModel2, donorsTest, type = "response")
+head(donorsPred2)
+```
+
+Our predictions for the first 6 donors look a bit different than those made with our original model. Rather than generically deciding that the cutoff for 1 and 0 should be based on the 0.5 prediction value, let's use a library that will determine the "ideal" cutoff.
+
+```{r}
+idealCutoff <- optimalCutoff(actuals = donorsTest$respondedMailing,
+                             predictedScores = donorsPred2,
+                             optimiseFor = "Both")
+idealCutoff
+```
+
+```{r}
+donorsPred2 <- ifelse(donorsPred2 >= idealCutoff, 1, 0)
+donorsPred2Table <- table(donorsTest$respondedMailing, donorsPred2)
+donorsPred2Table
+```
+
+```{r}
+sum(diag(donorsPred2Table)) / nrow(donorsTest)
+```
