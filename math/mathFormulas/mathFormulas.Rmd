@@ -25,19 +25,63 @@ This notebook isn't really about code as much as it's about math. As my knowledg
 
 ![](images/paste-E6E02BB5.png){width="550"}
 
-#### Trigonometry
+## Trigonometry
 
-**Unit Circle Relationships**:
+#### Unit Circle Relationships
 
 ![](images/paste-965F23C4.png){width="550"}
 
-**Common Ratios Table**:
+#### Trigonometric Function Graphs
+
+![](images/paste-876B34E8.png){width="550"}
+
+#### Common Trig Values Table (Exact)
 
 ![](images/paste-21D5C095.png){width="550"}
 
-**Complete Approximation Table**:
+#### Complete Trig Values Table (Approx.)
 
 ![](images/paste-89E5D00E.png){width="550"}
+
+## Calculus
+
+#### Derivatives
+
+[**Product Rule**]{.ul}
+
+![](images/paste-6EF66FCB.png){width="550"}
+
+**Formula Source**:
+
+    d/dx[color(red)f(x)color(blue)g(x)]=color(red)f(x)d/dx[color(blue)g(x)]+d/dx[color(red)f(x)]color(blue)g(x)
+
+**Interpretation**: When finding derivatives, often times it can be useful to chunk the expression so that it's easier to tackle determining the derivatives of its smaller constituent parts. Key takeaway is look for expressions that contain multiplication, as they are prime candidates.
+
+------------------------------------------------------------------------
+
+[**Quotient Rule**]{.ul}
+
+![](images/paste-BF6EEC5F.png){width="550"}
+
+**Formula Source**:
+
+    d/dx[color(red)f(x)/color(blue)g(x)]=(d/dx[color(red)f(x)]color(blue)g(x)-color(red)f(x)d/dx[color(blue)g(x)])/[color(blue)g(x)]^2
+
+**Interpretation**: When finding derivatives, often times it can be useful to chunk the expression so that it's easier to tackle determining the derivatives of its smaller constituent parts. Key takeaway is look for expressions that contain division, as they are prime candidates.
+
+------------------------------------------------------------------------
+
+[**Chain Rule**]{.ul}
+
+![](images/paste-5547725D.png){width="550" height="51"}
+
+**Formula Source**:
+
+    d/dx[(f(g(x))]=f'(g(x))*g'(x)
+
+**Interpretation**: When finding derivatives, often times it can be useful to chunk the expression so that it's easier to tackle determining the derivatives of its smaller constituent parts. Key takeaway is look for expressions that can be broken down in two steps, such as a square root of x-squared, where we'd consider the outer step of square root to be f(x) and the inner step of x-squared to be g(x).
+
+------------------------------------------------------------------------
 
 ## Statistics
 
