@@ -1,0 +1,373 @@
+body {
+	background: rgb(140, 185, 231);
+	margin: 30px 0 80px;
+	padding: 0;
+	font-family: sans-serif;
+	line-height: 1.5;
+
+	text-size-adjust: none;
+	-webkit-text-size-adjust: none;
+}
+
+article {
+	max-width: 800px;
+	background: #FFFFFF;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+	margin: 0 auto;
+	padding: 20px;
+	border-radius: 2px;
+	color: #222222;
+}
+
+article > header {
+	margin: -20px -20px 30px;
+	padding: 10px 20px;
+	background: linear-gradient(#DDEEFF, #FFFFFF);
+	border-radius: 2px;
+	text-align: center;
+	page-break-inside: avoid;
+	break-inside: avoid;
+}
+
+article > header > h1 {
+	margin: 0 0 10px;
+	padding: 0;
+	font: 3.5em 'Vollkorn', serif;
+	clear: both;
+}
+
+article > header > .sequence-diagram {
+	filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+	text-align: left;
+}
+
+article > h2 {
+	margin: 35px -20px 10px;
+	padding: 5px 20px 0;
+	font: 2em 'Vollkorn', serif;
+	clear: both;
+	page-break-before: always;
+	break-before: page;
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+article h3 {
+	margin: 25px -20px 10px;
+	padding: 5px 20px 0;
+	font: 1.5em 'Vollkorn', serif;
+	clear: both;
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+article h4 {
+	margin: 15px -20px 10px;
+	padding: 5px 20px 0;
+	font: 1.1em 'Vollkorn', serif;
+	page-break-after: avoid;
+	break-after: avoid;
+}
+
+.no-forced-break {
+	page-break-before: auto;
+	break-before: auto;
+}
+
+article > p {
+	margin: 20px 0;
+	padding: 0;
+	text-align: justify;
+}
+
+article > ul {
+	margin: 10px 0;
+	padding: 0 0 0 30px;
+	page-break-before: avoid;
+	page-break-inside: avoid;
+	break-before: avoid;
+	break-inside: avoid;
+}
+
+section {
+	display: block;
+	margin: 0;
+	padding: 0;
+	clear: both;
+	page-break-inside: avoid;
+	break-inside: avoid;
+}
+
+a:link, a:visited {
+	color: #556688;
+	text-decoration: underline;
+}
+
+a:hover, a:active {
+	color: #5577AA;
+	text-decoration: none;
+}
+
+.right {
+	float: right;
+	width: 150px;
+}
+
+.example-diagram {
+	float: right;
+	max-width: 300px;
+	margin-left: 20px;
+	background: #F8F8F8;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	page-break-inside: avoid;
+	break-inside: avoid;
+}
+
+.region.focus .outline {
+	stroke-width: 5px;
+	stroke: rgba(255, 128, 0, 0.5);
+}
+
+.sequence-diagram[data-sd-interactive] .region.collapsed,
+.sequence-diagram[data-sd-interactive] .region.expanded {
+	cursor: pointer;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.sequence-diagram[data-sd-interactive] .region.collapsed:hover .outline,
+.sequence-diagram[data-sd-interactive] .region.expanded:hover .outline {
+	fill: rgba(255, 128, 0, 0.5);
+}
+
+pre {
+	background: #EEEEEE;
+	margin: 5px 0;
+	padding: 10px;
+	overflow: auto;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	min-width: 150px;
+	font-size: 1.1em;
+	line-height: 1.2;
+	page-break-inside: avoid;
+}
+
+nav {
+	display: block;
+	position: sticky;
+	bottom: -1px;
+	margin: 40px -20px -20px;
+	border-top: 1px solid rgba(0, 0, 0, 0.2);
+	background: #FFFFFF;
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
+	text-align: right;
+	font-size: 0.8em;
+	box-shadow: 0 -2px 4px -4px #000000;
+}
+
+nav a {
+	display: inline-block;
+	padding: 10px 20px;
+	border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+nav a:hover {
+	background: #EEEEEE;
+}
+
+@media (max-width: 860px) {
+	body {
+		background: transparent;
+		margin: 0;
+	}
+
+	article {
+		max-width: 100%;
+		background: transparent;
+		box-shadow: none;
+		margin: 0px;
+		padding: 10px;
+		border-radius: 0;
+		padding-bottom: 80px;
+	}
+
+	article > header {
+		margin: -10px -10px 0;
+		border-radius: 0;
+	}
+
+	article > header > h1 {
+		font-size: 3em;
+	}
+
+	article > header > .sequence-diagram {
+		max-height: 200px;
+	}
+
+	article > h2 {
+		margin: 15px -10px 5px;
+		padding: 5px 10px 0;
+	}
+
+	article h3 {
+		margin: 10px -10px 5px;
+		padding: 5px 10px 0;
+	}
+
+	article h4 {
+		margin: 5px -10px 5px;
+		padding: 5px 10px 0;
+	}
+
+	.sequence-diagram {
+		max-height: calc(100vh - 100px);
+	}
+
+	pre.example {
+		padding: 5px;
+	}
+
+	nav {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		margin: 0;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+}
+
+@media (max-width: 800px) {
+	article {
+		font-size: 0.9em;
+	}
+}
+
+@media (max-width: 700px) {
+	pre {
+		box-shadow: none;
+	}
+
+	pre.example {
+		padding: 5px;
+		width: calc(100% - 205px);
+		box-sizing: border-box;
+	}
+
+	.example-diagram {
+		max-width: none;
+		width: 200px;
+		box-sizing: border-box;
+		margin-left: 0;
+		background: #FFFFFF;
+		box-shadow: none;
+	}
+}
+
+@media (max-width: 470px) {
+	article > header > h1 {
+		font-size: 2.5em;
+	}
+
+	pre.example {
+		width: auto;
+		margin: 5px -5px;
+	}
+
+	.example-diagram {
+		display: block;
+		float: none;
+		margin: 0 auto 10px;
+		width: 300px;
+		max-width: 80%;
+	}
+}
+
+@media print {
+	body {
+		background: transparent;
+		margin: 0;
+	}
+
+	article {
+		max-width: none;
+		background: transparent;
+		box-shadow: none;
+		margin: 0;
+		padding: 0;
+		border-radius: 0;
+		color: #000000;
+	}
+
+	article > header {
+		margin: 0 0 30px;
+		background: transparent;
+		border-radius: 0;
+	}
+
+	article > header > h1 {
+		margin: 50px 0 80px;
+	}
+
+	article > h2 {
+		margin: 35px 0 10px;
+		padding: 5px 0 0;
+	}
+
+	article h3 {
+		margin: 25px 0 10px;
+		padding: 5px 0 0;
+	}
+
+	article h4 {
+		margin: 15px 0 10px;
+		padding: 5px 0 0;
+	}
+
+	article > header > .sequence-diagram {
+		/* filters print with low resolution */
+		filter: none;
+	}
+
+	a:link, a:visited, a:hover, a:active {
+		color: inherit;
+		text-decoration: underline;
+	}
+
+	pre {
+		background: #FFFFFF;
+		overflow: visible;
+		box-shadow: none;
+		border: 1px solid #666666;
+	}
+
+	pre.print-reduced {
+		display: inline-block;
+	}
+
+	pre.example {
+		font-size: 0.8em;
+		width: 50%;
+		box-sizing: border-box;
+	}
+
+	.example-diagram {
+		max-width: 50%;
+		max-height: 400px;
+		box-sizing: border-box;
+		margin-left: 0;
+		background: #FFFFFF;
+		box-shadow: none;
+	}
+
+	.right {
+		background: #FFFFFF;
+		margin: -2px;
+	}
+
+	nav {
+		display: none;
+	}
+}
