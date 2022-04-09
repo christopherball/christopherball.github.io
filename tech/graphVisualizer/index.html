@@ -1,0 +1,70 @@
+<head>
+  <meta charset="utf-8">
+  <title>Graphviz</title>
+  <link rel="stylesheet" type="text/css" href="index.css?v=1.0.7">
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Graphviz">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="shortcut icon" href="favicon.png?v=1.0.7">
+  <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg?v=1.0.7">
+  <link rel="icon" type="image/png" href="favicon.png?v=1.0.7">
+  <link rel="apple-touch-icon" href="touchicon.png?v=1.0.7">
+  <script src="graphviz.js?v=1.0.7"></script>
+</head>
+<body>
+
+<div id="update-dot"></div>
+
+<div id="editor">
+  <div class="scroll-view">
+    <div class="code">
+      <div class="line-numbers">1
+2
+3
+4
+5
+6
+7
+8
+9</div>
+    <textarea autocomplete="on"
+              autocorrect="off"
+              spellcheck="false"
+              autocapitalize="none"
+              wrap="off"
+              autofocus
+></textarea>
+    </div>
+  </div>
+  <div class="toolbar">
+    <label><input name="liveUpdate" type="checkbox" checked> Live</label>
+    <button name="copy" title="Copy output to clipboard">Copy SVG</button>
+    <button name="next-example" title="Load another example">Next example</button>
+    <button name="generate" title="Ctrl+Enter  or  Ctrl+S">Generate</button>
+    <button name="saveBtn" onClick="save_svg()" title="Save">Get SVG</button>
+    <div class="source"><a href="" id="downloadLink" target="_blank"></a></div>
+  </div>
+</div>
+
+<div id="presentation">
+  <div class="error">meow</div>
+  <div class="graph"></div>
+</div>
+
+<script src="app.js?v=1.0.7" async></script>
+<script type="text/javascript">
+function save_svg(evt) {
+    var svg = document.querySelector("div.graph svg");
+    var serializer = new XMLSerializer();
+    var svg_blob = new Blob([serializer.serializeToString(svg)], {'type': "image/svg+xml"});
+    var url = URL.createObjectURL(svg_blob);
+    var link = document.getElementById("downloadLink");
+    link.href = url;
+    link.download = "image.svg";
+    link.innerText = "Download SVG";
+}
+</script>
+</body>

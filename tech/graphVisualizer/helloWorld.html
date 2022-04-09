@@ -1,0 +1,17 @@
+<head>
+  <meta charset="utf-8">
+  <script src="graphviz.js"></script>
+</head>
+<body>
+<script>
+graphviz.layout(`
+digraph {
+  Hello -> World
+  Hej -> Hello
+  Värld -> World -> Hej
+}
+`).then(svg => {
+  document.body.innerHTML = svg
+})
+</script>
+</body>
