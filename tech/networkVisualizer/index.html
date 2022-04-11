@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Vis Network | Data | DOT language playground</title>
+    <title>Network Visualizer</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
@@ -78,68 +78,14 @@
         box-sizing: border-box;
       }
 
-      a:hover {
-        color: red;
+      div.vis-network {
+        background-color: white;
       }
     </style>
   </head>
   <body>
     <div id="header">
-      <h1>DOT language playground</h1>
-
-      <p>
-        Play around with the DOT language in the textarea below, or select one
-        of the following examples:
-      </p>
-      <p style="margin-left: 30px">
-        <a href="#" class="example" data-url="data/simple.gv.txt">simple</a>,
-        <a href="#" class="example" data-url="data/computer_network.gv.txt"
-          >computer network</a
-        >,
-        <a href="#" class="example" data-url="data/cellular_automata.gv.txt"
-          >cellular automata</a
-        >,
-        <a href="#" class="example" data-url="graphvizGallery/fsm.gv.txt"
-          >fsm *</a
-        >,
-        <a href="#" class="example" data-url="graphvizGallery/hello.gv.txt"
-          >hello *</a
-        >,
-        <a href="#" class="example" data-url="graphvizGallery/process.gv.txt"
-          >process *</a
-        >,
-        <a href="#" class="example" data-url="graphvizGallery/siblings.gv.txt"
-          >siblings *</a
-        >,
-        <a href="#" class="example" data-url="graphvizGallery/softmaint.gv.txt"
-          >softmaint *</a
-        >,
-        <a
-          href="#"
-          class="example"
-          data-url="graphvizGallery/traffic_lights.gv.txt"
-          >traffic lights *</a
-        >,
-        <a
-          href="#"
-          class="example"
-          data-url="graphvizGallery/transparency.gv.txt"
-          >transparency *</a
-        >,
-        <a href="#" class="example" data-url="graphvizGallery/twopi2.gv.txt"
-          >twopi2 *</a
-        >,
-        <a href="#" class="example" data-url="graphvizGallery/unix.gv.txt"
-          >unix *</a
-        >,
-        <a href="#" class="example" data-url="graphvizGallery/world.gv.txt"
-          >world *</a
-        >
-      </p>
-      <p>
-        The examples marked with a star (*) come straight from the
-        <a href="http://www.graphviz.org/Gallery.php">GraphViz gallery</a>.
-      </p>
+      <h1>Network Visualizer</h1>
       <div>
         <button id="draw" title="Draw the DOT graph (Ctrl+Enter)">Draw</button>
         <button id="fullScreen">Fullscreen</button>
@@ -165,8 +111,7 @@ digraph {
     color=red,
   ]
 }
-    </textarea
-        >
+    </textarea>
       </div>
       <div id="right">
         <div id="mynetwork"></div>
@@ -244,21 +189,6 @@ digraph {
           document.msExitFullscreen();
         }
       }
-
-      $("a.example").click(function (event) {
-        var url = $(event.target).data("url");
-        $.get(url)
-          .done(function (dotData) {
-            $("#data").val(dotData);
-            draw();
-          })
-          .fail(function () {
-            $("#error").html(
-              "Error: Cannot fetch the example data because of security restrictions in JavaScript. Run the example from a server instead of as a local file to resolve this problem. Alternatively, you can copy/paste the data of DOT graphs manually in the textarea below."
-            );
-            resize();
-          });
-      });
 
       $(window).resize(resize);
       $(window).load(draw);
