@@ -20,6 +20,10 @@
         overflow: hidden;
       }
 
+      body {
+        background-color: #CCCCCC;
+      }
+
       #header {
         margin: 0;
         padding: 10px;
@@ -34,27 +38,30 @@
         position: relative;
       }
 
-      #left,
-      #right {
+      #left {
         position: absolute;
-        width: 50%;
+        width: 30%;
         height: 100%;
         margin: 0;
         padding: 10px;
         box-sizing: border-box;
         display: inline-block;
-      }
-
-      #left {
         top: 0;
         left: 0;
       }
 
       #right {
+        position: absolute;
+        width: 70%;
+        height: 100%;
+        margin: 0;
+        padding: 10px;
+        box-sizing: border-box;
+        display: inline-block;
         top: 0;
         right: 0;
       }
-
+      
       #error {
         color: red;
       }
@@ -62,7 +69,7 @@
       #data {
         width: 100%;
         height: 100%;
-        border: 1px solid #d3d3d3;
+        border: 1px solid black;
         box-sizing: border-box;
         resize: none;
       }
@@ -74,12 +81,18 @@
       #mynetwork {
         width: 100%;
         height: 100%;
-        border: 1px solid #d3d3d3;
+        border: 1px solid black;
         box-sizing: border-box;
       }
 
       div.vis-network {
         background-color: white;
+      }
+
+      textarea {
+        white-space: pre;
+        overflow-wrap: normal;
+        overflow-x: scroll;
       }
     </style>
   </head>
