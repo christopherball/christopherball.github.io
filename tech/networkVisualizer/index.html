@@ -74,8 +74,20 @@
         resize: none;
       }
 
-      #draw, #fullScreen {
+      #draw, #fullScreen, #search {
         padding: 5px 15px;
+      }
+
+      #search {
+        padding: 5px 15px;
+        float: right;
+      }
+
+      #searchTerm {
+        width: 100px;
+        height: 23px;
+        float: right;
+        margin-right: 3px;
       }
 
       #mynetwork {
@@ -102,6 +114,8 @@
       <div>
         <button id="draw" title="Draw the DOT graph (Ctrl+Enter)">Draw</button>
         <button id="fullScreen">Fullscreen</button>
+        <button id="search">Search</button>
+        <input type="text" placeholder="Node Name" id="searchTerm"/>
         <span id="error"></span>
       </div>
     </div>
@@ -132,7 +146,6 @@ digraph {
     </div>
 
     <script type="text/javascript">
-      // create a network
       var container = document.getElementById("mynetwork");
       var options = {
         physics: {
@@ -141,31 +154,32 @@ digraph {
             springLength: 200,
           },
         },
-
-        /*
-        layout: {
-          randomSeed: undefined,
-          improvedLayout:true,
-          clusterThreshold: 150,
-          hierarchical: {
-            enabled:true,
-            levelSeparation: 150,
-            nodeSpacing: 100,
-            treeSpacing: 200,
-            blockShifting: true,
-            edgeMinimization: true,
-            parentCentralization: true,
-            direction: 'UD',        // UD, DU, LR, RL
-            sortMethod: 'hubsize',  // hubsize, directed
-            shakeTowards: 'leaves'  // roots, leaves
-          }
-        }
-        */
       };
       var data = {};
       var network = new vis.Network(container, data, options);
 
       $("#draw").click(draw);
+
+      $("#search").click(function() {
+        var searchTerm = document.getElementById("searchTerm").value.toLowerCase();
+        var dict = {};
+          Object.values(network.body.nodes).map(n => {
+            if (n.options["label"] != undefined) {
+              var key = n.options["label"].toLowerCase();
+              var value = n.options["id"];
+              dict[key] = value;
+            }
+          });
+
+        var searchNodeIds = [];
+        Object.keys(dict).forEach(function(keyName) {
+          if (keyName.indexOf(searchTerm) !== -1) {
+            searchNodeIds.push(dict[keyName]);
+          }
+        });
+
+        network.selectNodes(searchNodeIds);
+      });
 
       $('#fullScreen').click(function() {
           goFullScreen('mynetwork');
