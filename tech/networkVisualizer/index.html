@@ -97,10 +97,6 @@
         box-sizing: border-box;
       }
 
-      div.vis-network {
-        background-color: white;
-      }
-
       textarea {
         white-space: pre;
         overflow-wrap: normal;
@@ -157,6 +153,18 @@ digraph {
       };
       var data = {};
       var network = new vis.Network(container, data, options);
+
+      network.on("beforeDrawing",  function(ctx) {
+        // save current translate/zoom
+        ctx.save();
+        // reset transform to identity
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        // fill background with solid white
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+        // restore old transform
+        ctx.restore();
+      });
 
       $("#draw").click(draw);
 
