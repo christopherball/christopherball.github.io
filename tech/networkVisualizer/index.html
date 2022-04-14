@@ -74,7 +74,7 @@
         resize: none;
       }
 
-      #draw, #fullScreen, #search {
+      #draw, #fullScreen, #search, #downloadImage, #scale, #fit, #load {
         padding: 5px 15px;
       }
 
@@ -110,31 +110,31 @@
       <div>
         <button id="draw" title="Draw the DOT graph (Ctrl+Enter)">Draw</button>
         <button id="fullScreen">Fullscreen</button>
+        <button id="fit">Fit to Center</button>
+        <select name="scale" id="scale" onChange="scaleCanvas(this.options[this.selectedIndex].value)">
+          <option value="100%">Scale: 100%</option>
+          <option value="200%">Scale: 200%</option>
+          <option value="300%">Scale: 300%</option>
+          <option value="400%">Scale: 400%</option>
+        </select>
+        <select name="load" id="load" onChange="loadNetwork(this.options[this.selectedIndex].value)">
+          <option value="default">Load Network</option>
+          <option value="TLK">The Last Kingdom</option>
+        </select>
         <button id="search">Search</button>
         <input type="text" placeholder="Node Name" id="searchTerm"/>
         <span id="error"></span>
       </div>
     </div>
-
     <div id="contents">
       <div id="left">
         <textarea id="data">
 digraph {
-  node [shape=circle fontsize=16]
-  edge [length=100, color=gray, fontcolor=black]
-
-  A -> A[label=0.5];
-  B -> B[label=1.2] -> C[label=0.7] -- A;
-  B -> D;
-  D -> {B; C}
-  D -> E[label=0.2];
-  F -> F;
-  A [
-    fontcolor=white,
-    color=red,
-  ]
+  A -> B
+  B -> C
+  A -> C
 }
-    </textarea>
+        </textarea>
       </div>
       <div id="right">
         <div id="mynetwork"></div>
@@ -164,6 +164,34 @@ digraph {
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height)
         // restore old transform
         ctx.restore();
+      });
+
+      function scaleCanvas(chosenValue) {
+        document.getElementById("mynetwork").style.width = chosenValue;
+        document.getElementById("mynetwork").style.height = chosenValue;
+      }
+
+      function loadNetwork(chosenValue) {
+        var datapane = document.getElementById("data");
+        var url = "";
+
+        switch(chosenValue) {
+          case "default": 
+            url = "default.dot";
+            break;
+          case "TLK":
+            url = "TLK.dot";
+            break;
+          default:
+            url = "default.dot";
+        }
+        fetch(url)
+          .then( r => r.text() )
+          .then( t => datapane.value = t )
+      }
+
+      $("#fit").click(function() {
+        network.fit();
       });
 
       $("#draw").click(draw);
@@ -209,22 +237,7 @@ digraph {
             elem.msRequestFullscreen();
         }
       }
-
-      function exitFullScreen(){
-        if(document.exitFullscreen){
-          document.exitFullscreen();
-        }
-        else if(document.mozCancelFullScreen){
-          document.mozCancelFullScreen();
-        }
-        else if(document.webkitExitFullscreen){
-          document.webkitExitFullscreen();
-        }
-        else if(document.msExitFullscreen){
-          document.msExitFullscreen();
-        }
-      }
-
+      
       $(window).resize(resize);
       $(window).load(draw);
 

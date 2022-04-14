@@ -1,0 +1,119 @@
+digraph {
+  // Global properties ////////////////////
+  edge [dir=none, color="#AAAAAA", arrowhead="none"]
+  compound=true
+
+  // Characters ///////////////////////////
+  subgraph Males {
+    node [color="black", fillcolor="lightblue", shape="box"]
+    Alfred
+    Aethelred
+    Uhtred
+    Ravn
+    RagnarSr [label="Earl Ragnar"]
+    Ragnar
+    RagnarLoth [label="Ragnar Lothbrok"]
+    Ivar
+    Ubba
+    Bjorn
+    Sigurd
+    Halfdan
+    Rorik
+    Edward
+    Osferth
+    UhtredSr [label="Uhtred Uhtredson"]
+    Oswald
+    Beocca [label="Father Beocca"]
+    Sigtryggr
+    Finan
+    Sihtric
+    Leofric
+    Aelfric [label="Aelfric Uhtredson"]
+    Wihtgar
+    Aelfweard
+    Aethelhelm
+  }
+  subgraph Females {
+    node [color="black", fillcolor="pink", shape="box"]
+    Aelswith
+    Aelfwynn
+    Brida
+    Thyra
+    Sigrid
+    Aethelflaed
+    Aethelgifu
+    Mildrith
+    Gisela
+    Eadith
+    Eldrina
+    Stiorra
+    Hild
+    Aelflaed
+  }
+
+  // Married //////////////////////////////
+  edge [dir=none, color="#AAAAAA", arrowhead="none", label="married" style="dashed", fontcolor="#AAAAAA"]
+  node [color="#AAAAAA", fillcolor="transparent" shape="circle" label=""]
+  UhtredSr -> mar1 -> Aethelgifu
+  RagnarSr -> mar2 -> Sigrid
+  Uhtred -> mar3 -> Eldrina
+  Uhtred -> mar4 -> Eadith
+  Uhtred -> mar5 -> Gisela
+  Uhtred -> mar6 -> Mildrith
+  Aethelflaed -> mar7 -> Aethelred
+  Alfred -> mar8 -> Aelswith
+  Stiorra -> mar9 -> Sigtryggr
+  Edward -> mar10 -> Aelflaed
+
+  // Lovers ///////////////////////////////
+  edge [dir=none, color="#AAAAAA", arrowhead="none", label="lovers" style="dashed", fontcolor="#AAAAAA"]
+  node [color="#AAAAAA", fillcolor="transparent" shape="circle" label=""]
+  Uhtred -> lov1 -> Aethelflaed
+  Eadith -> lov2 -> Aethelred
+
+  // Child Of /////////////////////////////
+  edge [dir=forward, color="#AAAAAA", arrowhead="none", label="child of", fontcolor="#AAAAAA"]
+  Uhtred -> mar1
+  Ragnar -> mar2
+  Rorik -> mar2
+  Thyra -> mar2
+  Oswald -> mar5
+  Stiorra -> mar5
+  Aelfwynn -> mar7
+  Edward -> mar8
+  Aethelflaed -> mar8
+  Aelfweard -> mar10
+  Osferth -> Alfred
+  RagnarSr -> Ravn
+  Wihtgar -> Aelfric
+  Aelflaed -> Aethelhelm
+  Ivar -> RagnarLoth
+  Ubba -> RagnarLoth
+  Bjorn -> RagnarLoth
+  Sigurd -> RagnarLoth
+  Halfdan -> RagnarLoth
+
+  // Foster Child Of //////////////////////
+  edge [dir=forward, color="#AAAAAA", arrowhead="none", label="foster child of", fontcolor="#AAAAAA"]
+  Uhtred -> mar2
+
+  // Lieutenant Of ////////////////////////
+  edge [dir=forward, color="#AAAAAA", arrowhead="none", label="lieutenant of", fontcolor="#AAAAAA"]
+  RagnarSr -> Ubba
+
+  // Nephew Of ////////////////////////////
+  edge [dir=forward, color="#AAAAAA", arrowhead="none", label="nephew of", fontcolor="#AAAAAA"]
+  Osferth -> Leofric
+  Uhtred -> Aelfric
+
+  // Friends //////////////////////////////
+  edge [dir=none, color="#AAAAAA", arrowhead="none", label="friends", fontcolor="#AAAAAA"]
+  Uhtred -> Beocca
+  Uhtred -> Finan
+  Uhtred -> Sihtric
+  Uhtred -> Hild
+
+  // Frenemies ////////////////////////////
+  edge [dir=none, color="#AAAAAA", arrowhead="none", label="frenemies", fontcolor="#AAAAAA"]
+  Uhtred -> Brida
+}
