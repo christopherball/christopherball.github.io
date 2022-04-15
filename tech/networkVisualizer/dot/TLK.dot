@@ -33,6 +33,7 @@ digraph {
     Aelfweard
     Aethelhelm
     Aethelwold
+    Erik
   }
   subgraph Females {
     node [color="black", fillcolor="pink", shape="box"]
@@ -71,6 +72,7 @@ digraph {
   node [color="#AAAAAA", fillcolor="transparent" shape="circle" label=""]
   Uhtred -> lov1 -> Aethelflaed
   Eadith -> lov2 -> Aethelred
+  Erik -> lov3 -> Aethelflaed
 
   // Child Of /////////////////////////////
   edge [dir=forward, color="#AAAAAA", arrowhead="none", label="child of", fontcolor="#AAAAAA"]
