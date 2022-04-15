@@ -3,8 +3,9 @@
   <head>
     <title>Network Visualizer</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://christopherball.github.io/tech/networkVisualizer/jquery.min.js"></script>
     <script src="https://christopherball.github.io/tech/networkVisualizer/vis-network.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
     <!-- <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script> -->
 
     <style type="text/css">
@@ -178,13 +179,13 @@ digraph {
 
         switch(chosenValue) {
           case "default": 
-            url = "https://christopherball.github.io/tech/networkVisualizer/default.dot";
+            url = "https://christopherball.github.io/tech/networkVisualizer/dot/default.dot";
             break;
           case "TLK":
-            url = "https://christopherball.github.io/tech/networkVisualizer/TLK.dot";
+            url = "https://christopherball.github.io/tech/networkVisualizer/dot/TLK.dot";
             break;
           default:
-            url = "https://christopherball.github.io/tech/networkVisualizer/default.dot";
+            url = "https://christopherball.github.io/tech/networkVisualizer/dot/default.dot";
         }
         fetch(url)
           .then( r => r.text() )
