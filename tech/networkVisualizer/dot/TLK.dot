@@ -32,6 +32,7 @@ digraph {
     Wihtgar
     Aelfweard
     Aethelhelm
+    Aethelwold
   }
   subgraph Females {
     node [color="black", fillcolor="pink", shape="box"]
@@ -105,6 +106,7 @@ digraph {
   edge [dir=forward, color="#AAAAAA", arrowhead="none", label="nephew of", fontcolor="#AAAAAA"]
   Osferth -> Leofric
   Uhtred -> Aelfric
+  Aethelwold -> Alfred
 
   // Friends //////////////////////////////
   edge [dir=none, color="#AAAAAA", arrowhead="none", label="friends", fontcolor="#AAAAAA"]
