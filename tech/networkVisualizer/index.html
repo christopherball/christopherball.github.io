@@ -184,6 +184,7 @@ digraph {
       function loadNetwork(chosenValue) {
         var datapane = document.getElementById("data");
         var url = "";
+        const ms = Date.now();
 
         switch(chosenValue) {
           case "default": 
@@ -195,7 +196,7 @@ digraph {
           default:
             url = "https://christopherball.github.io/tech/networkVisualizer/dot/default.dot";
         }
-        fetch(url)
+        fetch(url + "?cacheBust=" + ms)
           .then( r => r.text() )
               .then( t => {
                   datapane.value = t;
