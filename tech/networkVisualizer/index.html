@@ -152,6 +152,14 @@ digraph {
             springLength: 200,
           },
         },
+        nodes: {
+          color: {
+              highlight: {
+                background: 'yellow',
+                border: 'black',
+              },
+          },
+        },
       };
       var data = {};
       var network = new vis.Network(container, data, options);
@@ -189,7 +197,10 @@ digraph {
         }
         fetch(url)
           .then( r => r.text() )
-          .then( t => datapane.value = t )
+              .then( t => {
+                  datapane.value = t;
+                  document.getElementById("draw").click();
+              } )
       }
 
       $("#fit").click(function() {
