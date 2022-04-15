@@ -63,6 +63,7 @@
 
       function loadNetwork(chosenValue) {
         var url = "";
+        const ms = Date.now();
 
         switch(chosenValue) {
           case "default": 
@@ -75,7 +76,7 @@
             url = "https://christopherball.github.io/tech/networkVisualizer/dot/default.dot";
         }
 
-        fetch(url)
+        fetch(url + "?cacheBust=" + ms)
           .then(r => r.text())
           .then( t => {
             draw(t);
