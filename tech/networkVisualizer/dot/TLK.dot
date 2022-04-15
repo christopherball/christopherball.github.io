@@ -108,6 +108,10 @@ digraph {
   Uhtred -> Aelfric
   Aethelwold -> Alfred
 
+  // Cousins //////////////////////////////
+  edge [dir=none, color="#AAAAAA", arrowhead="none", label="cousins", fontcolor="#AAAAAA"]
+  Uhtred -> Aethelred
+
   // Friends //////////////////////////////
   edge [dir=none, color="#AAAAAA", arrowhead="none", label="friends", fontcolor="#AAAAAA"]
   Uhtred -> Beocca
