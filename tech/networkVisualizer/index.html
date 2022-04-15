@@ -4,7 +4,8 @@
     <title>Network Visualizer</title>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="https://christopherball.github.io/tech/networkVisualizer/vis-network.min.js"></script>
+    <!-- <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script> -->
 
     <style type="text/css">
       body,
@@ -118,7 +119,7 @@
           <option value="400%">Scale: 400%</option>
         </select>
         <select name="load" id="load" onChange="loadNetwork(this.options[this.selectedIndex].value)">
-          <option value="default">Load Network</option>
+          <option value="default">Default Network</option>
           <option value="TLK">The Last Kingdom</option>
         </select>
         <button id="search">Search</button>
@@ -177,13 +178,13 @@ digraph {
 
         switch(chosenValue) {
           case "default": 
-            url = "default.dot";
+            url = "https://christopherball.github.io/tech/networkVisualizer/default.dot";
             break;
           case "TLK":
-            url = "TLK.dot";
+            url = "https://christopherball.github.io/tech/networkVisualizer/TLK.dot";
             break;
           default:
-            url = "default.dot";
+            url = "https://christopherball.github.io/tech/networkVisualizer/default.dot";
         }
         fetch(url)
           .then( r => r.text() )
@@ -195,6 +196,13 @@ digraph {
       });
 
       $("#draw").click(draw);
+
+      document.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+          event.preventDefault();
+          document.getElementById("search").click();
+        }
+      });
 
       $("#search").click(function() {
         var searchTerm = document.getElementById("searchTerm").value.toLowerCase();
