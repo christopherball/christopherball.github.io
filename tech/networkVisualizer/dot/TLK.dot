@@ -75,6 +75,7 @@ digraph {
   Edward -> mar10 -> Aelflaed
   Edward -> mar11 -> Ecgwynn
   Edward -> mar12 -> Eadgifu
+  Beocca -> mar13 -> Thyra
 
   // Lovers ///////////////////////////////
   edge [dir=none, color="#AAAAAA", arrowhead="none", label="lovers" style="dashed", fontcolor="#AAAAAA"]
