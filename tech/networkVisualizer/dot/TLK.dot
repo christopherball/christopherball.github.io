@@ -34,6 +34,7 @@ digraph {
     Aethelhelm
     Aethelwold
     Erik
+    Aethelstan
   }
   subgraph Females {
     node [color="black", fillcolor="pink", shape="box"]
@@ -51,6 +52,9 @@ digraph {
     Stiorra
     Hild
     Aelflaed
+    Ecgwynn
+    Aedgyth
+    Eadgifu
   }
 
   // Married //////////////////////////////
@@ -66,6 +70,8 @@ digraph {
   Alfred -> mar8 -> Aelswith
   Stiorra -> mar9 -> Sigtryggr
   Edward -> mar10 -> Aelflaed
+  Edward -> mar11 -> Ecgwynn
+  Edward -> mar12 -> Eadgifu
 
   // Lovers ///////////////////////////////
   edge [dir=none, color="#AAAAAA", arrowhead="none", label="lovers" style="dashed", fontcolor="#AAAAAA"]
@@ -86,6 +92,8 @@ digraph {
   Edward -> mar8
   Aethelflaed -> mar8
   Aelfweard -> mar10
+  Aethelstan -> mar11
+  Aedgyth -> mar11
   Osferth -> Alfred
   RagnarSr -> Ravn
   Wihtgar -> Aelfric
