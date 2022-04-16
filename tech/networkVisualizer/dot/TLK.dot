@@ -36,6 +36,8 @@ digraph {
     Erik
     Aethelstan
     Osbert
+    Kjartan
+    Sven
   }
   subgraph Females {
     node [color="black", fillcolor="pink", shape="box"]
@@ -105,6 +107,8 @@ digraph {
   Bjorn -> RagnarLoth
   Sigurd -> RagnarLoth
   Halfdan -> RagnarLoth
+  Sven -> Kjartan
+  Sihtric -> Kjartan
 
   // Foster Child Of //////////////////////
   edge [dir=forward, color="#AAAAAA", arrowhead="none", label="foster child of", fontcolor="#AAAAAA"]
@@ -134,4 +138,5 @@ digraph {
   // Frenemies ////////////////////////////
   edge [dir=none, color="#AAAAAA", arrowhead="none", label="frenemies", fontcolor="#AAAAAA"]
   Uhtred -> Brida
+  Kjartan -> RagnarSr
 }
