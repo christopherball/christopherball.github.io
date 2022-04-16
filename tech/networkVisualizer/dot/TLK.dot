@@ -35,6 +35,7 @@ digraph {
     Aethelwold
     Erik
     Aethelstan
+    Osbert
   }
   subgraph Females {
     node [color="black", fillcolor="pink", shape="box"]
@@ -88,6 +89,7 @@ digraph {
   Thyra -> mar2
   Oswald -> mar5
   Stiorra -> mar5
+  Osbert -> mar5
   Aelfwynn -> mar7
   Edward -> mar8
   Aethelflaed -> mar8
