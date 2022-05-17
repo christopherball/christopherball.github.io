@@ -1,0 +1,58 @@
+digraph {
+  // Global properties
+  edge [dir=none, color="#AAAAAA", arrowhead="none"]
+  compound=true
+
+  // Characters
+  subgraph Males {
+    node [color="black", fillcolor="lightblue", shape="box"]
+    A
+  }
+  subgraph Females {
+    node [color="black", fillcolor="pink", shape="box"]
+    B
+    C
+  }
+
+  // Married
+  edge [label="married", dir=none, color="#AAAAAA", arrowhead="none", style="dashed", fontcolor="#AAAAAA"]
+  node [color="#AAAAAA", fillcolor="transparent" shape="circle" label=""]
+  A -> mar1 -> B
+
+  // Lovers
+  edge [label="lovers", dir=none, color="#AAAAAA", arrowhead="none", style="dashed", fontcolor="#AAAAAA"]
+  node [color="#AAAAAA", fillcolor="transparent" shape="circle" label=""]
+
+
+  // Cousins
+  edge [label="cousins", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+
+  // Friends
+  edge [label="friends", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+
+  // Frenemies
+  edge [label="frenemies", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+
+  // Child Of
+  edge [label="child of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+  C -> mar1
+
+  // Foster Child Of
+  edge [label="foster child of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+
+  // Lieutenant Of
+  edge [label="lieutenant of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+
+  // Servent Of
+  edge [label="servent of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+
+  // Nephew Of
+  edge [label="nephew of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+}
