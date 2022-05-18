@@ -120,7 +120,8 @@
           <option value="400%">Scale: 400%</option>
         </select>
         <select name="load" id="load" onChange="loadNetwork(this.options[this.selectedIndex].value)">
-          <option value="default">Default Network</option>
+          <option value="default">Default</option>
+          <option value="book">Book</option>
           <option value="TLK">The Last Kingdom</option>
         </select>
         <button id="search">Search</button>
@@ -187,10 +188,10 @@ digraph {
         const ms = Date.now();
 
         switch(chosenValue) {
-          case "Default": 
+          case "default": 
             url = "https://christopherball.github.io/tech/networkVisualizer/dot/default.dot";
             break;
-          case "Book": 
+          case "book": 
             url = "https://christopherball.github.io/tech/networkVisualizer/dot/book.dot";
             break;
           case "TLK":
