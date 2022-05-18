@@ -122,6 +122,7 @@
         <select name="load" id="load" onChange="loadNetwork(this.options[this.selectedIndex].value)">
           <option value="default">Default</option>
           <option value="book">Book</option>
+          <option value="elantris">Elantris</option>
           <option value="TLK">The Last Kingdom</option>
         </select>
         <button id="search">Search</button>
@@ -193,6 +194,9 @@ digraph {
             break;
           case "book": 
             url = "https://christopherball.github.io/tech/networkVisualizer/dot/book.dot";
+            break;
+          case "elantris": 
+            url = "https://christopherball.github.io/tech/networkVisualizer/dot/elantris.dot";
             break;
           case "TLK":
             url = "https://christopherball.github.io/tech/networkVisualizer/dot/TLK.dot";

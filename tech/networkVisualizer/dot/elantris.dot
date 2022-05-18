@@ -6,18 +6,28 @@ digraph {
   // Characters
   subgraph Males {
     node [color="black", fillcolor="lightblue", shape="box"]
-    A
+    Raoden
+    Gallodan
+    Eventeo
+    Ashe
+    Fjon
+    Iadon
+    Ketol
+    Dilaf
+    Hrathen
+    Wyrn
   }
   subgraph Females {
     node [color="black", fillcolor="pink", shape="box"]
-    B
-    C
+    Sarene
+    Eshen
   }
 
   // Married
   edge [label="married", dir=none, color="#AAAAAA", arrowhead="none", style="dashed", fontcolor="#AAAAAA"]
   node [color="#AAAAAA", fillcolor="transparent" shape="circle" label=""]
-  A -> mar1 -> B
+  Iadon -> mar1 -> Eshen
+  Raoden -> mar2 -> Sarene
 
   // Lovers
   edge [label="lovers", dir=none, color="#AAAAAA", arrowhead="none", style="dashed", fontcolor="#AAAAAA"]
@@ -37,12 +47,13 @@ digraph {
 
 
   // Acquaintances
-  edge [label="acquaintances", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
-
+  edge [label="acquaintance", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+  Gallodan -> Raoden
 
   // Child Of
   edge [label="child of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
-  C -> mar1
+  Sarene -> Eventeo
+  Raoden -> Iadon
 
   // Foster Child Of
   edge [label="foster child of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
@@ -54,9 +65,13 @@ digraph {
 
   // Servent Of
   edge [label="servent of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
-
+  Ketol -> Iadon
+  Ashe -> Sarene
+  Dilaf -> Hrathen
+  Fjon -> Hrathen
+  Hrathen -> Wyrn
 
   // Nephew Of
   edge [label="nephew of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
-
 }
+
