@@ -47,7 +47,7 @@ digraph {
 
 
   // Acquaintances
-  edge [label="acquaintance", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+  edge [label="acquaintances", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
   Gallodan -> Raoden
 
   // Child Of

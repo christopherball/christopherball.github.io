@@ -37,7 +37,7 @@ digraph {
 
 
   // Acquaintances
-  edge [label="acquaintances", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+  edge [label="acquaintances", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
 
 
   // Child Of
