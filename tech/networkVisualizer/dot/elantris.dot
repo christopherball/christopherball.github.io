@@ -6,45 +6,50 @@ digraph {
   // Characters
   subgraph Males {
     node [color="black", fillcolor="lightblue", shape="box"]
-    Raoden
-    Gallodan
-    Eventeo
+    Adien
     Ashe
+    Daorn
+    Dilaf
+    Eventeo
     Fjon
+    Gallodan
+    Hrathen
     Iadon
     Ketol
-    Dilaf
-    Hrathen
+    Kiin
+    Lukel
+    Raoden
     Wyrn
   }
   subgraph Females {
     node [color="black", fillcolor="pink", shape="box"]
-    Sarene
+    Daora
     Eshen
+    Jalla
+    Kaise
+    Sarene
   }
 
   // Married
   edge [label="married", dir=none, color="#AAAAAA", arrowhead="none", style="dashed", fontcolor="#AAAAAA"]
   node [color="#AAAAAA", fillcolor="transparent" shape="circle" label=""]
-  Iadon -> mar1 -> Eshen
-  Raoden -> mar2 -> Sarene
+  Eshen -> mar_Eshen_Iadon -> Iadon
+  Raoden -> mar_Raoden_Sarene -> Sarene
+  Daora -> mar_Daora_Kiin -> Kiin
+  Jalla -> mar_Jalla_Lukel -> Lukel
 
   // Lovers
   edge [label="lovers", dir=none, color="#AAAAAA", arrowhead="none", style="dashed", fontcolor="#AAAAAA"]
   node [color="#AAAAAA", fillcolor="transparent" shape="circle" label=""]
 
-
   // Cousins
   edge [label="cousins", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
-
 
   // Friends
   edge [label="friends", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
 
-
   // Frenemies
   edge [label="frenemies", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
-
 
   // Acquaintances
   edge [label="acquaintances", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
@@ -54,14 +59,16 @@ digraph {
   edge [label="child of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
   Sarene -> Eventeo
   Raoden -> Iadon
+  Kaise -> mar_Daora_Kiin
+  Daorn -> mar_Daora_Kiin
+  Lukel -> Daora
+  Adien -> Daora
 
   // Foster Child Of
   edge [label="foster child of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
 
-
   // Lieutenant Of
   edge [label="lieutenant of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
-
 
   // Servent Of
   edge [label="servent of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
@@ -73,5 +80,8 @@ digraph {
 
   // Nephew Of
   edge [label="nephew of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
-}
 
+  // Niece Of
+  edge [label="niece of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+  Sarene -> Kiin
+}
