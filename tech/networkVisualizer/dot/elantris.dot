@@ -18,6 +18,7 @@ digraph {
     Ketol
     Kiin
     Lukel
+    Mareshe
     Raoden
     Wyrn
   }
@@ -54,6 +55,7 @@ digraph {
   // Acquaintances
   edge [label="acquaintances", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
   Gallodan -> Raoden
+  Mareshe -> Raoden
 
   // Child Of
   edge [label="child of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
