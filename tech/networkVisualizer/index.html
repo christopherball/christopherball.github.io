@@ -125,6 +125,7 @@
           <option value="elantris">Elantris</option>
           <option value="TLK">The Last Kingdom</option>
         </select>
+        <button id="viewer">Open Viewer</button>
         <button id="search">Search</button>
         <input type="text" placeholder="Node Name" id="searchTerm"/>
         <span id="error"></span>
@@ -214,6 +215,11 @@ digraph {
 
       $("#fit").click(function() {
         network.fit();
+      });
+
+      $("#viewer").click(function() {
+        var e = document.getElementById("load");
+        window.open("https://christopherball.github.io/tech/networkVisualizer/viewer.html?load=" + e.value, "_blank");
       });
 
       $("#draw").click(draw);
