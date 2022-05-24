@@ -20,6 +20,8 @@ digraph {
     Lukel
     Mareshe
     Raoden
+    Rill
+    Saolin
     Wyrn
   }
   subgraph Females {
@@ -28,6 +30,7 @@ digraph {
     Eshen
     Jalla
     Kaise
+    Maare
     Sarene
   }
 
@@ -56,6 +59,9 @@ digraph {
   edge [label="acquaintances", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
   Gallodan -> Raoden
   Mareshe -> Raoden
+  Rill -> Raoden
+  Saolin -> Raoden
+  Maare -> Raoden
 
   // Child Of
   edge [label="child of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
