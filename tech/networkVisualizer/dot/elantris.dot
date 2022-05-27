@@ -64,6 +64,7 @@ digraph {
   Kiin -> Roial
   Kiin -> Eondel
   Kiin -> Shuden
+  Ahan -> Roial
 
   // Frenemies
   edge [label="frenemies", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
