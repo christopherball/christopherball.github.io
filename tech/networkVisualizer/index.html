@@ -76,7 +76,7 @@
         resize: none;
       }
 
-      #draw, #fullScreen, #search, #downloadImage, #scale, #fit, #load, #viewer {
+      #draw, #fullScreen, #search, #downloadImage, #scale, #fit, #load, #viewer, #searchDD {
         padding: 5px 15px;
       }
 
@@ -114,16 +114,18 @@
         <button id="fullScreen">Fullscreen</button>
         <button id="fit">Fit to Center</button>
         <select name="scale" id="scale" onChange="scaleCanvas(this.options[this.selectedIndex].value)">
-          <option value="100%">Scale: 100%</option>
-          <option value="200%">Scale: 200%</option>
-          <option value="300%">Scale: 300%</option>
-          <option value="400%">Scale: 400%</option>
+          <option value="100%">Scale 100%</option>
+          <option value="200%">Scale 200%</option>
+          <option value="300%">Scale 300%</option>
+          <option value="400%">Scale 400%</option>
         </select>
         <select name="load" id="load" onChange="loadNetwork(this.options[this.selectedIndex].value)">
-          <option value="default">Default</option>
+          <option value="default">Default Network</option>
           <option value="book">Book</option>
           <option value="elantris">Elantris</option>
           <option value="TLK">The Last Kingdom</option>
+        </select>
+        <select id="searchDD">
         </select>
         <button id="viewer">Open Viewer</button>
         <button id="search">Search</button>
@@ -298,6 +300,7 @@ digraph {
           data = vis.parseDOTNetwork($("#data").val());
 
           network.setData(data);
+          loadSearchDD();
         } catch (err) {
           // set the cursor at the position where the error occurred
           var match = /\(char (.*)\)/.exec(err);
@@ -314,6 +317,39 @@ digraph {
           $("#error").html(err.toString());
         }
       }
+
+      var networkDict = {};
+      function loadSearchDD(){
+        var KVPs = [];
+        Object.values(network.body.nodes).map(n => {
+          if (n.options["label"] != undefined) {
+            var key = n.options["label"];
+            var value = n.options["id"];
+            networkDict[key] = value;
+            KVPs.push([key, value]);
+          }
+        });
+
+        KVPs.sort();
+        var option = '<option value="Find Node">Find Node</option>';
+        for (var i=0; i<KVPs.length; i++) {
+            option += '<option value="'+ KVPs[i][1] + '">' + KVPs[i][0] + '</option>';
+        }
+        $('#searchDD').find("option").remove().end().append(option);
+      }
+
+      $('#searchDD').on('change', function (e) {
+        var optionSelected = $("option:selected", this);
+        var searchTerm = this.value;
+        var searchNodeIds = [];
+        Object.keys(networkDict).forEach(function(keyName) {
+          if (networkDict[keyName] == searchTerm) {
+            searchNodeIds.push(networkDict[keyName]);
+          }
+        });
+
+        network.selectNodes(searchNodeIds);
+      });
     </script>
   </body>
 </html>
