@@ -69,6 +69,7 @@ digraph {
   // Frenemies
   edge [label="frenemies", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
   Roial -> Iadon
+  Hrathen -> Iadon
 
   // Acquaintances
   edge [label="acquaintances", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
