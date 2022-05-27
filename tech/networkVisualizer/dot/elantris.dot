@@ -7,9 +7,12 @@ digraph {
   subgraph Males {
     node [color="black", fillcolor="lightblue", shape="box"]
     Adien
+    Ahan
     Ashe
     Daorn
     Dilaf
+    Edan
+    Eondel
     Eventeo
     Fjon
     Gallodan
@@ -21,17 +24,22 @@ digraph {
     Mareshe
     Raoden
     Rill
+    Roial
     Saolin
+    Shuden
     Wyrn
   }
   subgraph Females {
     node [color="black", fillcolor="pink", shape="box"]
     Daora
+    Eoldess
     Eshen
     Jalla
     Kaise
     Maare
     Sarene
+    Seaden
+    Torena
   }
 
   // Married
@@ -41,6 +49,8 @@ digraph {
   Raoden -> mar_Raoden_Sarene -> Sarene
   Daora -> mar_Daora_Kiin -> Kiin
   Jalla -> mar_Jalla_Lukel -> Lukel
+  Eoldess -> mar_Eoldess_Roial -> Roial
+  Ahan -> mar_Ahan_Seaden -> Seaden
 
   // Lovers
   edge [label="lovers", dir=none, color="#AAAAAA", arrowhead="none", style="dashed", fontcolor="#AAAAAA"]
@@ -51,9 +61,13 @@ digraph {
 
   // Friends
   edge [label="friends", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+  Kiin -> Roial
+  Kiin -> Eondel
+  Kiin -> Shuden
 
   // Frenemies
   edge [label="frenemies", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+  Roial -> Iadon
 
   // Acquaintances
   edge [label="acquaintances", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
@@ -62,6 +76,7 @@ digraph {
   Rill -> Raoden
   Saolin -> Raoden
   Maare -> Raoden
+  Edan -> Kiin
 
   // Child Of
   edge [label="child of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
@@ -71,6 +86,7 @@ digraph {
   Daorn -> mar_Daora_Kiin
   Lukel -> Daora
   Adien -> Daora
+  Torena -> mar_Ahan_Seaden
 
   // Foster Child Of
   edge [label="foster child of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
