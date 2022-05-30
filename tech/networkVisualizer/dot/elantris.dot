@@ -6,6 +6,7 @@ digraph {
   // Characters
   subgraph Males {
     node [color="black", fillcolor="lightblue", shape="box"]
+    Aanden
     Adien
     Ahan
     Ashe
@@ -19,6 +20,7 @@ digraph {
     Hrathen
     Iadon
     Ien
+    Kahar
     Ketol
     Kiin
     Lukel
@@ -27,6 +29,7 @@ digraph {
     Rill
     Roial
     Saolin
+    Shaor
     Shuden
     Wyrn
   }
@@ -37,6 +40,7 @@ digraph {
     Eshen
     Jalla
     Kaise
+    Karata
     Maare
     Sarene
     Seaden
@@ -66,6 +70,18 @@ digraph {
   Kiin -> Eondel
   Kiin -> Shuden
   Ahan -> Roial
+  Gallodan -> Raoden
+  Karata -> Raoden
+  Mareshe -> Raoden
+  Rill -> Raoden
+  Saolin -> Raoden
+  Maare -> Raoden
+  Kahar -> Raoden
+
+  // Enemies
+  edge [label="enemies", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+  Aanden -> Raoden
+  Shaor -> Raoden
 
   // Frenemies
   edge [label="frenemies", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
@@ -74,11 +90,6 @@ digraph {
 
   // Acquaintances
   edge [label="acquaintances", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
-  Gallodan -> Raoden
-  Mareshe -> Raoden
-  Rill -> Raoden
-  Saolin -> Raoden
-  Maare -> Raoden
   Edan -> Kiin
 
   // Child Of
