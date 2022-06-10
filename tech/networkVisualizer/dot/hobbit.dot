@@ -1,0 +1,58 @@
+digraph {
+  // Global properties
+  edge [dir=none, color="#AAAAAA", arrowhead="none"]
+  compound=true
+
+  // Characters
+  subgraph Males {
+    node [color="black", fillcolor="lightblue", shape="box"]
+    TookSr [label="Old Took"]
+    Bungo [label="Bungo Baggins"]
+    Bilbo [label="Bilbo Baggins"]
+  }
+  subgraph Females {
+    node [color="black", fillcolor="pink", shape="box"]
+    Belladonna [label="Belladonna Took"]
+  }
+
+  // Married
+  edge [label="married", dir=none, color="#AAAAAA", arrowhead="none", style="dashed", fontcolor="#AAAAAA"]
+  node [color="#AAAAAA", fillcolor="transparent" shape="circle" label=""]
+  Belladonna -> mar_Belladonna_Bungo -> Bungo
+
+  // Lovers
+  edge [label="lovers", dir=none, color="#AAAAAA", arrowhead="none", style="dashed", fontcolor="#AAAAAA"]
+  node [color="#AAAAAA", fillcolor="transparent" shape="circle" label=""]
+
+  // Cousins
+  edge [label="cousins", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+  // Friends
+  edge [label="friends", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+  // Frenemies
+  edge [label="frenemies", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+  // Acquaintances
+  edge [label="acquaintances", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+  // Child Of
+  edge [label="child of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+  Belladonna -> TookSr
+  Bilbo -> mar_Belladonna_Bungo
+
+  // Foster Child Of
+  edge [label="foster child of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+  // Lieutenant Of
+  edge [label="lieutenant of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+  // Servent Of
+  edge [label="servent of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+
+  // Nephew Of
+  edge [label="nephew of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+  
+  // Niece Of
+  edge [label="niece of", dir=forward, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+}
