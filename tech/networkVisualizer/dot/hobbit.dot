@@ -6,9 +6,10 @@ digraph {
   // Characters
   subgraph Males {
     node [color="black", fillcolor="lightblue", shape="box"]
-    TookSr [label="Old Took"]
-    Bungo [label="Bungo Baggins"]
     Bilbo [label="Bilbo Baggins"]
+    Bungo [label="Bungo Baggins"]
+    Gandalf
+    TookSr [label="Old Took"]
   }
   subgraph Females {
     node [color="black", fillcolor="pink", shape="box"]
@@ -29,6 +30,7 @@ digraph {
 
   // Friends
   edge [label="friends", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
+  Gandalf -> Bilbo
 
   // Frenemies
   edge [label="frenemies", dir=none, color="#AAAAAA", arrowhead="none", fontcolor="#AAAAAA"]
