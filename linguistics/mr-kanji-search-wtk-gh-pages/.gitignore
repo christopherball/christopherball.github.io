@@ -1,8 +1,0 @@
-_site
-.sass-cache
-.Rproj.user
-.Rhistory
-.vscode
-_tools_gitignored
-node_modules
-package-lock.json
