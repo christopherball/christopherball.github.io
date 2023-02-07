@@ -1,0 +1,700 @@
+<html>
+    <head>
+        <title>Kanji Radical Explorer</title>
+        <style>
+            @font-face {
+                font-family: "Japanese Radicals";
+                src: url("radicals-font/webfonts/JapaneseRadicals-Regular.eot");
+                src: url("radicals-font/webfonts/JapaneseRadicals-Regular.woff") format("woff"),
+                    url("radicals-font/webfonts/JapaneseRadicals-Regular.otf") format("opentype"),
+                    url("radicals-font/webfonts/JapaneseRadicals-Regular.svg") format("svg");
+            }
+            body {
+                background-color: #AAAAAA;
+            }
+            table {
+                border-right: 1px black solid;
+                border-bottom: 1px black solid;
+            }
+            table th, table td {
+                border-left: 1px black solid;
+                border-top: 1px black solid;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+            .tablepress tbody .column-2, .tablepress tbody .column-6 {
+                font-family: "Japanese Radicals";
+                font-size: 14px;
+            }
+            .tablepress {
+                font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, "ＭＳ Ｐゴシック", MS-Gothic, sans-serif;
+                font-size: 14px;
+            }
+            tbody tr:nth-child(odd), table th {
+                background-color: #DDDDDD;
+            }
+            tbody tr:nth-child(even) {
+                background-color: #EEEEEE;
+            }
+        </style>
+    </head>
+    <body>
+        <table class="tablepress" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr class="row-1">
+                    <th class="column-1" tabindex="0" rowspan="1" colspan="1">Stroke#</th>
+                    <th class="column-2" tabindex="0" rowspan="1" colspan="1">Radical</th>
+                    <th class="column-3" tabindex="0" rowspan="1" colspan="1">Position</th>
+                    <th class="column-4" tabindex="0" rowspan="1" colspan="1">Meaning</th>
+                    <th class="column-5" tabindex="0" rowspan="1" colspan="1">Reading</th>
+                    <th class="column-6" tabindex="0" rowspan="1" colspan="1">Variant Of</th>
+                    <th class="column-7" tabindex="0" rowspan="1" colspan="1">Common</th>
+                </tr>
+            </thead>
+            <tbody class="row-hover">
+                <tr class="row-2">
+                    <td class="column-1">1</td><td class="column-2">⼀</td><td class="column-3"></td><td class="column-4">one, horizontal stroke</td><td class="column-5">いち</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-3">
+                    <td class="column-1">1</td><td class="column-2">⼁</td><td class="column-3"></td><td class="column-4">vertical stroke</td><td class="column-5">たてぼう</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-4">
+                    <td class="column-1">1</td><td class="column-2">⼂</td><td class="column-3"></td><td class="column-4">dot</td><td class="column-5">てん</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-5">
+                    <td class="column-1">1</td><td class="column-2">⼃</td><td class="column-3"></td><td class="column-4">diagonal sweeping stroke</td><td class="column-5">の</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-6">
+                    <td class="column-1">1</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">diagonal sweeping stroke</td><td class="column-5">のかんむり</td><td class="column-6">⼃</td><td class="column-7"></td>
+                </tr><tr class="row-7">
+                    <td class="column-1">1</td><td class="column-2">⼄</td><td class="column-3"></td><td class="column-4">the second</td><td class="column-5">おつ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-8">
+                    <td class="column-1">1</td><td class="column-2">⺃</td><td class="column-3"></td><td class="column-4">the second</td><td class="column-5">おつ</td><td class="column-6">⼄</td><td class="column-7"></td>
+                </tr><tr class="row-9">
+                    <td class="column-1">1</td><td class="column-2">⼅</td><td class="column-3"></td><td class="column-4">vertical stroke with a hook</td><td class="column-5">はねぼう</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-10">
+                    <td class="column-1">2</td><td class="column-2">⼆</td><td class="column-3"></td><td class="column-4">two</td><td class="column-5">に</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-11">
+                    <td class="column-1">2</td><td class="column-2">⼇</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">lid, top</td><td class="column-5">なべぶた</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-12">
+                    <td class="column-1">2</td><td class="column-2">⼈</td><td class="column-3"></td><td class="column-4">person</td><td class="column-5">ひと</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-13">
+                    <td class="column-1">2</td><td class="column-2">⺅</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">person</td><td class="column-5">にんべん</td><td class="column-6">⼈<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-14">
+                    <td class="column-1">2</td><td class="column-2">𠆢</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">person</td><td class="column-5">ひとやね</td><td class="column-6">⼈<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-15">
+                    <td class="column-1">2</td><td class="column-2">⼉</td><td class="column-3"><img style="box-shadow: none;" alt="あし Radical on the bottom" title="あし Radical on the bottom" src="radical-positions/ashi.svg"></td><td class="column-4">human legs</td><td class="column-5">ひとあし</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-16">
+                    <td class="column-1">2</td><td class="column-2">⼊</td><td class="column-3"></td><td class="column-4">to enter</td><td class="column-5">いる</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-17">
+                    <td class="column-1">2</td><td class="column-2">⼋</td><td class="column-3"></td><td class="column-4">eight</td><td class="column-5">はち</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-18">
+                    <td class="column-1">2</td><td class="column-2"></td><td class="column-3"></td><td class="column-4">eight</td><td class="column-5">はちがしら</td><td class="column-6">⼋</td><td class="column-7"></td>
+                </tr><tr class="row-19">
+                    <td class="column-1">2</td><td class="column-2">⼌</td><td class="column-3"><img style="box-shadow: none;" alt="けいがまえ Radical which encloses the kanji" title="けいがまえ Radical which encloses the kanji" src="radical-positions/keigamae.svg"></td><td class="column-4">to enclose</td><td class="column-5">けいがまえ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-20">
+                    <td class="column-1">2</td><td class="column-2">⼍</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">cover, crown</td><td class="column-5">わかんむり</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-21">
+                    <td class="column-1">2</td><td class="column-2">⼎</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">ice</td><td class="column-5">にすい</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-22">
+                    <td class="column-1">2</td><td class="column-2">⼏</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">table</td><td class="column-5">きにょう</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-23">
+                    <td class="column-1">2</td><td class="column-2">⺇</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">wind</td><td class="column-5">かぜかんむり</td><td class="column-6">⼏<span class="Important"></span></td><td class="column-7"></td>
+                </tr><tr class="row-24">
+                    <td class="column-1">2</td><td class="column-2">⼐</td><td class="column-3"><img style="box-shadow: none;" alt="にょう Radical which wraps around the bottom" title="にょう Radical which wraps around the bottom" src="radical-positions/nyou.svg"></td><td class="column-4">container, open box</td><td class="column-5">かんにょう</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-25">
+                    <td class="column-1">2</td><td class="column-2">⼑</td><td class="column-3"></td><td class="column-4">knife, sword</td><td class="column-5">かたな</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-26">
+                    <td class="column-1">2</td><td class="column-2">⺉</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">knife, sword</td><td class="column-5">りっとう</td><td class="column-6">⼑<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-27">
+                    <td class="column-1">2</td><td class="column-2">⼒</td><td class="column-3"></td><td class="column-4">power</td><td class="column-5">ちから</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-28">
+                    <td class="column-1">2</td><td class="column-2">⼓</td><td class="column-3"><img style="box-shadow: none;" alt="つつみがまえ Radical which encloses the kanji" title="つつみがまえ Radical which encloses the kanji" src="radical-positions/tsutsumigamae.svg"></td><td class="column-4">to wrap</td><td class="column-5">つつみがまえ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-29">
+                    <td class="column-1">2</td><td class="column-2">⼔</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">spoon</td><td class="column-5">さじ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-30">
+                    <td class="column-1">2</td><td class="column-2">⼕</td><td class="column-3"><img style="box-shadow: none;" alt="はこがまえ Radical which encloses the kanji" title="はこがまえ Radical which encloses the kanji" src="radical-positions/hakogamae.svg"></td><td class="column-4">box</td><td class="column-5">はこがまえ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-31">
+                    <td class="column-1">2</td><td class="column-2">⼖</td><td class="column-3"><img style="box-shadow: none;" alt="はこがまえ Radical which encloses the kanji" title="はこがまえ Radical which encloses the kanji" src="radical-positions/hakogamae.svg"></td><td class="column-4">to conceal, hide</td><td class="column-5">かくしがまえ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-32">
+                    <td class="column-1">2</td><td class="column-2">⼗</td><td class="column-3"></td><td class="column-4">ten</td><td class="column-5">じゅう</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-33">
+                    <td class="column-1">2</td><td class="column-2">⼘</td><td class="column-3"></td><td class="column-4">oracle</td><td class="column-5">ぼく</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-34">
+                    <td class="column-1">2</td><td class="column-2">⼙</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">stamp, seal</td><td class="column-5">ふしづくり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-35">
+                    <td class="column-1">2</td><td class="column-2">⼚</td><td class="column-3"><img style="box-shadow: none;" alt="たれ Radical which ‘hangs down’" title="たれ Radical which ‘hangs down’" src="radical-positions/tare.svg"></td><td class="column-4">cliff</td><td class="column-5">がんだれ</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-36">
+                    <td class="column-1">2</td><td class="column-2">⼛</td><td class="column-3"></td><td class="column-4">private, Katakana Mu</td><td class="column-5">む</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-37">
+                    <td class="column-1">2</td><td class="column-2">⼜</td><td class="column-3"></td><td class="column-4">again, right hand</td><td class="column-5">また</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-38">
+                    <td class="column-1">3</td><td class="column-2">⼝</td><td class="column-3"></td><td class="column-4">mouth</td><td class="column-5">くち</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-39">
+                    <td class="column-1">3</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">mouth</td><td class="column-5">くちへん</td><td class="column-6">⼝<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-40">
+                    <td class="column-1">3</td><td class="column-2">⼞</td><td class="column-3"><img style="box-shadow: none;" alt="くにがまえ Radical which encloses the kanji" title="くにがまえ Radical which encloses the kanji" src="radical-positions/kunigamae.svg"></td><td class="column-4">border, territorial boundaries</td><td class="column-5">くにがまえ</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-41">
+                    <td class="column-1">3</td><td class="column-2">⼟</td><td class="column-3"></td><td class="column-4">earth</td><td class="column-5">つち</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-42">
+                    <td class="column-1">3</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">earth</td><td class="column-5">つちへん</td><td class="column-6">⼟<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-43">
+                    <td class="column-1">3</td><td class="column-2">⼠</td><td class="column-3"></td><td class="column-4">man, scholar, samurai</td><td class="column-5">さむらい</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-44">
+                    <td class="column-1">3</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">man, scholar, samurai</td><td class="column-5">さむらいかんむり</td><td class="column-6">⼠</td><td class="column-7"></td>
+                </tr><tr class="row-45">
+                    <td class="column-1">3</td><td class="column-2">⼡</td><td class="column-3"></td><td class="column-4">to follow</td><td class="column-5">のまた</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-46">
+                    <td class="column-1">3</td><td class="column-2">⼢</td><td class="column-3"><img style="box-shadow: none;" alt="あし Radical on the bottom" title="あし Radical on the bottom" src="radical-positions/ashi.svg"></td><td class="column-4">to go slowly</td><td class="column-5">なつあし</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-47">
+                    <td class="column-1">3</td><td class="column-2">⼣</td><td class="column-3"></td><td class="column-4">evening</td><td class="column-5">ゆうべ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-48">
+                    <td class="column-1">3</td><td class="column-2">⼤</td><td class="column-3"></td><td class="column-4">large, big</td><td class="column-5">だい</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-49">
+                    <td class="column-1">3</td><td class="column-2">⼥</td><td class="column-3"></td><td class="column-4">woman</td><td class="column-5">おんな</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-50">
+                    <td class="column-1">3</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">woman</td><td class="column-5">おんなへん</td><td class="column-6">⼥<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-51">
+                    <td class="column-1">3</td><td class="column-2">⼦</td><td class="column-3"></td><td class="column-4">child, son</td><td class="column-5">こ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-52">
+                    <td class="column-1">3</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">child, son</td><td class="column-5">こへん</td><td class="column-6">⼦<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-53">
+                    <td class="column-1">3</td><td class="column-2">⼧</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">roof, house</td><td class="column-5">うかんむり</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-54">
+                    <td class="column-1">3</td><td class="column-2">⼨</td><td class="column-3"></td><td class="column-4">inch, (2.25 cm)</td><td class="column-5">すん</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-55">
+                    <td class="column-1">3</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">inch, (2.25 cm)</td><td class="column-5">すんづくり</td><td class="column-6">⼨</td><td class="column-7"></td>
+                </tr><tr class="row-56">
+                    <td class="column-1">3</td><td class="column-2">⼩</td><td class="column-3"></td><td class="column-4">small</td><td class="column-5">しょう</td><td class="column-6"><a></td><td class="column-7"></td>
+                </tr><tr class="row-57">
+                    <td class="column-1">3</td><td class="column-2">⺌</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">small</td><td class="column-5">しょうかんむり</td><td class="column-6">⼩</td><td class="column-7"></td>
+                </tr><tr class="row-58">
+                    <td class="column-1">3</td><td class="column-2">⺐</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">lame leg</td><td class="column-5">だいのまげあし</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-59">
+                    <td class="column-1">3</td><td class="column-2">⼫</td><td class="column-3"><img style="box-shadow: none;" alt="たれ Radical which ‘hangs down’" title="たれ Radical which ‘hangs down’" src="radical-positions/tare.svg"></td><td class="column-4">corpse, awning</td><td class="column-5">しかばね</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-60">
+                    <td class="column-1">3</td><td class="column-2">⼬</td><td class="column-3"></td><td class="column-4">sprout</td><td class="column-5">くさのめ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-61">
+                    <td class="column-1">3</td><td class="column-2">⼭</td><td class="column-3"></td><td class="column-4">mountain</td><td class="column-5">やま</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-62">
+                    <td class="column-1">3</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">mountain</td><td class="column-5">やまへん</td><td class="column-6">⼭</td><td class="column-7"></td>
+                </tr><tr class="row-63">
+                    <td class="column-1">3</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">mountain</td><td class="column-5">やまかんむり</td><td class="column-6">⼭</td><td class="column-7"></td>
+                </tr><tr class="row-64">
+                    <td class="column-1">3</td><td class="column-2">⼮</td><td class="column-3"></td><td class="column-4">winding river</td><td class="column-5">まがりがわ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-65">
+                    <td class="column-1">3</td><td class="column-2">川</td><td class="column-3"></td><td class="column-4">river</td><td class="column-5">さんぼんがわ</td><td class="column-6">⼮</td><td class="column-7"></td>
+                </tr><tr class="row-66">
+                    <td class="column-1">3</td><td class="column-2">⼯</td><td class="column-3"></td><td class="column-4">work, carpenter, skill</td><td class="column-5">たくみ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-67">
+                    <td class="column-1">3</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">work, carpenter, skill</td><td class="column-5">たくみへん</td><td class="column-6">⼯</td><td class="column-7"></td>
+                </tr><tr class="row-68">
+                    <td class="column-1">3</td><td class="column-2">⼰</td><td class="column-3"></td><td class="column-4">self</td><td class="column-5">おのれ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-69">
+                    <td class="column-1">3</td><td class="column-2">⼱</td><td class="column-3"></td><td class="column-4">cloth</td><td class="column-5">はば</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-70">
+                    <td class="column-1">3</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">cloth</td><td class="column-5">はばへん</td><td class="column-6">⼱</td><td class="column-7"></td>
+                </tr><tr class="row-71">
+                    <td class="column-1">3</td><td class="column-2">⼲</td><td class="column-3"></td><td class="column-4">to dry, shield</td><td class="column-5">かん</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-72">
+                    <td class="column-1">3</td><td class="column-2">⺓</td><td class="column-3"></td><td class="column-4">young, slight</td><td class="column-5">いとがしら</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-73">
+                    <td class="column-1">3</td><td class="column-2">⼴</td><td class="column-3"><img style="box-shadow: none;" alt="たれ Radical which ‘hangs down’" title="たれ Radical which ‘hangs down’" src="radical-positions/tare.svg"></td><td class="column-4">slanting roof</td><td class="column-5">まだれ</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-74">
+                    <td class="column-1">3</td><td class="column-2">⼵</td><td class="column-3"><img style="box-shadow: none;" alt="にょう Radical which wraps around the bottom" title="にょう Radical which wraps around the bottom" src="radical-positions/nyou.svg"></td><td class="column-4">to move, stretch</td><td class="column-5">えんにょう</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-75">
+                    <td class="column-1">3</td><td class="column-2">⼶</td><td class="column-3"><img style="box-shadow: none;" alt="あし Radical on the bottom" title="あし Radical on the bottom" src="radical-positions/ashi.svg"></td><td class="column-4">folded hands</td><td class="column-5">にじゅうあし</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-76">
+                    <td class="column-1">3</td><td class="column-2">⼷</td><td class="column-3"></td><td class="column-4">javelin</td><td class="column-5">いぐるみ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-77">
+                    <td class="column-1">3</td><td class="column-2">⼸</td><td class="column-3"></td><td class="column-4">bow (in archery)</td><td class="column-5">ゆみ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-78">
+                    <td class="column-1">3</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">bow (in archery)</td><td class="column-5">ゆみへん</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-79">
+                    <td class="column-1">3</td><td class="column-2">⼹</td><td class="column-3"></td><td class="column-4">pig’s head</td><td class="column-5">けいがしら</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-80">
+                    <td class="column-1">3</td><td class="column-2">⺕</td><td class="column-3"></td><td class="column-4">pig’s head</td><td class="column-5">けいがしら</td><td class="column-6">⼹</td><td class="column-7"></td>
+                </tr><tr class="row-81">
+                    <td class="column-1">3</td><td class="column-2">⺔</td><td class="column-3"></td><td class="column-4">pig’s head</td><td class="column-5">けいがしら</td><td class="column-6">⼹</td><td class="column-7"></td>
+                </tr><tr class="row-82">
+                    <td class="column-1">3</td><td class="column-2">⼺</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">hair-style, light rays</td><td class="column-5">さんづくり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-83">
+                    <td class="column-1">3</td><td class="column-2">⼻</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">step, stride, street, to go</td><td class="column-5">ぎょうにんべん</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-84">
+                    <td class="column-1">3</td><td class="column-2">⺾</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">grass</td><td class="column-5">くさかんむり</td><td class="column-6">⾋<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-85">
+                    <td class="column-1">3</td><td class="column-2">⻌</td><td class="column-3"><img style="box-shadow: none;" alt="にょう Radical which wraps around the bottom" title="にょう Radical which wraps around the bottom" src="radical-positions/nyou.svg"></td><td class="column-4">road, walk, to advance</td><td class="column-5">しんにょう</td><td class="column-6">⾡<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-86">
+                    <td class="column-1">3</td><td class="column-2">⻏</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">village, country, city</td><td class="column-5">おおざと</td><td class="column-6">⾢<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-87">
+                    <td class="column-1">3</td><td class="column-2">⻖</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">hill, mound</td><td class="column-5">こざとへん</td><td class="column-6">⾩<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-88">
+                    <td class="column-1">3</td><td class="column-2">⺍</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">Katakana Tsu</td><td class="column-5">つ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-89">
+                    <td class="column-1">3</td><td class="column-2">⺖</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">heart, mind, spirit</td><td class="column-5">りっしんべん</td><td class="column-6">⼼<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-90">
+                    <td class="column-1">3</td><td class="column-2">⺘</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">hand</td><td class="column-5">てへん</td><td class="column-6">⼿<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-91">
+                    <td class="column-1">3</td><td class="column-2">⺡</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">water</td><td class="column-5">さんずい</td><td class="column-6">⽔<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-92">
+                    <td class="column-1">3</td><td class="column-2">⺨</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">beast</td><td class="column-5">けものへん</td><td class="column-6">⽝<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-93">
+                    <td class="column-1">4</td><td class="column-2">⼼</td><td class="column-3"></td><td class="column-4">heart, mind, spirit</td><td class="column-5">こころ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-94">
+                    <td class="column-1">4</td><td class="column-2">⺗</td><td class="column-3"><img style="box-shadow: none;" alt="あし Radical on the bottom" title="あし Radical on the bottom" src="radical-positions/ashi.svg"></td><td class="column-4">heart, mind, spirit</td><td class="column-5">したごころ</td><td class="column-6">⼼</td><td class="column-7"></td>
+                </tr><tr class="row-95">
+                    <td class="column-1">4</td><td class="column-2">⼽</td><td class="column-3"></td><td class="column-4">spear, weapon</td><td class="column-5">ほこ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-96">
+                    <td class="column-1">4</td><td class="column-2">⼾</td><td class="column-3"></td><td class="column-4">door</td><td class="column-5">と</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-97">
+                    <td class="column-1">4</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="たれ Radical which ‘hangs down’" title="たれ Radical which ‘hangs down’" src="radical-positions/tare.svg"></td><td class="column-4">door</td><td class="column-5">とだれ</td><td class="column-6">⼾</td><td class="column-7"></td>
+                </tr><tr class="row-98">
+                    <td class="column-1">4</td><td class="column-2">⼿</td><td class="column-3"></td><td class="column-4">hand</td><td class="column-5">て</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-99">
+                    <td class="column-1">4</td><td class="column-2">⽀</td><td class="column-3"></td><td class="column-4">branch</td><td class="column-5">しにょう</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-100">
+                    <td class="column-1">4</td><td class="column-2">⽁</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">activity, to strike, hit</td><td class="column-5">ぼくづくり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-101">
+                    <td class="column-1">4</td><td class="column-2">⺙</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">activity, to strike, hit</td><td class="column-5">ぼくづくり</td><td class="column-6">⽁ <span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-102">
+                    <td class="column-1">4</td><td class="column-2">⽂</td><td class="column-3"></td><td class="column-4">literature, letters</td><td class="column-5">ぶん</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-103">
+                    <td class="column-1">4</td><td class="column-2">⽃</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">big dipper, ladle, 18 liters</td><td class="column-5">ますづくり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-104">
+                    <td class="column-1">4</td><td class="column-2">⽄</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">axe</td><td class="column-5">おのづくり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-105">
+                    <td class="column-1">4</td><td class="column-2">⽅</td><td class="column-3"></td><td class="column-4">direction, flag</td><td class="column-5">ほう</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-106">
+                    <td class="column-1">4</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">direction, flag</td><td class="column-5">ほうへん</td><td class="column-6">⽅</td><td class="column-7"></td>
+                </tr><tr class="row-107">
+                    <td class="column-1">4</td><td class="column-2">⽆</td><td class="column-3"></td><td class="column-4">not</td><td class="column-5">むにょう</td><td class="column-6"> </td><td class="column-7"></td>
+                </tr><tr class="row-108">
+                    <td class="column-1">4</td><td class="column-2">⽇</td><td class="column-3"></td><td class="column-4">sun, day, time</td><td class="column-5">ひ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-109">
+                    <td class="column-1">4</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">sun, day, time</td><td class="column-5">ひへん</td><td class="column-6">⽇<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-110">
+                    <td class="column-1">4</td><td class="column-2">⽈</td><td class="column-3"></td><td class="column-4">to say</td><td class="column-5">ひらび</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-111">
+                    <td class="column-1">4</td><td class="column-2">⽉</td><td class="column-3"></td><td class="column-4">moon, month, period</td><td class="column-5">つき</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-112">
+                    <td class="column-1">4</td><td class="column-2">⺝</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">moon, month, period</td><td class="column-5">つきへん</td><td class="column-6">⽉</td><td class="column-7"></td>
+                </tr><tr class="row-113">
+                    <td class="column-1">4</td><td class="column-2"></td><td class="column-3"></td><td class="column-4">meat, flesh</td><td class="column-5">にくづき</td><td class="column-6">⾁<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-114">
+                    <td class="column-1">4</td><td class="column-2">⽊</td><td class="column-3"></td><td class="column-4">tree, wood</td><td class="column-5">き</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-115">
+                    <td class="column-1">4</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">tree, wood</td><td class="column-5">きへん</td><td class="column-6">⽊<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-116">
+                    <td class="column-1">4</td><td class="column-2">⽋</td><td class="column-3"></td><td class="column-4">to lack, yawn</td><td class="column-5">あくび</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-117">
+                    <td class="column-1">4</td><td class="column-2">⽌</td><td class="column-3"></td><td class="column-4">to stop</td><td class="column-5">とめる</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-118">
+                    <td class="column-1">4</td><td class="column-2">⽍</td><td class="column-3"></td><td class="column-4">death &amp; dying, to decompose</td><td class="column-5">がつ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-119">
+                    <td class="column-1">4</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">death &amp; dying, to decompose</td><td class="column-5">がつへん</td><td class="column-6">⽍</td><td class="column-7"></td>
+                </tr><tr class="row-120">
+                    <td class="column-1">4</td><td class="column-2">⽎</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">lance shaft, action</td><td class="column-5">るまた</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-121">
+                    <td class="column-1">4</td><td class="column-2">⽏</td><td class="column-3"></td><td class="column-4">not, mother</td><td class="column-5">なかれ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-122">
+                    <td class="column-1">4</td><td class="column-2">⽐</td><td class="column-3"></td><td class="column-4">to compare</td><td class="column-5">くらべる</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-123">
+                    <td class="column-1">4</td><td class="column-2">⽑</td><td class="column-3"></td><td class="column-4">hair</td><td class="column-5">け</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-124">
+                    <td class="column-1">4</td><td class="column-2">⽒</td><td class="column-3"></td><td class="column-4">family, clan</td><td class="column-5">うじ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-125">
+                    <td class="column-1">4</td><td class="column-2">⽓</td><td class="column-3"><img style="box-shadow: none;" alt="きがまえ Radical which encloses the kanji" title="きがまえ Radical which encloses the kanji" src="radical-positions/kigamae.svg"></td><td class="column-4">steam, air</td><td class="column-5">きがまえ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-126">
+                    <td class="column-1">4</td><td class="column-2">⽔</td><td class="column-3"></td><td class="column-4">water</td><td class="column-5">みず</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-127">
+                    <td class="column-1">4</td><td class="column-2">⽕</td><td class="column-3"></td><td class="column-4">fire</td><td class="column-5">ひ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-128">
+                    <td class="column-1">4</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">fire</td><td class="column-5">ひへん</td><td class="column-6">⽕<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-129">
+                    <td class="column-1">4</td><td class="column-2">⺣</td><td class="column-3"><img style="box-shadow: none;" alt="あし Radical on the bottom" title="あし Radical on the bottom" src="radical-positions/ashi.svg"></td><td class="column-4">fire</td><td class="column-5">れっか</td><td class="column-6">⽕<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-130">
+                    <td class="column-1">4</td><td class="column-2">⽖</td><td class="column-3"></td><td class="column-4">claw, nail</td><td class="column-5">つめ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-131">
+                    <td class="column-1">4</td><td class="column-2">⺤</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">claw, nail</td><td class="column-5">つめかんむり</td><td class="column-6">⽖</td><td class="column-7"></td>
+                </tr><tr class="row-132">
+                    <td class="column-1">4</td><td class="column-2">爫</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">claw, nail</td><td class="column-5">つめかんむり</td><td class="column-6">⽖</td><td class="column-7"></td>
+                </tr><tr class="row-133">
+                    <td class="column-1">4</td><td class="column-2">⽗</td><td class="column-3"></td><td class="column-4">father</td><td class="column-5">ちち</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-134">
+                    <td class="column-1">4</td><td class="column-2">⽘</td><td class="column-3"></td><td class="column-4">to mix</td><td class="column-5">こう</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-135">
+                    <td class="column-1">4</td><td class="column-2">⽙</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">split wood</td><td class="column-5">しょうへん</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-136">
+                    <td class="column-1">4</td><td class="column-2">⽚</td><td class="column-3"></td><td class="column-4">split wood</td><td class="column-5">かた</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-137">
+                    <td class="column-1">4</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">split wood</td><td class="column-5">かたへん</td><td class="column-6">⽚</td><td class="column-7"></td>
+                </tr><tr class="row-138">
+                    <td class="column-1">4</td><td class="column-2"></td><td class="column-3"></td><td class="column-4">fang, canine tooth</td><td class="column-5">きば</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-139">
+                    <td class="column-1">4</td><td class="column-2">⽜</td><td class="column-3"></td><td class="column-4">cow</td><td class="column-5">うし</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-140">
+                    <td class="column-1">4</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">cow</td><td class="column-5">うしへん</td><td class="column-6">⽜</td><td class="column-7"></td>
+                </tr><tr class="row-141">
+                    <td class="column-1">4</td><td class="column-2">⽝</td><td class="column-3"></td><td class="column-4">dog</td><td class="column-5">いぬ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-142">
+                    <td class="column-1">4</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">jewelry, jeweled king</td><td class="column-5">おうへん</td><td class="column-6">⽟<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-143">
+                    <td class="column-1">4</td><td class="column-2">⺭</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">altar, festival, religious service</td><td class="column-5">しめすへん</td><td class="column-6">⽰<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-144">
+                    <td class="column-1">4</td><td class="column-2">㓁</td><td class="column-3"></td><td class="column-4">net</td><td class="column-5">あみがしら</td><td class="column-6">⽹</td><td class="column-7"></td>
+                </tr><tr class="row-145">
+                    <td class="column-1">4</td><td class="column-2">⺹</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">old, old-age</td><td class="column-5">おいかんむり</td><td class="column-6">⽼</td><td class="column-7"></td>
+                </tr><tr class="row-146">
+                    <td class="column-1">5</td><td class="column-2">⽞</td><td class="column-3"></td><td class="column-4">darkness</td><td class="column-5">げん</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-147">
+                    <td class="column-1">5</td><td class="column-2">⽟</td><td class="column-3"></td><td class="column-4">jewelry</td><td class="column-5">たま</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-148">
+                    <td class="column-1">5</td><td class="column-2"></td><td class="column-3"></td><td class="column-4">melon</td><td class="column-5">うり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-149">
+                    <td class="column-1">5</td><td class="column-2">⽡</td><td class="column-3"></td><td class="column-4">tile</td><td class="column-5">かわら</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-150">
+                    <td class="column-1">5</td><td class="column-2">⽢</td><td class="column-3"></td><td class="column-4">sweet</td><td class="column-5">あまい</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-151">
+                    <td class="column-1">5</td><td class="column-2">⽣</td><td class="column-3"></td><td class="column-4">birth, to be born, live</td><td class="column-5">うまれる</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-152">
+                    <td class="column-1">5</td><td class="column-2">⽤</td><td class="column-3"></td><td class="column-4">to use</td><td class="column-5">もちいる</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-153">
+                    <td class="column-1">5</td><td class="column-2">⽥</td><td class="column-3"></td><td class="column-4">rice paddy</td><td class="column-5">た</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-154">
+                    <td class="column-1">5</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">rice paddy</td><td class="column-5">たへん</td><td class="column-6">⽥</td><td class="column-7"></td>
+                </tr><tr class="row-155">
+                    <td class="column-1">5</td><td class="column-2">⽦</td><td class="column-3"></td><td class="column-4">bolt of cloth</td><td class="column-5">ひき</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-156">
+                    <td class="column-1">5</td><td class="column-2">⺪</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">bolt of cloth</td><td class="column-5">ひきへん</td><td class="column-6">⽦</td><td class="column-7"></td>
+                </tr><tr class="row-157">
+                    <td class="column-1">5</td><td class="column-2">⽧</td><td class="column-3"><img style="box-shadow: none;" alt="たれ Radical which ‘hangs down’" title="たれ Radical which ‘hangs down’" src="radical-positions/tare.svg"></td><td class="column-4">sickness</td><td class="column-5">やまいだれ</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-158">
+                    <td class="column-1">5</td><td class="column-2">⽨</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">outspread legs, departure</td><td class="column-5">はつがしら</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-159">
+                    <td class="column-1">5</td><td class="column-2">⽩</td><td class="column-3"></td><td class="column-4">white</td><td class="column-5">しろ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-160">
+                    <td class="column-1">5</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">white</td><td class="column-5">はくへん</td><td class="column-6">⽩</td><td class="column-7"></td>
+                </tr><tr class="row-161">
+                    <td class="column-1">5</td><td class="column-2">⽪</td><td class="column-3"></td><td class="column-4">skin, hide</td><td class="column-5">けがわ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-162">
+                    <td class="column-1">5</td><td class="column-2">⽫</td><td class="column-3"></td><td class="column-4">plate, bowl</td><td class="column-5">さら</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-163">
+                    <td class="column-1">5</td><td class="column-2">⽬</td><td class="column-3"></td><td class="column-4">eye</td><td class="column-5">め</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-164">
+                    <td class="column-1">5</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">eye</td><td class="column-5">めへん</td><td class="column-6">⽬<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-165">
+                    <td class="column-1">5</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">eye</td><td class="column-5">よこめ</td><td class="column-6">⽬</td><td class="column-7"></td>
+                </tr><tr class="row-166">
+                    <td class="column-1">5</td><td class="column-2">⽭</td><td class="column-3"></td><td class="column-4">halberd</td><td class="column-5">ほこ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-167">
+                    <td class="column-1">5</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">halberd</td><td class="column-5">ほこへん</td><td class="column-6">⽭</td><td class="column-7"></td>
+                </tr><tr class="row-168">
+                    <td class="column-1">5</td><td class="column-2">⽮</td><td class="column-3"></td><td class="column-4">arrow</td><td class="column-5">や</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-169">
+                    <td class="column-1">5</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">arrow</td><td class="column-5">やへん</td><td class="column-6">⽮</td><td class="column-7"></td>
+                </tr><tr class="row-170">
+                    <td class="column-1">5</td><td class="column-2">⽯</td><td class="column-3"></td><td class="column-4">stone</td><td class="column-5">いし</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-171">
+                    <td class="column-1">5</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">stone</td><td class="column-5">いしへん</td><td class="column-6">⽯</td><td class="column-7"></td>
+                </tr><tr class="row-172">
+                    <td class="column-1">5</td><td class="column-2">⽰</td><td class="column-3"></td><td class="column-4">altar, festival, religious service</td><td class="column-5">しめす</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-173">
+                    <td class="column-1">5</td><td class="column-2">⽱</td><td class="column-3"></td><td class="column-4">footprint</td><td class="column-5">じゅうのあし</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-174">
+                    <td class="column-1">5</td><td class="column-2">⽲</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">grain</td><td class="column-5">のぎへん</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-175">
+                    <td class="column-1">5</td><td class="column-2">⽳</td><td class="column-3"></td><td class="column-4">hole, cave</td><td class="column-5">あな</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-176">
+                    <td class="column-1">5</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">hole, cave</td><td class="column-5">あなかんむり</td><td class="column-6">⽳<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-177">
+                    <td class="column-1">5</td><td class="column-2">⽴</td><td class="column-3"></td><td class="column-4">to stand</td><td class="column-5">たつ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-178">
+                    <td class="column-1">5</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">to stand</td><td class="column-5">たつへん</td><td class="column-6">⽴</td><td class="column-7"></td>
+                </tr><tr class="row-179">
+                    <td class="column-1">5</td><td class="column-2"></td><td class="column-3"></td><td class="column-4">fang, canine tooth</td><td class="column-5">きば</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-180">
+                    <td class="column-1">5</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">fang, canine tooth</td><td class="column-5">きばへん</td><td class="column-6">⽛</td><td class="column-7"></td>
+                </tr><tr class="row-181">
+                    <td class="column-1">5</td><td class="column-2">氺</td><td class="column-3"></td><td class="column-4">water</td><td class="column-5">したみず</td><td class="column-6">⽔</td><td class="column-7"></td>
+                </tr><tr class="row-182">
+                    <td class="column-1">5</td><td class="column-2">⺫</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">net</td><td class="column-5">あみがしら</td><td class="column-6">⽹</td><td class="column-7"></td>
+                </tr><tr class="row-183">
+                    <td class="column-1">5</td><td class="column-2">𦉰</td><td class="column-3"></td><td class="column-4">net</td><td class="column-5">あみがしら</td><td class="column-6">⽹</td><td class="column-7"></td>
+                </tr><tr class="row-184">
+                    <td class="column-1">5</td><td class="column-2">⻂</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">clothing</td><td class="column-5">ころもへん</td><td class="column-6">⾐<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-185">
+                    <td class="column-1">5</td><td class="column-2">⺛</td><td class="column-3"></td><td class="column-4">not</td><td class="column-5">むにょう</td><td class="column-6">⽆</td><td class="column-7"></td>
+                </tr><tr class="row-186">
+                    <td class="column-1">6</td><td class="column-2">⽵</td><td class="column-3"></td><td class="column-4">bamboo</td><td class="column-5">たけ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-187">
+                    <td class="column-1">6</td><td class="column-2">⺮</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">bamboo</td><td class="column-5">たけかんむり</td><td class="column-6">⽵<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-188">
+                    <td class="column-1">6</td><td class="column-2">⽶</td><td class="column-3"></td><td class="column-4">rice</td><td class="column-5">こめ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-189">
+                    <td class="column-1">6</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">rice</td><td class="column-5">こめへん</td><td class="column-6">⽶<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-190">
+                    <td class="column-1">6</td><td class="column-2">⽷</td><td class="column-3"></td><td class="column-4">thread</td><td class="column-5">いと</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-191">
+                    <td class="column-1">6</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">thread</td><td class="column-5">いとへん</td><td class="column-6">⽷<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-192">
+                    <td class="column-1">6</td><td class="column-2">⽸</td><td class="column-3"></td><td class="column-4">earthen jar</td><td class="column-5">みずがめ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-193">
+                    <td class="column-1">6</td><td class="column-2">⽹</td><td class="column-3"></td><td class="column-4">net</td><td class="column-5">あみめ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-194">
+                    <td class="column-1">6</td><td class="column-2">⽺</td><td class="column-3"></td><td class="column-4">sheep</td><td class="column-5">ひつじ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-195">
+                    <td class="column-1">6</td><td class="column-2">⺷</td><td class="column-3"></td><td class="column-4">sheep</td><td class="column-5">ひつじ</td><td class="column-6">⽺</td><td class="column-7"></td>
+                </tr><tr class="row-196">
+                    <td class="column-1">6</td><td class="column-2">羽</td><td class="column-3"></td><td class="column-4">feather, wing</td><td class="column-5">はね</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-197">
+                    <td class="column-1">6</td><td class="column-2">⽻</td><td class="column-3"></td><td class="column-4">feather, wing</td><td class="column-5">はね</td><td class="column-6">羽</td><td class="column-7"></td>
+                </tr><tr class="row-198">
+                    <td class="column-1">6</td><td class="column-2">⽼</td><td class="column-3"></td><td class="column-4">old, old-age</td><td class="column-5">おいかんむり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-199">
+                    <td class="column-1">6</td><td class="column-2">⽽</td><td class="column-3"></td><td class="column-4">and also</td><td class="column-5">しこうして</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-200">
+                    <td class="column-1">6</td><td class="column-2">⽾</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">plow</td><td class="column-5">らいすき</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-201">
+                    <td class="column-1">6</td><td class="column-2">⽿</td><td class="column-3"></td><td class="column-4">ear</td><td class="column-5">みみ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-202">
+                    <td class="column-1">6</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">ear</td><td class="column-5">みみへん</td><td class="column-6">⽿ <a></td><td class="column-7"></td>
+                </tr><tr class="row-203">
+                    <td class="column-1">6</td><td class="column-2">⾀</td><td class="column-3"></td><td class="column-4">writing brush</td><td class="column-5">ふでづくり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-204">
+                    <td class="column-1">6</td><td class="column-2">⾁</td><td class="column-3"></td><td class="column-4">flesh, meat</td><td class="column-5">にく</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-205">
+                    <td class="column-1">6</td><td class="column-2">⾂</td><td class="column-3"></td><td class="column-4">retainer, minister</td><td class="column-5">しん</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-206">
+                    <td class="column-1">6</td><td class="column-2">⾃</td><td class="column-3"></td><td class="column-4">self</td><td class="column-5">みずから</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-207">
+                    <td class="column-1">6</td><td class="column-2">⾄</td><td class="column-3"></td><td class="column-4">to arrive, reach</td><td class="column-5">いたる</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-208">
+                    <td class="column-1">6</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">to arrive, reach</td><td class="column-5">いたるへん</td><td class="column-6">⾄</td><td class="column-7"></td>
+                </tr><tr class="row-209">
+                    <td class="column-1">6</td><td class="column-2">⾅</td><td class="column-3"></td><td class="column-4">mortar, quern</td><td class="column-5">うす</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-210">
+                    <td class="column-1">6</td><td class="column-2">⾆</td><td class="column-3"></td><td class="column-4">tongue</td><td class="column-5">した</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-211">
+                    <td class="column-1">6</td><td class="column-2">⾇</td><td class="column-3"></td><td class="column-4">contrary, to err</td><td class="column-5">まいあし</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-212">
+                    <td class="column-1">6</td><td class="column-2">⾈</td><td class="column-3"></td><td class="column-4">ship, boat</td><td class="column-5">ふね</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-213">
+                    <td class="column-1">6</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">ship, boat</td><td class="column-5">ふねへん</td><td class="column-6">⾈</td><td class="column-7"></td>
+                </tr><tr class="row-214">
+                    <td class="column-1">6</td><td class="column-2">⾉</td><td class="column-3"></td><td class="column-4">boundary</td><td class="column-5">こん</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-215">
+                    <td class="column-1">6</td><td class="column-2">⾊</td><td class="column-3"></td><td class="column-4">color</td><td class="column-5">いろ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-216">
+                    <td class="column-1">6</td><td class="column-2">⾋</td><td class="column-3"></td><td class="column-4">grass, plant</td><td class="column-5">くさ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-217">
+                    <td class="column-1">6</td><td class="column-2">⾌</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">tiger</td><td class="column-5">とらがしら</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-218">
+                    <td class="column-1">6</td><td class="column-2">⾍</td><td class="column-3"></td><td class="column-4">worm, insect, bug</td><td class="column-5">むし</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-219">
+                    <td class="column-1">6</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">worm, insect, bug</td><td class="column-5">むしへん</td><td class="column-6">⾍<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-220">
+                    <td class="column-1">6</td><td class="column-2">⾎</td><td class="column-3"></td><td class="column-4">blood</td><td class="column-5">ち</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-221">
+                    <td class="column-1">6</td><td class="column-2">⾏</td><td class="column-3"><img style="box-shadow: none;" alt="ぎょうがまえ Radical which encloses the kanji" title="ぎょうがまえ Radical which encloses the kanji" src="radical-positions/gyougamae.svg"></td><td class="column-4">to go</td><td class="column-5">ぎょうがまえ</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-222">
+                    <td class="column-1">6</td><td class="column-2">⾐</td><td class="column-3"></td><td class="column-4">clothing</td><td class="column-5">ころも</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-223">
+                    <td class="column-1">6</td><td class="column-2">⾑</td><td class="column-3"></td><td class="column-4">cover, west</td><td class="column-5">にし</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-224">
+                    <td class="column-1">6</td><td class="column-2">⻃</td><td class="column-3"></td><td class="column-4">cover, west</td><td class="column-5">にし</td><td class="column-6">⾑</td><td class="column-7"></td>
+                </tr><tr class="row-225">
+                    <td class="column-1">6</td><td class="column-2">⽠</td><td class="column-3"></td><td class="column-4">melon</td><td class="column-5">うり</td><td class="column-6">⽠</td><td class="column-7"></td>
+                </tr><tr class="row-226">
+                    <td class="column-1">7</td><td class="column-2">⾒</td><td class="column-3"></td><td class="column-4">to see</td><td class="column-5">みる</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-227">
+                    <td class="column-1">7</td><td class="column-2">⾓</td><td class="column-3"></td><td class="column-4">horn, corner</td><td class="column-5">つの</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-228">
+                    <td class="column-1">7</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">horn, corner</td><td class="column-5">つのへん</td><td class="column-6">⾓</td><td class="column-7"></td>
+                </tr><tr class="row-229">
+                    <td class="column-1">7</td><td class="column-2">⾔</td><td class="column-3"></td><td class="column-4">words, to speak, say</td><td class="column-5">げん</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-230">
+                    <td class="column-1">7</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">words, to speak, say</td><td class="column-5">ごんべん</td><td class="column-6">⾔<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-231">
+                    <td class="column-1">7</td><td class="column-2">⾕</td><td class="column-3"></td><td class="column-4">valley</td><td class="column-5">たに</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-232">
+                    <td class="column-1">7</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">valley</td><td class="column-5">たにへん</td><td class="column-6">⾕</td><td class="column-7"></td>
+                </tr><tr class="row-233">
+                    <td class="column-1">7</td><td class="column-2">⾖</td><td class="column-3"></td><td class="column-4">bean</td><td class="column-5">まめ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-234">
+                    <td class="column-1">7</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">bean</td><td class="column-5">まめへん</td><td class="column-6">⾖</td><td class="column-7"></td>
+                </tr><tr class="row-235">
+                    <td class="column-1">7</td><td class="column-2">⾗</td><td class="column-3"></td><td class="column-4">pig</td><td class="column-5">いのこ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-236">
+                    <td class="column-1">7</td><td class="column-2">⾘</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">badger</td><td class="column-5">むじなへん</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-237">
+                    <td class="column-1">7</td><td class="column-2">⾙</td><td class="column-3"></td><td class="column-4">shell, property, wealth</td><td class="column-5">かい</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-238">
+                    <td class="column-1">7</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">shell, property, wealth</td><td class="column-5">かいへん</td><td class="column-6">⾙<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-239">
+                    <td class="column-1">7</td><td class="column-2">⾚</td><td class="column-3"></td><td class="column-4">red</td><td class="column-5">あか</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-240">
+                    <td class="column-1">7</td><td class="column-2">⾛</td><td class="column-3"></td><td class="column-4">to run</td><td class="column-5">はしる</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-241">
+                    <td class="column-1">7</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="にょう Radical which wraps around the bottom" title="にょう Radical which wraps around the bottom" src="radical-positions/nyou.svg"></td><td class="column-4">to run</td><td class="column-5">そうにょう</td><td class="column-6">⾛<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-242">
+                    <td class="column-1">7</td><td class="column-2">⾜</td><td class="column-3"></td><td class="column-4">foot, leg</td><td class="column-5">あし</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-243">
+                    <td class="column-1">7</td><td class="column-2">⻊</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">foot, leg</td><td class="column-5">あしへん</td><td class="column-6">⾜<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-244">
+                    <td class="column-1">7</td><td class="column-2">⾝</td><td class="column-3"></td><td class="column-4">body</td><td class="column-5">み</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-245">
+                    <td class="column-1">7</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">body</td><td class="column-5">みへん</td><td class="column-6">⾝</td><td class="column-7"></td>
+                </tr><tr class="row-246">
+                    <td class="column-1">7</td><td class="column-2">⾞</td><td class="column-3"></td><td class="column-4">vehicle, wheel, car</td><td class="column-5">くるま</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-247">
+                    <td class="column-1">7</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">vehicle, wheel, car</td><td class="column-5">くるまへん</td><td class="column-6">⾞<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-248">
+                    <td class="column-1">7</td><td class="column-2">⾟</td><td class="column-3"></td><td class="column-4">bitter</td><td class="column-5">からい</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-249">
+                    <td class="column-1">7</td><td class="column-2">⾠</td><td class="column-3"></td><td class="column-4">Fifth zodiac sign, 7–9 A.M.</td><td class="column-5">しんのたつ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-250">
+                    <td class="column-1">7</td><td class="column-2">⾡</td><td class="column-3"></td><td class="column-4">to advance, move ahead</td><td class="column-5">しんにょう</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-251">
+                    <td class="column-1">7</td><td class="column-2">⾢</td><td class="column-3"></td><td class="column-4">community</td><td class="column-5">むら</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-252">
+                    <td class="column-1">7</td><td class="column-2">⾣</td><td class="column-3"></td><td class="column-4">sake jar, bird</td><td class="column-5">ひよみのとり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-253">
+                    <td class="column-1">7</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">sake jar, bird</td><td class="column-5">とりへん</td><td class="column-6">⾣</td><td class="column-7"></td>
+                </tr><tr class="row-254">
+                    <td class="column-1">7</td><td class="column-2">⾤</td><td class="column-3"></td><td class="column-4">to separate</td><td class="column-5">のごめ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-255">
+                    <td class="column-1">7</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">to separate</td><td class="column-5">のごめへん</td><td class="column-6">⾤</td><td class="column-7"></td>
+                </tr><tr class="row-256">
+                    <td class="column-1">7</td><td class="column-2">⾥</td><td class="column-3"></td><td class="column-4">village, (3.93 km)</td><td class="column-5">さと</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-257">
+                    <td class="column-1">7</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">village, (3.93 km)</td><td class="column-5">さとへん</td><td class="column-6">⾥</td><td class="column-7"></td>
+                </tr><tr class="row-258">
+                    <td class="column-1">7</td><td class="column-2">⾂</td><td class="column-3"></td><td class="column-4">retainer, minister</td><td class="column-5">しん</td><td class="column-6">⾂</td><td class="column-7"></td>
+                </tr><tr class="row-259">
+                    <td class="column-1">7</td><td class="column-2"></td><td class="column-3"></td><td class="column-4">contrary, to err</td><td class="column-5">まいあし</td><td class="column-6">⾇</td><td class="column-7"></td>
+                </tr><tr class="row-260">
+                    <td class="column-1">7</td><td class="column-2">⻨</td><td class="column-3"></td><td class="column-4">wheat</td><td class="column-5">むぎ</td><td class="column-6">⿆</td><td class="column-7"></td>
+                </tr><tr class="row-261">
+                    <td class="column-1">8</td><td class="column-2">⾦</td><td class="column-3"></td><td class="column-4">metal, gold, mineral</td><td class="column-5">かね</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-262">
+                    <td class="column-1">8</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">metal, gold, mineral</td><td class="column-5">かねへん</td><td class="column-6">⾦<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-263">
+                    <td class="column-1">8</td><td class="column-2">⻑</td><td class="column-3"></td><td class="column-4">long</td><td class="column-5">ながい</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-264">
+                    <td class="column-1">8</td><td class="column-2">⾨</td><td class="column-3"><img style="box-shadow: none;" alt="もんがまえ Radical which encloses the kanji" title="もんがまえ Radical which encloses the kanji" src="radical-positions/mongamae.svg"></td><td class="column-4">gate, door</td><td class="column-5">もんがまえ</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-265">
+                    <td class="column-1">8</td><td class="column-2">⾩</td><td class="column-3"></td><td class="column-4">hill</td><td class="column-5">こざと</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-266">
+                    <td class="column-1">8</td><td class="column-2">⾪</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">to capture</td><td class="column-5">れいづくり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-267">
+                    <td class="column-1">8</td><td class="column-2">⾫</td><td class="column-3"></td><td class="column-4">small bird</td><td class="column-5">ふるとり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-268">
+                    <td class="column-1">8</td><td class="column-2">⾬</td><td class="column-3"></td><td class="column-4">rain</td><td class="column-5">あめ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-269">
+                    <td class="column-1">8</td><td class="column-2">⻗</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">rain</td><td class="column-5">あめかんむり</td><td class="column-6">⾬<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-270">
+                    <td class="column-1">8</td><td class="column-2">⾭</td><td class="column-3"></td><td class="column-4">blue, green</td><td class="column-5">あお</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-271">
+                    <td class="column-1">8</td><td class="column-2">⻘</td><td class="column-3"></td><td class="column-4">blue, green</td><td class="column-5">あお</td><td class="column-6">⾭</td><td class="column-7"></td>
+                </tr><tr class="row-272">
+                    <td class="column-1">8</td><td class="column-2">⾮</td><td class="column-3"></td><td class="column-4">wrong, non-</td><td class="column-5">あらず</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-273">
+                    <td class="column-1">8</td><td class="column-2">⻟</td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">food, to eat</td><td class="column-5">しょくへん</td><td class="column-6">⾷</td><td class="column-7"></td>
+                </tr><tr class="row-274">
+                    <td class="column-1">8</td><td class="column-2">⻫</td><td class="column-3"></td><td class="column-4">alike</td><td class="column-5">せい</td><td class="column-6">⿑</td><td class="column-7"></td>
+                </tr><tr class="row-275">
+                    <td class="column-1">9</td><td class="column-2">⾯</td><td class="column-3"></td><td class="column-4">face, surface</td><td class="column-5">めん</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-276">
+                    <td class="column-1">9</td><td class="column-2">⾰</td><td class="column-3"></td><td class="column-4">leather</td><td class="column-5">つくりがわ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-277">
+                    <td class="column-1">9</td><td class="column-2"></td><td class="column-3"></td><td class="column-4">leather</td><td class="column-5">なめしがわ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-278">
+                    <td class="column-1">9</td><td class="column-2">⾲</td><td class="column-3"></td><td class="column-4">leek</td><td class="column-5">にら</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-279">
+                    <td class="column-1">9</td><td class="column-2">⾳</td><td class="column-3"></td><td class="column-4">sound, noise</td><td class="column-5">おと</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-280">
+                    <td class="column-1">9</td><td class="column-2">⾴</td><td class="column-3"><img style="box-shadow: none;" alt="つくり Radical on the right" title="つくり Radical on the right" src="radical-positions/tsukuri.svg"></td><td class="column-4">head, page</td><td class="column-5">おおがい</td><td class="column-6"><span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-281">
+                    <td class="column-1">9</td><td class="column-2">⾵</td><td class="column-3"></td><td class="column-4">wind</td><td class="column-5">かぜ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-282">
+                    <td class="column-1">9</td><td class="column-2">⾶</td><td class="column-3"></td><td class="column-4">to fly</td><td class="column-5">とぶ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-283">
+                    <td class="column-1">9</td><td class="column-2">⾷</td><td class="column-3"></td><td class="column-4">food, to eat</td><td class="column-5">しょく</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-284">
+                    <td class="column-1">9</td><td class="column-2">⾸</td><td class="column-3"></td><td class="column-4">head</td><td class="column-5">くび</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-285">
+                    <td class="column-1">9</td><td class="column-2">⾹</td><td class="column-3"></td><td class="column-4">scent</td><td class="column-5">かおり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-286">
+                    <td class="column-1">10</td><td class="column-2">⾺</td><td class="column-3"></td><td class="column-4">horse</td><td class="column-5">うま</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-287">
+                    <td class="column-1">10</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">horse</td><td class="column-5">うまへん</td><td class="column-6">⾺</td><td class="column-7"></td>
+                </tr><tr class="row-288">
+                    <td class="column-1">10</td><td class="column-2">⾻</td><td class="column-3"></td><td class="column-4">bone</td><td class="column-5">ほね</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-289">
+                    <td class="column-1">10</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">bone</td><td class="column-5">ほねへん</td><td class="column-6">⾻</td><td class="column-7"></td>
+                </tr><tr class="row-290">
+                    <td class="column-1">10</td><td class="column-2">⾼</td><td class="column-3"></td><td class="column-4">high</td><td class="column-5">たかい</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-291">
+                    <td class="column-1">10</td><td class="column-2">⾽</td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">long hair</td><td class="column-5">かみかんむり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-292">
+                    <td class="column-1">10</td><td class="column-2">⾾</td><td class="column-3"><img style="box-shadow: none;" alt="もんがまえ Radical which encloses the kanji" title="もんがまえ Radical which encloses the kanji" src="radical-positions/mongamae.svg"></td><td class="column-4">fighting</td><td class="column-5">たたかいがまえ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-293">
+                    <td class="column-1">10</td><td class="column-2">⾿</td><td class="column-3"></td><td class="column-4">herbs</td><td class="column-5">においざけ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-294">
+                    <td class="column-1">10</td><td class="column-2">⿀</td><td class="column-3"></td><td class="column-4">tripod</td><td class="column-5">れき</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-295">
+                    <td class="column-1">10</td><td class="column-2">⿁</td><td class="column-3"></td><td class="column-4">demon</td><td class="column-5">おに</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-296">
+                    <td class="column-1">10</td><td class="column-2">⾱</td><td class="column-3"></td><td class="column-4">leather</td><td class="column-5">なめしがわ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-297">
+                    <td class="column-1">11</td><td class="column-2">⿂</td><td class="column-3"></td><td class="column-4">fish</td><td class="column-5">うお</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-298">
+                    <td class="column-1">11</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="へん Radical on the left" title="へん Radical on the left" src="radical-positions/hen.svg"></td><td class="column-4">fish</td><td class="column-5">うおへん</td><td class="column-6">⿂<span class="Important"></span></td><td class="column-7">Yes</td>
+                </tr><tr class="row-299">
+                    <td class="column-1">11</td><td class="column-2">⿃</td><td class="column-3"></td><td class="column-4">bird</td><td class="column-5">とり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-300">
+                    <td class="column-1">11</td><td class="column-2">⿄</td><td class="column-3"></td><td class="column-4">salt</td><td class="column-5">しお</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-301">
+                    <td class="column-1">11</td><td class="column-2">⿅</td><td class="column-3"></td><td class="column-4">deer</td><td class="column-5">しか</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-302">
+                    <td class="column-1">11</td><td class="column-2">⿆</td><td class="column-3"></td><td class="column-4">wheat</td><td class="column-5">むぎ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-303">
+                    <td class="column-1">11</td><td class="column-2">⿇</td><td class="column-3"></td><td class="column-4">hemp</td><td class="column-5">あさ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-304">
+                    <td class="column-1">11</td><td class="column-2"></td><td class="column-3"><img style="box-shadow: none;" alt="かんむり Radical on the top" title="かんむり Radical on the top" src="radical-positions/kanmuri.svg"></td><td class="column-4">hemp</td><td class="column-5">あさかんむり</td><td class="column-6">⿇</td><td class="column-7"></td>
+                </tr><tr class="row-305">
+                    <td class="column-1">11</td><td class="column-2">⻩</td><td class="column-3"></td><td class="column-4">yellow</td><td class="column-5">き</td><td class="column-6">⿈</td><td class="column-7"></td>
+                </tr><tr class="row-306">
+                    <td class="column-1">11</td><td class="column-2">黒</td><td class="column-3"></td><td class="column-4">black</td><td class="column-5">くろ</td><td class="column-6">⿊</td><td class="column-7"></td>
+                </tr><tr class="row-307">
+                    <td class="column-1">11</td><td class="column-2">⻲</td><td class="column-3"></td><td class="column-4">turtle</td><td class="column-5">かめ</td><td class="column-6">⿔</td><td class="column-7"></td>
+                </tr><tr class="row-308">
+                    <td class="column-1">12</td><td class="column-2">⿈</td><td class="column-3"></td><td class="column-4">yellow</td><td class="column-5">き</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-309">
+                    <td class="column-1">12</td><td class="column-2">⿉</td><td class="column-3"></td><td class="column-4">millet</td><td class="column-5">きび</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-310">
+                    <td class="column-1">12</td><td class="column-2">⿊</td><td class="column-3"></td><td class="column-4">black</td><td class="column-5">くろ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-311">
+                    <td class="column-1">12</td><td class="column-2">⿋</td><td class="column-3"></td><td class="column-4">embroider</td><td class="column-5">ぬいとり</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-312">
+                    <td class="column-1">12</td><td class="column-2">⻭</td><td class="column-3"></td><td class="column-4">tooth</td><td class="column-5">は</td><td class="column-6">⿒</td><td class="column-7"></td>
+                </tr><tr class="row-313">
+                    <td class="column-1">13</td><td class="column-2">⿌</td><td class="column-3"></td><td class="column-4">frog</td><td class="column-5">かえる</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-314">
+                    <td class="column-1">13</td><td class="column-2">⿍</td><td class="column-3"></td><td class="column-4">tripod</td><td class="column-5">かなえ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-315">
+                    <td class="column-1">13</td><td class="column-2">⿎</td><td class="column-3"></td><td class="column-4">drum</td><td class="column-5">つづみ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-316">
+                    <td class="column-1">13</td><td class="column-2">⿏</td><td class="column-3"></td><td class="column-4">rat, mouse</td><td class="column-5">ねずみ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-317">
+                    <td class="column-1">14</td><td class="column-2">⿐</td><td class="column-3"></td><td class="column-4">nose</td><td class="column-5">はな</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-318">
+                    <td class="column-1">14</td><td class="column-2">⿑</td><td class="column-3"></td><td class="column-4">alike</td><td class="column-5">せい</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-319">
+                    <td class="column-1">15</td><td class="column-2">⿒</td><td class="column-3"></td><td class="column-4">tooth</td><td class="column-5">は</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-320">
+                    <td class="column-1">16</td><td class="column-2">⿓</td><td class="column-3"></td><td class="column-4">dragon</td><td class="column-5">りゅう</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-321">
+                    <td class="column-1">16</td><td class="column-2">⿔</td><td class="column-3"></td><td class="column-4">turtle</td><td class="column-5">かめ</td><td class="column-6"></td><td class="column-7"></td>
+                </tr><tr class="row-322">
+                    <td class="column-1">17</td><td class="column-2">⿕</td><td class="column-3"></td><td class="column-4">flute</td><td class="column-5">やく</td><td class="column-6"></td><td class="column-7"></td>
+                </tr></tbody>
+        </table>
+    </body>
+</html>
