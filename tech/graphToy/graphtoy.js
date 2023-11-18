@@ -884,7 +884,7 @@ function Grapher() {
       if (i == 4) uiFormula.value = "(t + floor(x-t))/2 - 5";
       if (i == 5) uiFormula.value = "sin(f5(x,t)) - 5";
       me.newFormula(i + 1);
-      iSetVisibility(i + 1, i != 4);
+      iSetVisibility(i + 1, true);
     }
     iResetCoords();
     if (mPaused) iDraw();
@@ -918,7 +918,7 @@ function Grapher() {
       if (i == 4) uiFormula.value = "-5";
       if (i == 5) uiFormula.value = "0";
       me.newFormula(i + 1);
-      iSetVisibility(i + 1, i != 5);
+      iSetVisibility(i + 1, true);
     }
     iResetCoords();
     if (mPaused) iDraw();
