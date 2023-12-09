@@ -1285,9 +1285,6 @@
               });
             }
 
-            const newHeight = svgHeaderValues.reduce((cum, cur) => {
-              return cum + cur.height + cur.vertAlign * -1;
-            }, 0);
             const newvbX = Math.max(...svgHeaderValues.map((v) => v.viewBox.x));
             const newvbY = svgHeaderValues.reduce((cum, cur) => {
               return cum + cur.viewBox.y;
@@ -1306,7 +1303,8 @@
             }
 
             svgHeaderMatches[0] = svgHeaderMatches[0]
-              .replace(regHeight, 'height="' + newHeight + 'ex"')
+              .replace(regHeight, 'height="90%"')
+              .replace(regWidth, 'width="90%"')
               .replace(
                 regViewBox,
                 'viewBox="' +
