@@ -41,7 +41,7 @@
     ></script>
     <style type="text/css">
       body {
-        background-color: #c0c0c0;
+        background-color: #979797;
       }
       #source,
       #output {
@@ -71,15 +71,12 @@
         text-align: left;
         margin-right: 5px;
       }
-      caption {
-        font-weight: bold;
-        border-top: 0px black solid;
-        border-left: 0px black solid;
-        border-right: 0px black solid;
-        text-align: left;
-      }
       table {
         width: 100%;
+      }
+      h4 + table,
+      .about {
+        background-color: #cccccc;
       }
       .lcolumn table {
         width: 99%;
@@ -92,10 +89,12 @@
       th {
         font-weight: normal;
         text-decoration: underline;
+        text-align: left;
       }
       code {
         background-color: #fdefb2;
         border: 1px #aaaaaa solid;
+        padding: 2px;
       }
       button {
         background-color: #cccccc;
@@ -105,22 +104,22 @@
         background-color: #eeeeee;
         cursor: pointer;
       }
-      #copyBtn {
-        margin-top: 5px;
-        margin-bottom: 3px;
-      }
       .about {
         border: 1px black solid;
         margin-right: 5px;
         padding: 3px;
         margin-bottom: 5px;
       }
+      h4 {
+        margin-bottom: 0px;
+        margin-top: 5px;
+      }
     </style>
   </head>
   <body>
     <div class="row">
       <div class="lcolumn">
-        <b>Input</b><br />
+        <h4>Input</h4>
         <textarea
           id="source"
           placeholder="Type asciimath formula here..."
@@ -128,11 +127,11 @@
         ></textarea>
       </div>
       <div class="rcolumn">
-        <b>Output</b><br />
+        <h4>Output</h4>
         <div id="output"></div>
       </div>
     </div>
-    <br />
+    <div class="row"><br /><br /></div>
     <div class="row">
       <div>
         <button id="copyBtn">Copy Editor Link</button>
@@ -142,10 +141,8 @@
     </div>
     <div class="row">
       <div class="lcolumn">
+        <h4>Special Cases</h4>
         <table cellpadding="0" cellspacing="0" class="help">
-          <caption>
-            Special Cases
-          </caption>
           <tbody>
             <tr>
               <td>
@@ -197,9 +194,245 @@
             </tr>
           </tbody>
         </table>
+        <h4>Logical Symbols</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>TeX alt</th>
+              <th>See</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>and</code></td>
+              <td></td>
+              <td>`and`</td>
+            </tr>
+            <tr>
+              <td><code>or</code></td>
+              <td></td>
+              <td>`or`</td>
+            </tr>
+            <tr>
+              <td><code>not</code></td>
+              <td>neg</td>
+              <td>`not`</td>
+            </tr>
+            <tr>
+              <td><code>=&gt;</code></td>
+              <td>implies</td>
+              <td>`=&gt;`</td>
+            </tr>
+            <tr>
+              <td><code>if</code></td>
+              <td></td>
+              <td>`if`</td>
+            </tr>
+            <tr>
+              <td><code>&lt;=&gt;</code></td>
+              <td>iff</td>
+              <td>`iff`</td>
+            </tr>
+            <tr>
+              <td><code>AA</code></td>
+              <td>forall</td>
+              <td>`AA`</td>
+            </tr>
+            <tr>
+              <td><code>EE</code></td>
+              <td>exists</td>
+              <td>`EE`</td>
+            </tr>
+            <tr>
+              <td><code>_|_</code></td>
+              <td>bot</td>
+              <td>`_|_`</td>
+            </tr>
+            <tr>
+              <td><code>TT</code></td>
+              <td>top</td>
+              <td>`TT`</td>
+            </tr>
+            <tr>
+              <td><code>|--</code></td>
+              <td>vdash</td>
+              <td>`|--`</td>
+            </tr>
+            <tr>
+              <td><code>|==</code></td>
+              <td>models</td>
+              <td>`|==`</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Relation Symbols</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>TeX alt</th>
+              <th>See</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>=</code></td>
+              <td></td>
+              <td>`=`</td>
+            </tr>
+            <tr>
+              <td><code>!=</code></td>
+              <td>ne</td>
+              <td>`!=`</td>
+            </tr>
+            <tr>
+              <td><code>&lt;</code></td>
+              <td>lt</td>
+              <td>`&lt;`</td>
+            </tr>
+            <tr>
+              <td><code>&gt;</code></td>
+              <td>gt</td>
+              <td>`&gt;`</td>
+            </tr>
+            <tr>
+              <td><code>&lt;=</code></td>
+              <td>le</td>
+              <td>`&lt;=`</td>
+            </tr>
+            <tr>
+              <td><code>&gt;=</code></td>
+              <td>ge</td>
+              <td>`&gt;=`</td>
+            </tr>
+            <tr>
+              <td><code>mlt</code></td>
+              <td>ll</td>
+              <td>`mlt`</td>
+            </tr>
+            <tr>
+              <td><code>mgt</code></td>
+              <td>gg</td>
+              <td>`mgt`</td>
+            </tr>
+            <tr>
+              <td><code>-&lt;</code></td>
+              <td>prec</td>
+              <td>`-&lt;`</td>
+            </tr>
+            <tr>
+              <td><code>-&lt;=</code></td>
+              <td>preceq</td>
+              <td>`-&lt;=`</td>
+            </tr>
+            <tr>
+              <td><code>&gt;-</code></td>
+              <td>succ</td>
+              <td>`&gt;-`</td>
+            </tr>
+            <tr>
+              <td><code>&gt;-=</code></td>
+              <td>succeq</td>
+              <td>`&gt;-=`</td>
+            </tr>
+            <tr>
+              <td><code>in</code></td>
+              <td></td>
+              <td>`in`</td>
+            </tr>
+            <tr>
+              <td><code>!in</code></td>
+              <td>notin</td>
+              <td>`!in`</td>
+            </tr>
+            <tr>
+              <td><code>sub</code></td>
+              <td>subset</td>
+              <td>`sub`</td>
+            </tr>
+            <tr>
+              <td><code>sup</code></td>
+              <td>supset</td>
+              <td>`sup`</td>
+            </tr>
+            <tr>
+              <td><code>sube</code></td>
+              <td>subseteq</td>
+              <td>`sube`</td>
+            </tr>
+            <tr>
+              <td><code>supe</code></td>
+              <td>supseteq</td>
+              <td>`supe`</td>
+            </tr>
+            <tr>
+              <td><code>-=</code></td>
+              <td>equiv</td>
+              <td>`-=`</td>
+            </tr>
+            <tr>
+              <td><code>~=</code></td>
+              <td>cong</td>
+              <td>`~=`</td>
+            </tr>
+            <tr>
+              <td><code>~~</code></td>
+              <td>approx</td>
+              <td>`~~`</td>
+            </tr>
+            <tr>
+              <td><code>prop</code></td>
+              <td>propto</td>
+              <td>`prop`</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Font Commands</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>TeX alt</th>
+              <th>See</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>bb "AaBbCc"</code></td>
+              <td>mathbf "AaBbCc"</td>
+              <td>`bb "AaBbCc"`</td>
+            </tr>
+            <tr>
+              <td><code>bbb "AaBbCc"</code></td>
+              <td>mathbb "AaBbCc"</td>
+              <td>`bbb "AaBbCc"`</td>
+            </tr>
+            <tr>
+              <td><code>cc "AaBbCc"</code></td>
+              <td>mathcal "AaBbCc"</td>
+              <td>`cc "AaBbCc"`</td>
+            </tr>
+            <tr>
+              <td><code>tt "AaBbCc"</code></td>
+              <td>mathtt "AaBbCc"</td>
+              <td>`tt "AaBbCc"`</td>
+            </tr>
+            <tr>
+              <td><code>fr "AaBbCc"</code></td>
+              <td>mathfrak "AaBbCc"</td>
+              <td>`fr "AaBbCc"`</td>
+            </tr>
+            <tr>
+              <td><code>sf "AaBbCc"</code></td>
+              <td>mathsf "AaBbCc"</td>
+              <td>`sf "AaBbCc"`</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="rcolumn">
-        <b>About</b>
+        <h4>About</h4>
         <div class="about">
           This tool is backed by both
           <a href="http://asciimath.org/">AsciiMath</a> and
@@ -215,10 +448,8 @@
             <td>
               <div class="row">
                 <div class="rcolumn2">
+                  <h4>Operation Symbols</h4>
                   <table>
-                    <caption>
-                      Operation symbols
-                    </caption>
                     <thead>
                       <tr>
                         <th>Type</th>
@@ -359,10 +590,8 @@
                       </tr>
                     </tbody>
                   </table>
+                  <h4>Greek Letters</h4>
                   <table>
-                    <caption>
-                      Greek Letters
-                    </caption>
                     <thead>
                       <tr>
                         <th>Type</th>
@@ -499,10 +728,8 @@
                       </tr>
                     </tbody>
                   </table>
+                  <h4>Accents</h4>
                   <table>
-                    <caption>
-                      Logical symbols
-                    </caption>
                     <thead>
                       <tr>
                         <th>Type</th>
@@ -512,197 +739,76 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td><code>and</code></td>
+                        <td><code>hat x</code></td>
                         <td></td>
-                        <td>`and`</td>
+                        <td>`hat x`</td>
                       </tr>
                       <tr>
-                        <td><code>or</code></td>
+                        <td><code>bar x</code></td>
+                        <td>overline x</td>
+                        <td>`bar x`</td>
+                      </tr>
+                      <tr>
+                        <td><code>ul x</code></td>
+                        <td>underline x</td>
+                        <td>`ul x`</td>
+                      </tr>
+                      <tr>
+                        <td><code>vec x</code></td>
                         <td></td>
-                        <td>`or`</td>
+                        <td>`vec x`</td>
                       </tr>
                       <tr>
-                        <td><code>not</code></td>
-                        <td>neg</td>
-                        <td>`not`</td>
-                      </tr>
-                      <tr>
-                        <td><code>=&gt;</code></td>
-                        <td>implies</td>
-                        <td>`=&gt;`</td>
-                      </tr>
-                      <tr>
-                        <td><code>if</code></td>
+                        <td><code>tilde x</code></td>
                         <td></td>
-                        <td>`if`</td>
+                        <td>`tilde x`</td>
                       </tr>
                       <tr>
-                        <td><code>&lt;=&gt;</code></td>
-                        <td>iff</td>
-                        <td>`iff`</td>
-                      </tr>
-                      <tr>
-                        <td><code>AA</code></td>
-                        <td>forall</td>
-                        <td>`AA`</td>
-                      </tr>
-                      <tr>
-                        <td><code>EE</code></td>
-                        <td>exists</td>
-                        <td>`EE`</td>
-                      </tr>
-                      <tr>
-                        <td><code>_|_</code></td>
-                        <td>bot</td>
-                        <td>`_|_`</td>
-                      </tr>
-                      <tr>
-                        <td><code>TT</code></td>
-                        <td>top</td>
-                        <td>`TT`</td>
-                      </tr>
-                      <tr>
-                        <td><code>|--</code></td>
-                        <td>vdash</td>
-                        <td>`|--`</td>
-                      </tr>
-                      <tr>
-                        <td><code>|==</code></td>
-                        <td>models</td>
-                        <td>`|==`</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <table>
-                    <caption>
-                      Relation symbols
-                    </caption>
-                    <thead>
-                      <tr>
-                        <th>Type</th>
-                        <th>TeX alt</th>
-                        <th>See</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><code>=</code></td>
+                        <td><code>dot x</code></td>
                         <td></td>
-                        <td>`=`</td>
+                        <td>`dot x`</td>
                       </tr>
                       <tr>
-                        <td><code>!=</code></td>
-                        <td>ne</td>
-                        <td>`!=`</td>
-                      </tr>
-                      <tr>
-                        <td><code>&lt;</code></td>
-                        <td>lt</td>
-                        <td>`&lt;`</td>
-                      </tr>
-                      <tr>
-                        <td><code>&gt;</code></td>
-                        <td>gt</td>
-                        <td>`&gt;`</td>
-                      </tr>
-                      <tr>
-                        <td><code>&lt;=</code></td>
-                        <td>le</td>
-                        <td>`&lt;=`</td>
-                      </tr>
-                      <tr>
-                        <td><code>&gt;=</code></td>
-                        <td>ge</td>
-                        <td>`&gt;=`</td>
-                      </tr>
-                      <tr>
-                        <td><code>mlt</code></td>
-                        <td>ll</td>
-                        <td>`mlt`</td>
-                      </tr>
-                      <tr>
-                        <td><code>mgt</code></td>
-                        <td>gg</td>
-                        <td>`mgt`</td>
-                      </tr>
-                      <tr>
-                        <td><code>-&lt;</code></td>
-                        <td>prec</td>
-                        <td>`-&lt;`</td>
-                      </tr>
-                      <tr>
-                        <td><code>-&lt;=</code></td>
-                        <td>preceq</td>
-                        <td>`-&lt;=`</td>
-                      </tr>
-                      <tr>
-                        <td><code>&gt;-</code></td>
-                        <td>succ</td>
-                        <td>`&gt;-`</td>
-                      </tr>
-                      <tr>
-                        <td><code>&gt;-=</code></td>
-                        <td>succeq</td>
-                        <td>`&gt;-=`</td>
-                      </tr>
-                      <tr>
-                        <td><code>in</code></td>
+                        <td><code>ddot x</code></td>
                         <td></td>
-                        <td>`in`</td>
+                        <td>`ddot x`</td>
                       </tr>
                       <tr>
-                        <td><code>!in</code></td>
-                        <td>notin</td>
-                        <td>`!in`</td>
+                        <td><code>overset(x)(=)</code></td>
+                        <td>overset(x)(=)</td>
+                        <td>`overset(x)(=)`</td>
                       </tr>
                       <tr>
-                        <td><code>sub</code></td>
-                        <td>subset</td>
-                        <td>`sub`</td>
+                        <td><code>underset(x)(=)</code></td>
+                        <td></td>
+                        <td>`underset(x)(=)`</td>
                       </tr>
                       <tr>
-                        <td><code>sup</code></td>
-                        <td>supset</td>
-                        <td>`sup`</td>
+                        <td><code>ubrace(1+2)</code></td>
+                        <td>underbrace(1+2)</td>
+                        <td>`ubrace(1+2)`</td>
                       </tr>
                       <tr>
-                        <td><code>sube</code></td>
-                        <td>subseteq</td>
-                        <td>`sube`</td>
+                        <td><code>obrace(1+2)</code></td>
+                        <td>overbrace(1+2)</td>
+                        <td>`obrace(1+2)`</td>
                       </tr>
                       <tr>
-                        <td><code>supe</code></td>
-                        <td>supseteq</td>
-                        <td>`supe`</td>
+                        <td><code>color(red)(x)</code></td>
+                        <td></td>
+                        <td>`color(red)(x)`</td>
                       </tr>
                       <tr>
-                        <td><code>-=</code></td>
-                        <td>equiv</td>
-                        <td>`-=`</td>
-                      </tr>
-                      <tr>
-                        <td><code>~=</code></td>
-                        <td>cong</td>
-                        <td>`~=`</td>
-                      </tr>
-                      <tr>
-                        <td><code>~~</code></td>
-                        <td>approx</td>
-                        <td>`~~`</td>
-                      </tr>
-                      <tr>
-                        <td><code>prop</code></td>
-                        <td>propto</td>
-                        <td>`prop`</td>
+                        <td><code>cancel(x)</code></td>
+                        <td></td>
+                        <td>`cancel(x)`</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
                 <div class="rcolumn2">
+                  <h4>Miscellaneous Symbols</h4>
                   <table>
-                    <caption>
-                      Miscellaneous symbols
-                    </caption>
                     <thead>
                       <tr>
                         <th>Type</th>
@@ -888,10 +994,8 @@
                       </tr>
                     </tbody>
                   </table>
+                  <h4>Grouping Brackets</h4>
                   <table>
-                    <caption>
-                      Grouping brackets
-                    </caption>
                     <thead>
                       <tr>
                         <th>Type</th>
@@ -982,10 +1086,8 @@
                       </tr>
                     </tbody>
                   </table>
+                  <h4>Arrows</h4>
                   <table>
-                    <caption>
-                      Arrows
-                    </caption>
                     <thead>
                       <tr>
                         <th>Type</th>
@@ -1058,129 +1160,6 @@
                         <td><code>hArr</code></td>
                         <td>Leftrightarrow</td>
                         <td>`hArr`</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <table>
-                    <caption>
-                      Accents
-                    </caption>
-                    <thead>
-                      <tr>
-                        <th>Type</th>
-                        <th>TeX alt</th>
-                        <th>See</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><code>hat x</code></td>
-                        <td></td>
-                        <td>`hat x`</td>
-                      </tr>
-                      <tr>
-                        <td><code>bar x</code></td>
-                        <td>overline x</td>
-                        <td>`bar x`</td>
-                      </tr>
-                      <tr>
-                        <td><code>ul x</code></td>
-                        <td>underline x</td>
-                        <td>`ul x`</td>
-                      </tr>
-                      <tr>
-                        <td><code>vec x</code></td>
-                        <td></td>
-                        <td>`vec x`</td>
-                      </tr>
-                      <tr>
-                        <td><code>tilde x</code></td>
-                        <td></td>
-                        <td>`tilde x`</td>
-                      </tr>
-                      <tr>
-                        <td><code>dot x</code></td>
-                        <td></td>
-                        <td>`dot x`</td>
-                      </tr>
-                      <tr>
-                        <td><code>ddot x</code></td>
-                        <td></td>
-                        <td>`ddot x`</td>
-                      </tr>
-                      <tr>
-                        <td><code>overset(x)(=)</code></td>
-                        <td>overset(x)(=)</td>
-                        <td>`overset(x)(=)`</td>
-                      </tr>
-                      <tr>
-                        <td><code>underset(x)(=)</code></td>
-                        <td></td>
-                        <td>`underset(x)(=)`</td>
-                      </tr>
-                      <tr>
-                        <td><code>ubrace(1+2)</code></td>
-                        <td>underbrace(1+2)</td>
-                        <td>`ubrace(1+2)`</td>
-                      </tr>
-                      <tr>
-                        <td><code>obrace(1+2)</code></td>
-                        <td>overbrace(1+2)</td>
-                        <td>`obrace(1+2)`</td>
-                      </tr>
-                      <tr>
-                        <td><code>color(red)(x)</code></td>
-                        <td></td>
-                        <td>`color(red)(x)`</td>
-                      </tr>
-                      <tr>
-                        <td><code>cancel(x)</code></td>
-                        <td></td>
-                        <td>`cancel(x)`</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <table>
-                    <caption>
-                      Font commands
-                    </caption>
-                    <thead>
-                      <tr>
-                        <th>Type</th>
-                        <th>TeX alt</th>
-                        <th>See</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><code>bb "AaBbCc"</code></td>
-                        <td>mathbf "AaBbCc"</td>
-                        <td>`bb "AaBbCc"`</td>
-                      </tr>
-                      <tr>
-                        <td><code>bbb "AaBbCc"</code></td>
-                        <td>mathbb "AaBbCc"</td>
-                        <td>`bbb "AaBbCc"`</td>
-                      </tr>
-                      <tr>
-                        <td><code>cc "AaBbCc"</code></td>
-                        <td>mathcal "AaBbCc"</td>
-                        <td>`cc "AaBbCc"`</td>
-                      </tr>
-                      <tr>
-                        <td><code>tt "AaBbCc"</code></td>
-                        <td>mathtt "AaBbCc"</td>
-                        <td>`tt "AaBbCc"`</td>
-                      </tr>
-                      <tr>
-                        <td><code>fr "AaBbCc"</code></td>
-                        <td>mathfrak "AaBbCc"</td>
-                        <td>`fr "AaBbCc"`</td>
-                      </tr>
-                      <tr>
-                        <td><code>sf "AaBbCc"</code></td>
-                        <td>mathsf "AaBbCc"</td>
-                        <td>`sf "AaBbCc"`</td>
                       </tr>
                     </tbody>
                   </table>
