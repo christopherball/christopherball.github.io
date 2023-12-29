@@ -1,49 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Christopher Ball's Github Portfolio</title>
-  </head>
-  <body>
-    <h2>Purpose</h2>
-    This page serves as a landing zone for easy access to some of my personal programming projects and tool ports.  If you're in search of my source code, start here: <a href="https://github.com/christopherball">https://github.com/christopherball</a>. If you don't see the code repository you might be looking for, it's likely sitting in a private repository for the time being. <br><br>
-    
-    LinkedIn: <a href="https://www.linkedin.com/in/christopherball">https://www.linkedin.com/in/christopherball</a>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Christopher Ball's Github Portfolio</title>
+    </head>
+    <style>
+        body {
+            background-color: rgb(41, 41, 41);
+            color: rgb(217, 217, 217);
+        }
 
-    <h2>Data Science</h2>
-    <a href="/datascience/titanic/titanic.nb.html">Titanic Survivor Analysis</a><br>
-    This project was directly inspired by the ongoing Titanic competition at Kaggle.com.  It was my first dive into both R as well as classification ML, resulting in approximately 79% accuracy for predicting which people would live and die on the Titanic, resulting in a placement in the top 10% of current participants (~17,000).  Keep in mind this project, which was used for learning, apparently has the "answers" out there somewhere so the leaderboards for this competition aren't particularly meaningful.  This was a great learning experience nevertheless.<br>
+        a {
+            color: yellow;
+            text-decoration: none;
+        }
 
-    <h2>Mathematics</h2>
-    <a href="/math/asciiMath">AsciiMath Tool</a><br>
-    This tool makes it possible to cleanly produce LaTex-like math formulas by leveraging two JavaScript libraries: AsciiMath, and MathJax. This project was a combination of a tool port and core functional enhancement effort, whereby I re-wrote my own version of the asciiMath demo site, added enhanced support for multi-line SVG output, as well as the ability to directly share links to your rendered math formulas.<br><br>
+        a:hover {
+            color: rgba(255, 255, 0, 0.507);
+        }
+    </style>
+    <body>
+        <h2>Purpose</h2>
+        This page serves as a deployment space for easy access to some of my
+        personal programming projects and tool ports. If you're in search of my
+        github details,
+        <a href="https://github.com/christopherball">go here</a>.
 
-    <a href="/math/mathFormulas/mathFormulas.nb.html">Math Formulas Explained</a><br>
-    This project is on-going and highlights in my own words (although I may reference diagrams where helpful), in-depth analysis of math formulas, often times specific to data-science (primarily of the statistical nature).  The goal here is to breakdown and truly understand common math formulas.  So in the case of statistics, examples might include RMSE and Adjusted R-Squared for example.
-  
-    <h2>Linguistics</h2>
-    <a href="/linguistics/mr-kanji-search-wtk">Kanji Reverse Lookup</a><br>
-    This is a straight tool port of a highly useful search tool for reverse-looking up Kanji by their containing parts (radicals in the case of Wanikani, primitives in the case of Remembering the Kanji by James Heisig).<br><br>
+        <h2>Data Science</h2>
+        <a href="/datascience/titanic/titanic.nb.html"
+            >Titanic Survivor Analysis</a
+        ><br />
+        This project is directly inspired by the ongoing Titanic competition at
+        Kaggle.com. It was my first dive into both R as well as classification
+        ML, resulting in approximately 79% accuracy for predicting which people
+        would live and die on the Titanic, resulting in a placement in the top
+        10% of current participants (~17,000). Keep in mind this project, which
+        was used for learning, apparently has the "answers" out there somewhere
+        so the leaderboards for this competition aren't particularly meaningful.
+        This was a great learning experience nevertheless.<br />
 
-    <a href="/linguistics/kanjiRadicalExplorer">Kanji Radical Explorer</a><br>
-    This is a simplified comprehensive representation of all classic Kanji radicals, based on KanjiAlive's open sourced data.  Of special note here is the content within this table uses a custom font specifically built to natively render kanji sub-components that don't necessarily get first-class treatment as standard radicals (but are in fact variants of standard radicals).
+        <h2>Mathematics</h2>
+        <a href="/math/asciiMath">AsciiMath Tool</a><br />
+        This tool makes it possible to cleanly produce LaTex-like math formulas
+        by leveraging two JavaScript libraries: AsciiMath, and MathJax. This
+        project includes several core functional enhancements I wrote on top of
+        the base libraries, including my own version of the asciiMath demo site,
+        added enhanced support for multi-line SVG output, as well as the ability
+        to directly share links to your rendered math formulas.<br /><br />
 
-    <h2>Music</h2>
-    <a href="/music/vexTab">VexTab Music Notation Editor</a><br>
-    This tool port makes it possible to produce clean standard music notation paired with guitar tablature using a <a href="http://vexflow.com/vextab/tutorial.html">proprietary language</a>.<br>
+        <a href="/math/mathFormulas/mathFormulas.nb.html"
+            >Math Formulas Explained</a
+        ><br />
+        This project is on-going and highlights in my own words (although I may
+        reference diagrams where helpful), in-depth analysis of math formulas,
+        often times specific to data-science (primarily of the statistical
+        nature). The goal here is to breakdown and truly understand common math
+        formulas. So in the case of statistics, examples might include RMSE and
+        Adjusted R-Squared for example.
 
-    <h2>Tech</h2>
-    <a href="https://github.com/christopherball/dataStructuresJS">Data Structures JS</a><br>
-    Built some common programming data structures using pure EcmaScript6 and NodeJS.  Coverage includes binary search trees, doubly linked lists, hash tables, queues and stacks.<br><br>
+        <h2>Linguistics</h2>
+        <a href="/linguistics/mr-kanji-search-wtk">Kanji Reverse Lookup</a
+        ><br />
+        This is a straight tool port of a highly useful search tool for
+        reverse-looking up Kanji by their containing parts (radicals in the case
+        of Wanikani, primitives in the case of Remembering the Kanji by James
+        Heisig).<br /><br />
 
-    <a href="https://christopherball.github.io/tech/sequenceDiagram/">Sequence Diagram Editor</a><br>
-    This is a straight tool port, brought over with the sole intention of preserving a working copy, as it's a very helpful diagramming tool for design work that I use all the time.<br><br>
+        <a href="/linguistics/kanjiRadicalExplorer">Kanji Radical Explorer</a
+        ><br />
+        This is a simplified comprehensive representation of all classic Kanji
+        radicals, based on KanjiAlive's open sourced data. Of special note here
+        is the content within this table uses a custom font specifically built
+        to natively render kanji sub-components that don't necessarily get
+        first-class treatment as standard radicals (but are in fact variants of
+        standard radicals).
 
-    <a href="https://christopherball.github.io/tech/steganography/">Steganography</a><br>
-    This is a straight tool port of an old JavaScript-based image steganography tool. It not only hides data randomly across the image, but applies encryption before doing so.<br><br>
+        <h2>Tech</h2>
+        <a href="https://christopherball.github.io/tech/sequenceDiagram/"
+            >Sequence Diagram Editor</a
+        ><br />
+        This is a straight tool port, brought over with the sole intention of
+        preserving a working copy, as it's a very helpful diagramming tool for
+        design work that I use all the time.<br /><br />
 
-    <a href="https://christopherball.github.io/tech/networkVisualizer/">Network Visualizer</a><br>
-    This is custom network graphing tool based on the vis.js vis-network library which offers the ability to draw graphs using the DOT language.  I wrote a ton of customization on top, including the following new functionality: fullscreen mode, fit-to-center, canvas scaling for high-quality large-scale (bigger than browser) image saving with white backing, case-insensitive multi-node searching based on substring, and support for custom DOT network loading.  I have also pre-loaded this tool with a (nearly) complete network graph for the amazing book and tv series: The Last Kingdom.<br><br>
-  </body>
+        <a href="https://christopherball.github.io/tech/steganography/"
+            >Steganography</a
+        ><br />
+        This is a straight tool port of an old JavaScript-based image
+        steganography tool. It not only hides data randomly across the image,
+        but applies encryption before doing so.<br /><br />
+
+        <a href="https://christopherball.github.io/tech/graphToy/">Graph Toy</a
+        ><br />
+        This is a straight tool port with minor modifications for the purposes
+        of visualizing graph plots for GLSL shader programming.<br /><br />
+
+        <a href="https://christopherball.github.io/tech/networkVisualizer/"
+            >Network Visualizer</a
+        ><br />
+        This is custom-built network graphing tool based on the vis.js
+        vis-network library which offers the ability to draw graphs using the
+        DOT language. I wrote a ton of customization on top, including the
+        following new functionality: fullscreen mode, fit-to-center, canvas
+        scaling for high-quality large-scale (bigger than browser) image saving
+        with white backing, case-insensitive multi-node searching based on
+        substring, and support for custom DOT network loading. I have also
+        pre-loaded this tool with a (nearly) complete network graph for the
+        amazing book and tv series:
+        <a
+            href="https://christopherball.github.io/tech/networkVisualizer/viewer.html?load=TLK"
+            >The Last Kingdom</a
+        >.<br /><br />
+    </body>
 </html>
