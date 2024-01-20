@@ -14,7 +14,8 @@
             function change(sourceId, destId, reEval = true) {
                 var content = document
                     .getElementById(sourceId)
-                    .value.replace(/\n/g, "`<br>`");
+                    .value.replace(/^#.+$/gm, "");
+                content = content.replace(/\n/g, "`<br>`");
                 document.getElementById(destId).innerHTML = "`" + content + "`";
 
                 // The following call ensures that MathJax re-evaluates page contents for typesetting on event fire.
@@ -465,19 +466,15 @@
             <div class="rcolumn">
                 <h4>About</h4>
                 <div class="about">
-                    This tool is backed by both
-                    <a href="http://asciimath.org/">AsciiMath</a> and
-                    <a href="http://www.mathjax.org/">MathJax</a> JavaScript
-                    libraries. I put this page together because I found LaTex to
-                    be overly complex for basic math formula composition needs.
-                    Two key functional improvements made to this implementation
-                    over the base AsciiMath site include multi-line render
-                    support and the ability to share direct links to your math
-                    formulas! If you enjoy this tool or have a feature idea,
-                    feel free to
+                    This tool was written by
+                    <a href="https://github.com/christopherball"
+                        >Christopher Ball</a
+                    >
+                    for a variety of custom math needs. If you enjoy using it or
+                    have a feature idea,
                     <a
-                        href="https://github.com/christopherball/christopherball.github.io"
-                        >drop me a message</a
+                        href="https://github.com/christopherball/christopherball.github.io/discussions"
+                        >drop a message</a
                     >.
                 </div>
                 <table cellpadding="0" cellspacing="0">
