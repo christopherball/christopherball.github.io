@@ -162,6 +162,12 @@
         <div class="row">
             <div class="buttonContainer">
                 <button id="zenBtn">Toggle Zen</button>
+                <button
+                    id="stepBtn"
+                    title="Used to gradually 'uncomment' lines of code starting with #."
+                >
+                    Step
+                </button>
                 <button id="copyBtn" class="nonZenBtn">Copy Editor Link</button>
                 <button id="copyBtn2" class="nonZenBtn">
                     Copy Viewer Link
@@ -1320,6 +1326,12 @@
                         });
                         styleIndices = [];
                     }
+                };
+
+                document.querySelector("#stepBtn").onclick = function () {
+                    var sourceEl = document.getElementById("source");
+                    sourceEl.value = sourceEl.value.replace(/^#(.*?)/m, "");
+                    change("source", "output");
                 };
             })();
         </script>
