@@ -14,7 +14,7 @@
             function change(sourceId, destId, reEval = true) {
                 var content = document
                     .getElementById(sourceId)
-                    .value.replace(/^#.+$/gm, "");
+                    .value.replace(/^#.+(\n)?/gm, "");
                 content = content.replace(/\n/g, "`<br>`");
                 document.getElementById(destId).innerHTML = "`" + content + "`";
 
