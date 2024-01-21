@@ -1,49 +1,52 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Ascii Math Formula Editor</title>
-    <script>
-      MathJax = {
-        loader: { load: ["input/asciimath", "output/chtml", "ui/menu"] },
-      };
-    </script>
-    <script type="text/javascript">
-      function change(sourceId, destId) {
-        var content = document
-          .getElementById(sourceId)
-          .value.replace(/\n/g, "`<br>`");
-        document.getElementById(destId).innerHTML = "`" + content + "`";
-      }
-    </script>
-    <script
-      type="text/javascript"
-      id="MathJax-script"
-      async
-      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"
-    ></script>
-    <style type="text/css">
-      #output {
-        border: 1px white solid;
-        min-width: 490px;
-        min-height: 220px;
-        font-size: 1.1em;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="source" style="display: none"></div>
-    <div id="output"></div>
-    <script>
-      (function () {
-        const params = new URLSearchParams(window.location.search);
-        const formula = params.get("formula");
+    <head>
+        <meta charset="UTF-8" />
+        <title>Ascii Math Formula Editor</title>
+        <script>
+            MathJax = {
+                loader: {
+                    load: ["input/asciimath", "output/chtml", "ui/menu"],
+                },
+            };
+        </script>
+        <script type="text/javascript">
+            function change(sourceId, destId) {
+                var content = document
+                    .getElementById(sourceId)
+                    .value.replace(/^#.+(\n)?/gm, "");
+                content = content.replace(/\n/g, "`<br>`");
+                document.getElementById(destId).innerHTML = "`" + content + "`";
+            }
+        </script>
+        <script
+            type="text/javascript"
+            id="MathJax-script"
+            async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"
+        ></script>
+        <style type="text/css">
+            #output {
+                border: 1px white solid;
+                min-width: 490px;
+                min-height: 220px;
+                font-size: 1.2em;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="source" style="display: none"></div>
+        <div id="output"></div>
+        <script>
+            (function () {
+                const params = new URLSearchParams(window.location.search);
+                const formula = params.get("formula");
 
-        if (formula) {
-          document.getElementById("source").value = atob(formula);
-          change("source", "output");
-        }
-      })();
-    </script>
-  </body>
+                if (formula) {
+                    document.getElementById("source").value = atob(formula);
+                    change("source", "output");
+                }
+            })();
+        </script>
+    </body>
 </html>
