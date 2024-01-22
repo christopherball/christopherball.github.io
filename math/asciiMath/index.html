@@ -1365,7 +1365,10 @@
                             }
                             updatedValue += tempLine + "\n";
                         });
-                    sourceEl.value = updatedValue;
+                    sourceEl.value = updatedValue.slice(
+                        0,
+                        updatedValue.length - 1
+                    );
                     change("source", "output");
                 };
 
