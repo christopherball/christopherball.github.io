@@ -161,18 +161,48 @@
         </div>
         <div class="row">
             <div class="buttonContainer">
-                <button id="zenBtn">Toggle Zen</button>
+                <button
+                    id="zenBtn"
+                    title="Used to flip to dark mode and hide extraneous documentation."
+                >
+                    Toggle Zen
+                </button>
+                <button
+                    id="hideAllBtn"
+                    title="'Comments' out each line by applying a # prefix if one doesn't exist already."
+                >
+                    Hide All
+                </button>
                 <button
                     id="stepBtn"
                     title="Used to gradually 'uncomment' lines of code starting with #."
                 >
                     Step
                 </button>
-                <button id="copyBtn" class="nonZenBtn">Copy Editor Link</button>
-                <button id="copyBtn2" class="nonZenBtn">
+                <button
+                    id="animateStepBtn"
+                    title="Used to simulate animation of a regular step."
+                >
+                    Animate Step
+                </button>
+                <button
+                    id="copyBtn"
+                    title="Copy this precise page URL with current formula content to clipboard."
+                >
+                    Copy Editor Link
+                </button>
+                <button
+                    id="copyBtn2"
+                    title="Copy a distraction-free page URL with current formula content to clipboard."
+                >
                     Copy Viewer Link
                 </button>
-                <button id="genBtn" class="nonZenBtn">Get Short Link</button>
+                <button
+                    id="genBtn"
+                    title="After copying your chosen link URL, click here to use a 3rd party to generate a short URL."
+                >
+                    Get Short Link
+                </button>
             </div>
         </div>
         <div class="row details">
@@ -1271,15 +1301,11 @@
                 document.querySelector("#zenBtn").onclick = function () {
                     zenMode = !zenMode;
                     let detailsDiv = document.querySelector(".details");
-                    let nonZenBtns = document.querySelectorAll(".nonZenBtn");
                     let nonZenHeaders = document.querySelectorAll("h4");
                     let pageStyles = document.getElementById("pageStyles");
 
                     if (zenMode) {
                         detailsDiv.style.display = "none";
-                        nonZenBtns.forEach((b) => {
-                            b.style.display = "none";
-                        });
                         nonZenHeaders.forEach((b) => {
                             b.style.display = "none";
                         });
@@ -1315,9 +1341,6 @@
                         );
                     } else {
                         detailsDiv.style.display = "";
-                        nonZenBtns.forEach((b) => {
-                            b.style.display = "";
-                        });
                         nonZenHeaders.forEach((b) => {
                             b.style.display = "";
                         });
@@ -1328,11 +1351,76 @@
                     }
                 };
 
+                document.querySelector("#hideAllBtn").onclick = function () {
+                    var sourceEl = document.getElementById("source");
+                    var updatedValue = "";
+                    document
+                        .getElementById("source")
+                        .value.split("\n")
+                        .forEach((line) => {
+                            var tempLine = line;
+                            if (line.length > 0) {
+                                if (!tempLine.startsWith("#"))
+                                    tempLine = "#" + tempLine;
+                            }
+                            updatedValue += tempLine + "\n";
+                        });
+                    sourceEl.value = updatedValue;
+                    change("source", "output");
+                };
+
                 document.querySelector("#stepBtn").onclick = function () {
                     var sourceEl = document.getElementById("source");
                     sourceEl.value = sourceEl.value.replace(/^#(.*?)/m, "");
                     change("source", "output");
                 };
+
+                document.querySelector("#animateStepBtn").onclick =
+                    function () {
+                        var sourceEl = document.getElementById("source");
+                        var matches = sourceEl.value.match(/^#(.+?)$/m);
+                        if (matches != null && matches.length > 0) {
+                            var splitSides = sourceEl.value.split(matches[0]);
+                            if (splitSides != null && splitSides.length == 2) {
+                                animateReveal(
+                                    matches[0].slice(1, matches[0].length),
+                                    1,
+                                    splitSides[0],
+                                    splitSides[1]
+                                );
+                            }
+                        }
+                    };
+
+                function animateReveal(lineMatch, characters, prefix, suffix) {
+                    var sourceEl = document.getElementById("source");
+                    sourceEl.value =
+                        prefix + lineMatch.slice(0, characters) + suffix;
+                    change("source", "output");
+                    if (characters < lineMatch.length) {
+                        document.getElementById(
+                            "animateStepBtn"
+                        ).disabled = true;
+                        setTimeout(function () {
+                            animateReveal(
+                                lineMatch,
+                                characters + 1,
+                                prefix,
+                                suffix
+                            );
+                        }, getRandomIntInclusive(40, 80));
+                    } else {
+                        document.getElementById(
+                            "animateStepBtn"
+                        ).disabled = false;
+                    }
+                }
+
+                function getRandomIntInclusive(min, max) {
+                    min = Math.ceil(min);
+                    max = Math.floor(max);
+                    return Math.floor(Math.random() * (max - min + 1) + min);
+                }
             })();
         </script>
     </body>
