@@ -1274,6 +1274,11 @@
 
                 change("source", "output", false);
 
+                document.addEventListener("keypress", (e) => {
+                    if (e.code == "Numpad0")
+                        document.getElementById("animateStepBtn").click();
+                });
+
                 document.querySelector("#copyBtn").onclick = function () {
                     copyToClipboard(
                         window.location.href.split("?")[0] +
