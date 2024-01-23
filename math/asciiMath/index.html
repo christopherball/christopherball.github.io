@@ -1318,13 +1318,13 @@
 
                         styleIndices.push(pageStyles.sheet.cssRules.length);
                         pageStyles.sheet.insertRule(
-                            "#source { color: #cccccc !important; background-color: #1d1d1d !important; border-color: #cccccc !important; }",
+                            "#source { color: #cccccc !important; background-color: #1d1d1d !important; border-color: #cccccc !important; border-left: 0px !important; }",
                             pageStyles.sheet.cssRules.length
                         );
 
                         styleIndices.push(pageStyles.sheet.cssRules.length);
                         pageStyles.sheet.insertRule(
-                            "#output { background-color: #1d1d1d !important; border-color: #cccccc !important; }",
+                            "#output { background-color: #1d1d1d !important; border-color: #cccccc !important; border-right: 0px !important; }",
                             pageStyles.sheet.cssRules.length
                         );
 
