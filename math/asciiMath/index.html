@@ -177,13 +177,13 @@
                 </button>
                 <button
                     id="stepBtn"
-                    title="Used to gradually 'uncomment' lines of code starting with #."
+                    title="Used to gradually reveal lines of code starting with #."
                 >
                     Step
                 </button>
                 <button
                     id="animateStepBtn"
-                    title="Used to simulate animation of a regular step."
+                    title="Used to both step and dynamically animate specific lines. If #@ line prefix is discovered (as opposed to just #), animates characters one at a time."
                 >
                     Animate Step
                 </button>
@@ -1392,14 +1392,23 @@
                         var sourceEl = document.getElementById("source");
                         var matches = sourceEl.value.match(/^#(.+?)$/m);
                         if (matches != null && matches.length > 0) {
-                            var splitSides = sourceEl.value.split(matches[0]);
-                            if (splitSides != null && splitSides.length == 2) {
-                                animateReveal(
-                                    matches[0].slice(1, matches[0].length),
-                                    1,
-                                    splitSides[0],
-                                    splitSides[1]
+                            if (matches[0].slice(0, 2) != "#@") {
+                                document.getElementById("stepBtn").click();
+                            } else {
+                                var splitSides = sourceEl.value.split(
+                                    matches[0]
                                 );
+                                if (
+                                    splitSides != null &&
+                                    splitSides.length == 2
+                                ) {
+                                    animateReveal(
+                                        matches[0].slice(2, matches[0].length),
+                                        1,
+                                        splitSides[0],
+                                        splitSides[1]
+                                    );
+                                }
                             }
                         }
                     };
