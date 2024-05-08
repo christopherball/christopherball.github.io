@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Kana Handwriting</title>
+        <style>
+            @font-face {
+                font-family: "KanjiStrokeOrders";
+                src: url("KanjiStrokeOrders_v4.004.ttf");
+            }
+            .hiraganaContainer,
+            .katakanaContainer {
+                font-family: "KanjiStrokeOrders";
+                color: white;
+                font-size: 140px;
+                display: inline-grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+                align-items: center;
+                grid-template-areas: "col1 col2";
+                gap: 0px 20px;
+            }
+            .hiraganaContainer div {
+                background-color: rgb(0, 43, 0);
+            }
+            .katakanaContainer div {
+                background-color: rgb(4, 0, 35);
+            }
+            .row {
+                line-height: 95%;
+            }
+            .col1 {
+                grid-area: col1;
+                border: 1px white dashed;
+                padding-top: 20px;
+            }
+            .col2 {
+                grid-area: col2;
+                border: 1px white dashed;
+                padding-top: 20px;
+            }
+            body {
+                background-color: rgb(33, 33, 33);
+            }
+            .spacer {
+                height: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="hiraganaContainer">
+            <div class="col1">
+                <div class="row">あいうえお</div>
+                <div class="row">かきくけこ</div>
+                <div class="row">さしすせそ</div>
+                <div class="row">たちつてと</div>
+                <div class="row">なにぬねの</div>
+                <div class="row">はひふへほ</div>
+            </div>
+            <div class="col2">
+                <div class="row">まみむめも</div>
+                <div class="row">や　ゆ　よ</div>
+                <div class="row">らりるれろ</div>
+                <div class="row">わ　　　を</div>
+                <div class="row">ん</div>
+                <div class="row">　</div>
+            </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="katakanaContainer">
+            <div class="col1">
+                <div class="row">アイウエオ</div>
+                <div class="row">カキクケコ</div>
+                <div class="row">サシスセソ</div>
+                <div class="row">タチツテト</div>
+                <div class="row">ナニヌネノ</div>
+                <div class="row">ハヒフヘホ</div>
+            </div>
+            <div class="col2">
+                <div class="row">マミムメモ</div>
+                <div class="row">ヤ　ユ　ヨ</div>
+                <div class="row">ラリルレロ</div>
+                <div class="row">ワ　　　ヲ</div>
+                <div class="row">ン</div>
+                <div class="row">　</div>
+            </div>
+        </div>
+    </body>
+</html>
