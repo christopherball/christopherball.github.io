@@ -5,14 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Kana Handwriting</title>
         <style>
-            @font-face {
-                font-family: "KanjiStrokeOrders";
-                src: url("KanjiStrokeOrders_v4.004.ttf");
-            }
             .hiraganaContainer,
             .katakanaContainer {
-                font-family: "KanjiStrokeOrders";
-                color: white;
+                color: rgba(0, 0, 0, 0);
                 font-size: 112px;
                 display: inline-grid;
                 grid-template-columns: 1fr 1fr;
@@ -28,23 +23,27 @@
                 background-color: rgb(4, 0, 35);
             }
             .row {
-                line-height: 95%;
+                line-height: 0.5;
             }
             .col1 {
                 grid-area: col1;
                 border: 1px white dashed;
-                padding-top: 20px;
+                padding-top: 10px;
             }
             .col2 {
                 grid-area: col2;
                 border: 1px white dashed;
-                padding-top: 20px;
+                padding-top: 10px;
             }
             body {
                 background-color: rgb(33, 33, 33);
             }
             .spacer {
                 height: 20px;
+            }
+            img.kanji {
+                -webkit-filter: invert(100%);
+                filter: invert(100%);
             }
         </style>
     </head>
@@ -86,5 +85,31 @@
                 <div class="row">　</div>
             </div>
         </div>
+        <script>
+            function htmlify(characters) {
+                let resultHTML = "";
+                [...characters].forEach((c) => {
+                    let unicodeAddress = c
+                        .charCodeAt(0)
+                        .toString(16)
+                        .padStart(5, "0");
+                    let imgEl = document.createElement("img");
+                    imgEl.classList.add("kanji");
+                    imgEl.src =
+                        "/linguistics/kanjiVG/" + unicodeAddress + ".svg";
+                    resultHTML += imgEl.outerHTML;
+                });
+                return resultHTML;
+            }
+
+            function main() {
+                document.querySelectorAll("div.row").forEach((r) => {
+                    r.innerHTML = htmlify(r.textContent);
+                    console.log(htmlify(r.textContent));
+                });
+            }
+
+            window.onload = main;
+        </script>
     </body>
 </html>
