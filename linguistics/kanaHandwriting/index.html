@@ -116,9 +116,24 @@
             }
 
             function main() {
-                document.querySelectorAll("div.row").forEach((r) => {
-                    r.innerHTML = htmlify(r.textContent);
-                });
+                const params = new URLSearchParams(window.location.search);
+                const kQs = params.get("k");
+
+                if (kQs) {
+                    document.querySelector("div.katakanaContainer").remove();
+                    document.querySelector("div.col2").remove();
+                    document.querySelector("div.spacer").remove();
+                    document
+                        .querySelectorAll("div.row:nth-child(n+2)")
+                        .forEach((r) => {
+                            r.remove();
+                        });
+                    document.querySelector("div.row").innerHTML = htmlify(kQs);
+                } else {
+                    document.querySelectorAll("div.row").forEach((r) => {
+                        r.innerHTML = htmlify(r.textContent);
+                    });
+                }
             }
 
             window.onload = main;
