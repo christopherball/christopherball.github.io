@@ -1371,7 +1371,7 @@
         var lesson = Genki.active.exercise[0],
             genkiEdition = localStorage.GenkiEdition,
             lessonsResults = JSON.parse(localStorage.Results);
-
+        
         if(!lessonsResults[genkiEdition]) lessonsResults[genkiEdition] = {};
         
         var editionLessonsResults = lessonsResults[genkiEdition];
@@ -1796,12 +1796,12 @@
               for (; i < j; i++) {
                 correct = false;
                 data = input[i].dataset;
-                val = Genki.toHalfWidth(input[i].value).toLowerCase().replace(/。|、/g, '');
+                val = Genki.toHalfWidth(input[i].value).toLowerCase().replace(/。|、|^\s+|\s+$|\n/g, '');
 
                 // check for the correct answer
                 for (k in data) {
                   if (/answer/.test(k)) {
-                    answer = Genki.toHalfWidth(data[k]).toLowerCase().replace(/。|、/g, '');
+                    answer = Genki.toHalfWidth(data[k]).toLowerCase().replace(/。|、|^\s+|\s+$|\n/g, '');
 
                     // check if there's alternative answers in the answer
                     // alternative answers are given as %(alt1/alt2/etc.)
@@ -2194,8 +2194,8 @@
           localStorage.GenkiEdition = /lessons-3rd/.test(window.location.pathname) ? '3rd' : '2nd';
 
           // Create storage for lessons results for specific edition
-          if (!localStorage.Results) {
-            var results = {};
+          if (!localStorage.Results || !new RegExp(localStorage.GenkiEdition).test(localStorage.Results)) {
+            var results = localStorage.Results ? JSON.parse(localStorage.Results) : {};
             results[localStorage.GenkiEdition] = {};
             localStorage.Results = JSON.stringify(results);
           }
@@ -2742,6 +2742,13 @@
         document.ontouchstart = function () {
           Genki.isTouching = true;
         }
+        
+        // extra fallback for preventing page scroll while dragging objects
+        document.addEventListener('touchmove', function (e) {
+          if (Genki.isTouching && /hidden/i.test(document.body.style.overflow)) {
+            e.preventDefault();
+          }
+        }, { passive : false });
         
         document.ontouchend = function () {
           Genki.isTouching = false;
