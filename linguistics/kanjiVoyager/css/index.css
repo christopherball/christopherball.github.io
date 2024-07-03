@@ -1,0 +1,162 @@
+html {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    margin: 0;
+    height: 100%;
+    font-family: "Comic Sans MS", Arial, Helvetica, sans-serif;
+}
+
+div.components {
+    vertical-align: top;
+    margin-bottom: 2px;
+    padding: 6px 6px 3px 6px;
+    background-color: rgb(54, 54, 54);
+}
+
+div.components .unavailable {
+    opacity: 0.25;
+    cursor: default;
+}
+
+div.components img {
+    border: 1px rgb(202, 202, 202) solid;
+    width: 50px;
+    height: 50px;
+    background-color: rgb(68, 68, 68);
+    cursor: pointer;
+}
+
+div.components img[id^="r"] {
+    background-color: rgb(54, 54, 54);
+    opacity: 0.7;
+    cursor: default;
+}
+
+/* Set custom variable defaults */
+:root {
+    --anim-delay: 0s;
+}
+
+@keyframes shimmer {
+    0% {
+        box-shadow: 0 0 3px 3px rgb(54, 54, 54);
+    }
+    40% {
+        box-shadow: 0 0 3px 6px rgba(173, 255, 47, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 3px 9px rgba(54, 54, 54, 0);
+    }
+}
+
+div.components img.active {
+    border: 1px greenyellow solid;
+    animation: shimmer 5s ease-in infinite;
+    animation-delay: var(--anim-delay);
+}
+
+div.componentStrokeCount {
+    width: 50px;
+    height: 35px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    border: 1px rgba(255, 255, 255, 0) solid;
+    padding-top: 15px;
+    color: rgb(202, 202, 202);
+    cursor: default;
+}
+
+div.kanjiStrokeCount {
+    width: 50px;
+    height: 35px;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    border: 1px rgba(255, 255, 255, 0) solid;
+    color: rgb(202, 202, 202);
+    cursor: default;
+    font-size: 16px;
+    padding-top: 15px;
+}
+
+div.results {
+    font-size: 26px;
+}
+
+table#contentDisplayTable {
+    height: 100%;
+    border-collapse: collapse;
+}
+
+td.tableLeft {
+    width: 80%;
+    vertical-align: top;
+    background-color: rgb(54, 54, 54);
+}
+
+td.tableRight {
+    width: 20%;
+    vertical-align: top;
+    background-color: rgb(54, 54, 54);
+    border-left: 2px white dotted;
+}
+
+button#resetBtn {
+    display: block;
+    margin: 0 auto;
+}
+
+img.kanji {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+img.kanji:hover {
+    filter: brightness(0) invert(1);
+}
+
+div.title {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 5px;
+    color: white;
+}
+
+div.section {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 5px;
+}
+
+div.description {
+    font-size: 16px;
+    text-align: left;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+div.description img {
+    width: 16px;
+    height: 16px;
+}
+
+div.description a {
+    color: limegreen;
+    text-decoration: none;
+}
+
+ul {
+    margin-top: 0px;
+}
+
+div#blankSpaceFiller {
+    display: none;
+}
