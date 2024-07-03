@@ -132,6 +132,7 @@ function refreshKanjiResults() {
                 "click",
                 () => {
                     copyToClipboard(img.title);
+                    showToastNotification("Kanji Copied!");
                 },
                 false
             )
@@ -194,6 +195,15 @@ function copyToClipboard(value) {
     tempInput.select();
     document.execCommand("copy");
     document.body.removeChild(tempInput);
+}
+
+function showToastNotification(msg) {
+    var toastEl = document.getElementById("toastNotifier");
+    toastEl.innerHTML = msg;
+    toastEl.className = "show";
+    setTimeout(function () {
+        toastEl.className = toastEl.className.replace("show", "");
+    }, 3000);
 }
 
 function arrayRange(start, stop, step) {
