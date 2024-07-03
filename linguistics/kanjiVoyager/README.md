@@ -2,6 +2,8 @@
 
 ### About
 
+![alt text](assets/screenshot.png)
+
 This tool has been a passion project that Christopher Ball had contemplated for quite some time. Lovingly handcrafted after countless hours of manual labor, with the sole purpose of helping Japanese language learners. The goal was to be able to visually identify any of the 2,136 常用漢字 (jouyou kanji), particularly in books, even when you don't know how to write nor pronounce them.
 
 ### How to Use
