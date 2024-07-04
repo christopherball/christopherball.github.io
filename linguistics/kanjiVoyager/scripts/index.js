@@ -1,7 +1,6 @@
 let fetchedKanjiData = null;
 let availableComponentFilters = [];
 let componentRange = [];
-let activeComponentFilters = [];
 
 function preload() {
     componentRange = arrayRange(0, 323, 1);
@@ -118,10 +117,7 @@ function refreshKanjiResults() {
     });
 
     if (noComponentsSelected) {
-        componentRange.forEach((c) => {
-            document.getElementById("c" + c).classList.remove("unavailable");
-        });
-        setFillerContent();
+        resetPage();
     } else {
         [...componentsContainingActiveKanji].forEach((c) => {
             document.getElementById("c" + c).classList.remove("unavailable");
@@ -141,11 +137,22 @@ function refreshKanjiResults() {
         document.getElementById("resetBtn").addEventListener(
             "click",
             () => {
-                window.location.reload();
+                resetPage();
             },
             false
         );
     }
+}
+
+function resetPage() {
+    document
+        .querySelectorAll("div.components img.active")
+        .forEach((e) => e.classList.remove("active"));
+    componentRange.forEach((c) => {
+        document.getElementById("c" + c).classList.remove("unavailable");
+    });
+    setFillerContent();
+    availableComponentFilters = [];
 }
 
 function htmlify(characters) {
