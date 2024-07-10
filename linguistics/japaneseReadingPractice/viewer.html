@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Japanese Reading Practice - Viewer</title>
+        <style>
+            html,
+            body {
+                background-color: #1a1a1a;
+                width: 100%;
+                height: 100vh;
+                margin: 0px;
+                padding: 0px;
+                border: none;
+                color: white;
+            }
+            a {
+                color: cyan;
+                text-decoration: none;
+            }
+            .menu {
+                padding: 5px;
+            }
+        </style>
+    </head>
+    <body
+        id="body"
+        onresize="document.querySelectorAll('iframe').forEach((e) => resizeIframe(e));">
+        <div>
+            <div class="menu"><a href="index.html">Home</a></div>
+            <iframe
+                id="iframe1"
+                allowtransparency="true"
+                scrolling="no"
+                frameborder="0"
+                width="100%">
+            </iframe>
+        </div>
+        <div>
+            <iframe
+                id="iframe2"
+                allowtransparency="true"
+                scrolling="no"
+                frameborder="0"
+                width="100%">
+            </iframe>
+        </div>
+
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            let frame1El = document.getElementById("iframe1");
+            let frame2El = document.getElementById("iframe2");
+
+            function resizeIframe(iframe) {
+                let contentHeight =
+                    iframe.contentWindow.document.body.scrollHeight;
+                iframe.style.height = contentHeight + "px";
+                iframe.contentWindow.postMessage(
+                    {
+                        type: "resize",
+                        height: contentHeight,
+                        iframeId: iframe.id,
+                    },
+                    "*"
+                );
+            }
+
+            function registerEventListeners() {
+                window.addEventListener("message", (e) => {
+                    if (e.data.type === "resize") {
+                        document.getElementById(e.data.iframeId).style.height =
+                            e.data.height + "px";
+                    }
+                });
+
+                frame1El.addEventListener("load", (e) =>
+                    resizeIframe(frame1El)
+                );
+
+                frame2El.addEventListener("load", (e) =>
+                    resizeIframe(frame2El)
+                );
+            }
+
+            function main() {
+                registerEventListeners();
+
+                frame1El.src =
+                    "generatedHTML/daily-japanese-english-essay-" +
+                    urlParams.get("date") +
+                    ".html";
+
+                frame2El.src =
+                    "generatedHTML/vocab-grammar-" +
+                    urlParams.get("date") +
+                    ".html";
+
+                frame1El.dispatchEvent(new Event("load"));
+                frame2El.dispatchEvent(new Event("load"));
+            }
+
+            window.onload = main;
+        </script>
+    </body>
+</html>
