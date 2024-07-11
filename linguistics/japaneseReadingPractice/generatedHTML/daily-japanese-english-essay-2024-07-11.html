@@ -4,56 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>世界人口デー - World Population Day</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                line-height: 1.6;
-                padding: 20px;
-                background-color: #1a1a1a;
-                color: #e0e0e0;
-            }
-            .container {
-                max-width: 800px;
-                margin: 0 auto;
-            }
-            .japanese {
-                font-size: 18px;
-                margin-bottom: 5px;
-            }
-            .english {
-                font-size: 16px;
-                margin-bottom: 20px;
-                color: #a0a0a0;
-                filter: blur(5px);
-                transition: filter 0.3s;
-            }
-            ruby {
-                ruby-position: over;
-            }
-            rt {
-                visibility: hidden;
-                font-size: 0.8em;
-            }
-
-            /* Desktop only CSS rules */
-            @media (pointer: fine) {
-                .english:hover {
-                    filter: blur(0px);
-                }
-                ruby:hover rt {
-                    visibility: visible;
-                }
-            }
-            /* Mobile-device only CSS rules */
-            @media only screen and (hover: none) and (pointer: coarse) {
-                .englishClickBlur {
-                    filter: blur(0px);
-                }
-                .rtClickVisible {
-                    visibility: visible;
-                }
-            }
-        </style>
+        <link rel="stylesheet" href="../css/essay.css" />
     </head>
     <body>
         <div class="container">
@@ -175,30 +126,6 @@
                 World Population Day teaches us important things.
             </p>
         </div>
-        <script>
-            function main() {
-                var isMobile =
-                    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-                        navigator.userAgent
-                    );
-
-                if (isMobile) {
-                    document.querySelectorAll(".english").forEach((e) => {
-                        e.addEventListener("click", () => {
-                            e.classList.toggle("englishClickBlur");
-                        });
-                    });
-
-                    document.querySelectorAll("ruby").forEach((e) => {
-                        e.addEventListener("click", () => {
-                            e.querySelector("rt").classList.toggle(
-                                "rtClickVisible"
-                            );
-                        });
-                    });
-                }
-            }
-            window.onload = main;
-        </script>
+        <script src="../js/essay.js"></script>
     </body>
 </html>
