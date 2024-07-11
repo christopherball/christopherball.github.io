@@ -4,149 +4,396 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Christopher Ball's Github Portfolio</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap"
+            rel="stylesheet" />
+        <style>
+            :root {
+                --bg-color: #0a0a0a;
+                --text-color: #ffffff;
+                --accent-color: #00ffff;
+                --hover-color: #00cccc;
+                --card-bg: #1a1a1a;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            @keyframes float {
+                0% {
+                    transform: translateY(0px);
+                }
+                50% {
+                    transform: translateY(-10px);
+                }
+                100% {
+                    transform: translateY(0px);
+                }
+            }
+
+            @keyframes gradientBG {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+
+            body {
+                font-family: "Roboto", sans-serif;
+                background-color: var(--bg-color);
+                background: linear-gradient(45deg, #0a0a0a, #1a1a1a, #0a0a0a);
+                background-size: 200% 200%;
+                animation: gradientBG 15s ease infinite;
+                color: var(--text-color);
+                line-height: 1.6;
+                margin: 0;
+                padding: 0;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 2rem;
+                animation: fadeIn 1s ease-out;
+            }
+
+            header {
+                background-color: var(--card-bg);
+                padding: 2rem 0;
+                text-align: center;
+                margin-bottom: 2rem;
+                border-bottom: 2px solid var(--accent-color);
+            }
+
+            h1 {
+                color: var(--accent-color);
+                overflow: hidden;
+                border-right: 0.15em solid var(--accent-color);
+                white-space: nowrap;
+                margin: 0 auto;
+                letter-spacing: 0.15em;
+                animation: typing 3.5s steps(40, end),
+                    blink-caret 0.75s step-end infinite;
+            }
+
+            @keyframes typing {
+                from {
+                    width: 0;
+                }
+                to {
+                    width: 100%;
+                }
+            }
+
+            @keyframes blink-caret {
+                from,
+                to {
+                    border-color: transparent;
+                }
+                50% {
+                    border-color: var(--accent-color);
+                }
+            }
+
+            h2,
+            h3 {
+                color: var(--accent-color);
+            }
+
+            a {
+                color: var(--accent-color);
+                text-decoration: none;
+                transition: color 0.3s ease;
+                position: relative;
+            }
+
+            a::after {
+                content: "";
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                bottom: 0;
+                left: 0;
+                background-color: var(--hover-color);
+                visibility: hidden;
+                transform: scaleX(0);
+                transition: all 0.3s ease-in-out;
+            }
+
+            a:hover::after {
+                visibility: visible;
+                transform: scaleX(1);
+            }
+
+            .project-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+
+            .project-card {
+                background-color: var(--card-bg);
+                border-radius: 8px;
+                padding: 1.5rem;
+                transition: all 0.3s ease;
+                border: 1px solid #333;
+                animation: fadeIn 1s ease-out;
+            }
+
+            .project-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0, 255, 255, 0.1);
+                animation: float 6s ease-in-out infinite;
+            }
+
+            .project-title {
+                font-size: 1.2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .project-description {
+                font-size: 0.9rem;
+                color: #cccccc;
+            }
+
+            .section-title {
+                margin-top: 3rem;
+                margin-bottom: 1.5rem;
+                border-bottom: 2px solid var(--accent-color);
+                padding-bottom: 0.5rem;
+            }
+
+            @media (max-width: 768px) {
+                .container {
+                    padding: 1rem;
+                }
+            }
+        </style>
     </head>
-    <style>
-        body {
-            background-color: rgb(41, 41, 41);
-            color: rgb(217, 217, 217);
-        }
-
-        a {
-            color: yellow;
-            text-decoration: none;
-        }
-
-        a:hover {
-            color: rgba(255, 255, 0, 0.507);
-        }
-    </style>
     <body>
-        <h2>Purpose</h2>
-        This page serves as a deployment space for easy access to some of my
-        personal programming projects and tool ports. If you're in search of my
-        github details,
-        <a href="https://github.com/christopherball">go here</a>.
+        <header>
+            <h1>Christopher Ball's Github Portfolio</h1>
+        </header>
+        <div class="container">
+            <section>
+                <h2>Purpose</h2>
+                <p>
+                    This page serves as a deployment space for easy access to
+                    some of my personal programming projects and tool ports. If
+                    you're in search of my github details,
+                    <a href="https://github.com/christopherball">go here</a>.
+                </p>
+            </section>
 
-        <h2>Personal Programming Projects</h2>
-        <hr />
-        <h3>Data Science</h3>
-        <a href="/datascience/titanic/titanic.nb.html"
-            >Titanic Survivor Analysis</a
-        ><br />
-        This project is directly inspired by the ongoing Titanic competition at
-        Kaggle.com. It was my first dive into both R as well as classification
-        ML, resulting in approximately 79% accuracy for predicting which people
-        would live and die on the Titanic, resulting in a placement in the top
-        10% of current participants (~17,000). Keep in mind this project, which
-        was used for learning, apparently has the "answers" out there somewhere
-        so the leaderboards for this competition aren't particularly meaningful.
-        This was a great learning experience nevertheless.<br />
+            <section>
+                <h2 class="section-title">Personal Programming Projects</h2>
 
-        <h3>Mathematics</h3>
-        <a href="/math/asciiMath">AsciiMath Tool</a><br />
-        This tool makes it possible to cleanly produce LaTex-like math formulas
-        by leveraging two JavaScript libraries: AsciiMath, and MathJax. This
-        project includes several core features I wrote on top of the base
-        libraries, including my own responsive version of the asciiMath demo
-        site, added support for multi-line output, a dark zen editor mode,
-        ability to comment out lines of formula, animation simulation on a
-        per-line basis, as well as the ability to directly share links to your
-        rendered math formulas.<br /><br />
+                <h3>Data Science</h3>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/datascience/titanic/titanic.nb.html"
+                                >Titanic Survivor Analysis</a
+                            >
+                        </h4>
+                        <p class="project-description">
+                            First dive into R and classification ML, achieving
+                            ~79% accuracy in predicting Titanic survivors.
+                            Placed in the top 10% of ~17,000 Kaggle
+                            participants.
+                        </p>
+                    </div>
+                </div>
 
-        <a href="/math/mathFormulas/mathFormulas.nb.html"
-            >Math Formulas Explained</a
-        ><br />
-        This project is on-going and highlights in my own words (although I may
-        reference diagrams where helpful), in-depth analysis of math formulas,
-        often times specific to data-science (primarily of the statistical
-        nature). The goal here is to breakdown and truly understand common math
-        formulas. So in the case of statistics, examples might include RMSE and
-        Adjusted R-Squared for example.
+                <h3>Mathematics</h3>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/math/asciiMath">AsciiMath Tool</a>
+                        </h4>
+                        <p class="project-description">
+                            Produces LaTex-like math formulas using AsciiMath
+                            and MathJax libraries. Features include responsive
+                            design, multi-line output, dark zen editor mode, and
+                            more.
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/math/mathFormulas/mathFormulas.nb.html"
+                                >Math Formulas Explained</a
+                            >
+                        </h4>
+                        <p class="project-description">
+                            In-depth analysis of math formulas, often specific
+                            to data science and statistics. Breaks down and
+                            explains common math formulas.
+                        </p>
+                    </div>
+                </div>
 
-        <h3>Linguistics</h3>
-        <a href="/linguistics/kanjiVoyager">Kanji Voyager</a><br />
-        This tool has been a passion project for quite some time. Lovingly
-        handcrafted after countless hours of manual labor, with the sole purpose
-        of helping Japanese language learners. The goal was to be able to
-        visually identify any of the 2,136 常用漢字 (jouyou kanji), particularly
-        in books, even when you don't know how to write nor pronounce them.
-        <br /><br />
+                <h3>Linguistics</h3>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/linguistics/kanjiVoyager"
+                                >Kanji Voyager</a
+                            >
+                        </h4>
+                        <p class="project-description">
+                            Helps Japanese language learners visually identify
+                            any of the 2,136 常用漢字 (jouyou kanji),
+                            particularly in books.
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/linguistics/japaneseReadingPractice"
+                                >Japanese Reading Practice</a
+                            >
+                        </h4>
+                        <p class="project-description">
+                            Experimental project using Claude AI to generate
+                            reading material. A semi-automated human / AI
+                            collaboration.
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/linguistics/kanjiRadicalExplorer"
+                                >Kanji Radical Explorer</a
+                            >
+                        </h4>
+                        <p class="project-description">
+                            Simplified comprehensive representation of all
+                            classic Kanji radicals, based on KanjiAlive's
+                            open-sourced data.
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/linguistics/kanaHandwriting"
+                                >Kana Handwriting</a
+                            >
+                        </h4>
+                        <p class="project-description">
+                            Showcases how handwritten kana characters should
+                            look.
+                        </p>
+                    </div>
+                </div>
 
-        <a href="/linguistics/kanjiRadicalExplorer">Kanji Radical Explorer</a
-        ><br />
-        This is a simplified comprehensive representation of all classic Kanji
-        radicals, based on KanjiAlive's open sourced data. Of special note here
-        is the content within this table uses a custom font specifically built
-        to natively render kanji sub-components that don't necessarily get
-        first-class treatment as standard radicals (but are in fact variants of
-        standard radicals).<br /><br />
+                <h3>Tech</h3>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/tech/networkVisualizer/"
+                                >Network Visualizer</a
+                            >
+                        </h4>
+                        <p class="project-description">
+                            Custom-built network graphing tool based on vis.js
+                            vis-network library. Offers various features
+                            including fullscreen mode, fit-to-center, and more.
+                        </p>
+                    </div>
+                </div>
+            </section>
 
-        <a href="/linguistics/kanaHandwriting">Kana Handwriting</a><br />
-        Showcases how handwritten kana characters should look.
+            <section>
+                <h2 class="section-title">Tool Ports</h2>
 
-        <h3>Tech</h3>
-        <a href="https://christopherball.github.io/tech/networkVisualizer/"
-            >Network Visualizer</a
-        ><br />
-        This is custom-built network graphing tool based on the vis.js
-        vis-network library which offers the ability to draw graphs using the
-        DOT language. I wrote a ton of customization on top, including the
-        following new functionality: fullscreen mode, fit-to-center, canvas
-        scaling for high-quality large-scale (bigger than browser) image saving
-        with white backing, case-insensitive multi-node searching based on
-        substring, and support for custom DOT network loading. I have also built
-        and pre-loaded this tool with a (nearly) complete network graph for the
-        amazing book and tv series:
-        <a
-            href="https://christopherball.github.io/tech/networkVisualizer/viewer.html?load=TLK"
-            >The Last Kingdom</a
-        >.
+                <h3>Linguistics</h3>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/linguistics/mr-kanji-search-wtk"
+                                >Kanji Reverse Lookup</a
+                            >
+                        </h4>
+                        <p class="project-description">
+                            Tool port for reverse-looking up Kanji by their
+                            containing parts (radicals or primitives).
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a
+                                href="/linguistics/genki-study-resources/lessons-3rd"
+                                >Genki Study Resources</a
+                            >
+                        </h4>
+                        <p class="project-description">
+                            Study tool port for the Genki book series.
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/linguistics/tobira-study-resources"
+                                >Tobira Study Resources</a
+                            >
+                        </h4>
+                        <p class="project-description">
+                            Study tool port for the Tobira book series.
+                        </p>
+                    </div>
+                </div>
 
-        <h2>Tool Ports</h2>
-        <hr />
-        <h3>Linguistics</h3>
-        <a href="/linguistics/mr-kanji-search-wtk">Kanji Reverse Lookup</a
-        ><br />
-        This is a straight tool port of a highly useful search tool for
-        reverse-looking up Kanji by their containing parts (radicals in the case
-        of Wanikani, primitives in the case of Remembering the Kanji by James
-        Heisig).<br /><br />
-
-        <a href="/linguistics/genki-study-resources/lessons-3rd"
-            >Genki Study Resources</a
-        ><br />
-        This is a straight tool port of a study tool for the Genki book
-        series.<br /><br />
-
-        <a href="/linguistics/tobira-study-resources">Tobira Study Resources</a
-        ><br />
-        This is a straight tool port of a study tool for the Tobira book series.
-
-        <h3>Tech</h3>
-        <a href="https://christopherball.github.io/tech/sequenceDiagram/"
-            >Sequence Diagram Editor</a
-        ><br />
-        This is a straight tool port, brought over with the sole intention of
-        preserving a working copy, as it's a very helpful diagramming tool for
-        design work that I use all the time.<br /><br />
-
-        <a href="https://christopherball.github.io/tech/steganography/"
-            >Steganography</a
-        ><br />
-        This is a straight tool port of an old JavaScript-based image
-        steganography tool. It not only hides data randomly across the image,
-        but applies encryption before doing so.<br /><br />
-
-        <a href="https://christopherball.github.io/tech/graphToy/">Graph Toy</a
-        ><br />
-        This is a straight tool port with minor modifications for the purposes
-        of visualizing graph plots for GLSL shader programming.<br /><br />
-
-        <a href="https://christopherball.github.io/tech/pdfjs/web/viewer.html"
-            >Pdf.js Viewer</a
-        ><br />
-        This is a straight tool port (with one feature I created for inverting
-        colors) that I use for viewing PDF files in the browser so that I can
-        leverage browser extensions in combination with PDF files.<br /><br />
+                <h3>Tech</h3>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/tech/sequenceDiagram/"
+                                >Sequence Diagram Editor</a
+                            >
+                        </h4>
+                        <p class="project-description">
+                            Tool port for creating sequence diagrams, useful for
+                            design work.
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/tech/steganography/">Steganography</a>
+                        </h4>
+                        <p class="project-description">
+                            JavaScript-based image steganography tool that hides
+                            and encrypts data within images.
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/tech/graphToy/">Graph Toy</a>
+                        </h4>
+                        <p class="project-description">
+                            Tool port with minor modifications for visualizing
+                            graph plots for GLSL shader programming.
+                        </p>
+                    </div>
+                    <div class="project-card">
+                        <h4 class="project-title">
+                            <a href="/tech/pdfjs/web/viewer.html"
+                                >Pdf.js Viewer</a
+                            >
+                        </h4>
+                        <p class="project-description">
+                            Tool port with added color inversion feature for
+                            viewing PDF files in the browser.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
     </body>
 </html>
