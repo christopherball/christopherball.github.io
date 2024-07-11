@@ -87,11 +87,11 @@
                 registerEventListeners();
 
                 frame1El.src =
-                    "generatedHTML/essay-" + urlParams.get("date") + ".html";
+                    "generatedHTML/essay-" + urlParams.get("id") + ".html";
 
                 frame2El.src =
                     "generatedHTML/vocabGrammar-" +
-                    urlParams.get("date") +
+                    urlParams.get("id") +
                     ".html";
 
                 frame1El.dispatchEvent(new Event("load"));
