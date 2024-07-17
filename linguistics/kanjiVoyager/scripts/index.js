@@ -58,6 +58,52 @@ function onComponentClick() {
 
         document.getElementById("c" + componentId).classList.toggle("active");
         refreshKanjiResults();
+        updateRegionAvailability();
+    }
+}
+
+function updateRegionAvailability() {
+    arrayRange(1, 9, 1).forEach((i) => {
+        // If all components within a given region are not available
+        if (
+            document.querySelectorAll("#r" + i + "Content>img.unavailable")
+                .length ==
+            document.querySelectorAll("#r" + i + "Content>img").length
+        ) {
+            document
+                .querySelector("#r" + i + "Content")
+                .classList.remove("expanded");
+            document.querySelector("#r" + i).classList.add("regionUnavailable");
+        }
+        // Else if all components are available across all regions
+        else if (
+            document.querySelectorAll('div.components img[id^="c"].unavailable')
+                .length == 0
+        ) {
+            document
+                .querySelector("#r" + i)
+                .classList.remove("regionUnavailable");
+            document
+                .querySelector("#r" + i + "Content")
+                .classList.remove("expanded");
+        }
+        // Else the given region is available as there are one or more available components
+        else {
+            document
+                .querySelector("#r" + i)
+                .classList.remove("regionUnavailable");
+            document
+                .querySelector("#r" + i + "Content")
+                .classList.add("expanded");
+        }
+    });
+}
+
+function onRegionClick() {
+    if (!this.classList.contains("regionUnavailable")) {
+        document
+            .getElementById(this.id + "Content")
+            .classList.toggle("expanded");
     }
 }
 
@@ -153,6 +199,13 @@ function resetPage() {
     });
     setFillerContent();
     availableComponentFilters = [];
+
+    arrayRange(1, 9, 1).forEach((i) => {
+        document.querySelector("#r" + i).classList.remove("regionUnavailable");
+        document
+            .querySelector("#r" + i + "Content")
+            .classList.remove("expanded");
+    });
 }
 
 function htmlify(characters) {
@@ -231,6 +284,10 @@ function registerEventListeners() {
         .forEach((img) =>
             img.addEventListener("click", onComponentClick, false)
         );
+
+    document
+        .querySelectorAll("div.components img[id^=r]")
+        .forEach((img) => img.addEventListener("click", onRegionClick, false));
 }
 
 function main() {
