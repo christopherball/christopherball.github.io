@@ -19,9 +19,11 @@ div.components {
 }
 
 div.components .unavailable,
-div.components .regionUnavailable {
+div.components .regionUnavailable,
+div.components .componentStrokeCount.hidden {
     opacity: 0.25 !important;
     cursor: default !important;
+    display: none;
 }
 
 div.components img {

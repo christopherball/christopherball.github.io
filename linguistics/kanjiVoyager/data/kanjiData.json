@@ -1811,7 +1811,7 @@
         "StrokesRemaining": "2",
         "Kanji": "奴",
         "KanjiID": "1871",
-        "Occurrences": "2",
+        "Occurrences": "1",
         "TotalStrokes": "5"
     },
     "7.好": {
@@ -7215,16 +7215,16 @@
         "Occurrences": "2",
         "TotalStrokes": "4"
     },
-    "27.奴": {
-        "PrimaryKey": "27.奴",
+    "27.灯": {
+        "PrimaryKey": "27.灯",
         "ShadedRegionID": "1",
         "ComponentID": "27",
         "ComponentStrokes": "4",
-        "StrokesRemaining": "1",
-        "Kanji": "奴",
-        "KanjiID": "1871",
+        "StrokesRemaining": "2",
+        "Kanji": "灯",
+        "KanjiID": "871",
         "Occurrences": "2",
-        "TotalStrokes": "5"
+        "TotalStrokes": "6"
     },
     "27.炊": {
         "PrimaryKey": "27.炊",
@@ -12602,7 +12602,7 @@
         "StrokesRemaining": "4",
         "Kanji": "灯",
         "KanjiID": "871",
-        "Occurrences": "1",
+        "Occurrences": "2",
         "TotalStrokes": "6"
     },
     "91.町": {

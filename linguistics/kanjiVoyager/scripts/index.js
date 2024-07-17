@@ -57,6 +57,9 @@ function onComponentClick() {
         }
 
         document.getElementById("c" + componentId).classList.toggle("active");
+        document
+            .querySelectorAll("div.componentStrokeCount")
+            .forEach((i) => i.classList.add("hidden"));
         refreshKanjiResults();
         updateRegionAvailability();
         window.scrollTo(0, 0);
@@ -87,6 +90,9 @@ function updateRegionAvailability() {
             document
                 .querySelector("#r" + i + "Content")
                 .classList.remove("expanded");
+            document
+                .querySelectorAll("div.componentStrokeCount")
+                .forEach((i) => i.classList.remove("hidden"));
         }
         // Else the given region is available as there are one or more available components
         else {
@@ -195,9 +201,11 @@ function resetPage() {
     document
         .querySelectorAll("div.components img.active")
         .forEach((e) => e.classList.remove("active"));
+
     componentRange.forEach((c) => {
         document.getElementById("c" + c).classList.remove("unavailable");
     });
+
     setFillerContent();
     availableComponentFilters = [];
 
@@ -207,6 +215,11 @@ function resetPage() {
             .querySelector("#r" + i + "Content")
             .classList.remove("expanded");
     });
+
+    document
+        .querySelectorAll("div.componentStrokeCount")
+        .forEach((i) => i.classList.remove("hidden"));
+
     window.scrollTo(0, 0);
 }
 
