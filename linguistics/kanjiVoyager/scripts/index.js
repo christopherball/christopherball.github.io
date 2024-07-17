@@ -59,6 +59,7 @@ function onComponentClick() {
         document.getElementById("c" + componentId).classList.toggle("active");
         refreshKanjiResults();
         updateRegionAvailability();
+        window.scrollTo(0, 0);
     }
 }
 
@@ -206,6 +207,7 @@ function resetPage() {
             .querySelector("#r" + i + "Content")
             .classList.remove("expanded");
     });
+    window.scrollTo(0, 0);
 }
 
 function htmlify(characters) {
