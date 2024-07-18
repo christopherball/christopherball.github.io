@@ -99,13 +99,13 @@ table#contentDisplayTable {
 }
 
 td.tableLeft {
-    width: 65%;
+    width: 50%;
     vertical-align: top;
     background-color: rgb(54, 54, 54);
 }
 
 td.tableRight {
-    width: 35%;
+    width: 50%;
     vertical-align: top;
     background-color: rgb(54, 54, 54);
     border-left: 2px white dotted;
@@ -185,7 +185,7 @@ span.expanded {
 #toastNotifier {
     visibility: hidden;
     min-width: 250px;
-    margin-left: -125px;
+    margin-left: -141px;
     background-color: #333;
     color: #fff;
     text-align: center;
