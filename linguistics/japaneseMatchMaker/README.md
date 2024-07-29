@@ -8,6 +8,8 @@ Deconstructs Japanese sentences composed of standard ruby html markup, creating 
 2. Paste said markup into the input for this tool.
 3. Play (and hopefully have more fun learning)!
 
+[Example](https://christopherball.github.io/linguistics/japaneseMatchMaker/?html=44Ob44OG44Or44GL44KJPHJ1Ynk-55S6PHJ0PuOBvuOBoTwvcnQ-PC9ydWJ5PuOCkjxydWJ5Puimi-S4izxydD7jgb_jgYo8L3J0PjwvcnVieT7jgo3jgZnjgZPjgajjgYw8cnVieT7lh7rmnaU8cnQ-44Gn44GNPC9ydD48L3J1Ynk-44G-44GZ44CC)
+
 ## Credits
 
 Copyright © 2024 <a href="https://github.com/christopherball" target="_blank">Christopher Ball</a><br />

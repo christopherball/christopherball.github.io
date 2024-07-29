@@ -63,7 +63,7 @@ div.push {
     height: 72px;
 }
 
-div.footer a {
+a {
     color: limegreen;
     text-decoration: none;
 }
