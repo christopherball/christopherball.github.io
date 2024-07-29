@@ -4,7 +4,7 @@ Deconstructs Japanese sentences composed of standard ruby html markup, creating 
 
 ## How to Play
 
-1. Generate standard ruby html mark Using my sibling tool [Japanese Furigana Generator](https://github.com/christopherball/japaneseFuriganaGenerator).
+1. Generate standard ruby html mark using my sibling tool [Japanese Furigana Generator](https://github.com/christopherball/japaneseFuriganaGenerator).
 2. Paste said markup into the input for this tool.
 3. Play (and hopefully have more fun learning)!
 
