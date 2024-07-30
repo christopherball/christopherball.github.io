@@ -30,7 +30,9 @@ function createSlotsAndExtractAnswerChoices() {
         let repVal = "";
         for (let x = 0; x < choice.length; x++) {
             repVal +=
-                "<div class='slot' answer='" +
+                "<div id='slot" +
+                Math.floor(Date.now() * Math.random()) +
+                "' class='slot' answer='" +
                 choice.substring(x, x + 1) +
                 "'>＿</div>";
         }
@@ -65,35 +67,96 @@ function registerDragDropEventHandlers() {
 
             e.target.classList.remove("hover");
 
-            // If the slot didn't have any answer already, remove said choice from future play.
+            // If the target doesn't contain a guess yet
             if (e.target.innerHTML == "＿") {
+                // If the face value of the draggable matches the target answer
                 if (
                     draggableElement.innerHTML ==
                     e.target.getAttribute("answer")
                 ) {
                     e.target.classList.remove("incorrect");
                     e.target.classList.add("correct");
-                } else {
+                }
+                // Else the face value of the draggable doesn't match the target answer
+                else {
                     e.target.classList.remove("correct");
                     e.target.classList.add("incorrect");
+                    e.target.setAttribute("draggable", "true");
                 }
 
+                // Transfering the face value from the draggable to the target
                 e.target.innerHTML = draggableElement.innerHTML;
-                draggableElement.remove();
+
+                // If the draggable came from another slot, reset said slot
+                if (data.startsWith("slot")) {
+                    draggableElement.innerHTML = "＿";
+                    draggableElement.removeAttribute("draggable");
+                    draggableElement.classList.remove("incorrect");
+                }
+                // Else the draggable came from the choice pool, so remove it from the DOM
+                else {
+                    draggableElement.remove();
+                }
             }
-            // Else we are replacing one answer with an updated one, so shift old answer back to pool.
+            // Else the target already contains a guess and we are replacing it from either the choice pool or another slot
             else {
+                // If swapping two guesses already in slots results in both having correct answers now
                 if (
                     draggableElement.innerHTML ==
-                    e.target.getAttribute("answer")
+                        e.target.getAttribute("answer") &&
+                    e.target.innerHTML ==
+                        draggableElement.getAttribute("answer")
                 ) {
                     e.target.classList.remove("incorrect");
                     e.target.classList.add("correct");
-                } else {
+                    e.target.removeAttribute("draggable");
+
+                    draggableElement.classList.remove("incorrect");
+                    draggableElement.classList.add("correct");
+                    draggableElement.removeAttribute("draggable");
+                }
+                // Else if the target will become correct as a result of this swap, but the source will become incorrect
+                else if (
+                    draggableElement.innerHTML ==
+                        e.target.getAttribute("answer") &&
+                    e.target.innerHTML !=
+                        draggableElement.getAttribute("answer")
+                ) {
+                    e.target.classList.remove("incorrect");
+                    e.target.classList.add("correct");
+                    e.target.removeAttribute("draggable");
+
+                    draggableElement.classList.remove("correct");
+                    draggableElement.classList.add("incorrect");
+                    draggableElement.setAttribute("draggable", "true");
+                }
+                // Else if the target will remain incorrect as a result of this swap, but the source will become correct
+                else if (
+                    draggableElement.innerHTML !=
+                        e.target.getAttribute("answer") &&
+                    e.target.innerHTML ==
+                        draggableElement.getAttribute("answer")
+                ) {
                     e.target.classList.remove("correct");
                     e.target.classList.add("incorrect");
+                    e.target.setAttribute("draggable", "true");
+
+                    draggableElement.classList.remove("incorrect");
+                    draggableElement.classList.add("correct");
+                    draggableElement.removeAttribute("draggable");
+                }
+                // Else swapping will still result in both remaining incorrect
+                else {
+                    e.target.classList.remove("correct");
+                    e.target.classList.add("incorrect");
+                    e.target.setAttribute("draggable", "true");
+
+                    draggableElement.classList.remove("correct");
+                    draggableElement.classList.add("incorrect");
+                    draggableElement.setAttribute("draggable", "true");
                 }
 
+                // Regardless of which of the 4 possibilities takes place, the face values must swap
                 let tempOldAnaswer = e.target.innerHTML;
                 e.target.innerHTML = draggableElement.innerHTML;
                 draggableElement.innerHTML = tempOldAnaswer;
@@ -103,6 +166,12 @@ function registerDragDropEventHandlers() {
 
     Array.from(document.getElementsByClassName("choice")).forEach((c) => {
         c.addEventListener("dragstart", (e) => {
+            e.dataTransfer.setData("text/plain", e.target.id);
+        });
+    });
+
+    Array.from(document.getElementsByClassName("slot")).forEach((s) => {
+        s.addEventListener("dragstart", (e) => {
             e.dataTransfer.setData("text/plain", e.target.id);
         });
     });
