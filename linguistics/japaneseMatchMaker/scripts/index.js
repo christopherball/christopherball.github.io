@@ -187,20 +187,18 @@ function main() {
     const htmlQs = params.get("html");
     const hideInputQs = params.get("hideInput");
 
-    document
-        .getElementById("outputHTML")
-        .addEventListener("input", function () {
-            let tempHTML = document.getElementById("outputHTML").value;
-            document.getElementById("outputRenderedHTML").innerHTML = tempHTML;
-            createSlotsAndExtractAnswerChoices();
-        });
+    document.getElementById("inputHTML").addEventListener("input", function () {
+        let tempHTML = document.getElementById("inputHTML").value;
+        document.getElementById("outputRenderedHTML").innerHTML = tempHTML;
+        createSlotsAndExtractAnswerChoices();
+    });
 
     if (htmlQs != undefined && htmlQs.length > 0) {
         Base64.extendString();
         try {
-            document.getElementById("outputHTML").value = htmlQs.fromBase64();
+            document.getElementById("inputHTML").value = htmlQs.fromBase64();
             document
-                .getElementById("outputHTML")
+                .getElementById("inputHTML")
                 .dispatchEvent(new Event("input"));
         } catch (e) {
             console.log(e);
