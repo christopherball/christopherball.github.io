@@ -1,56 +1,66 @@
-function shuffle(array) {
-    let currentIndex = array.length;
-
-    while (currentIndex != 0) {
-        let randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-
-        [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex],
-            array[currentIndex],
-        ];
-    }
-}
-
-function createSlotsAndExtractAnswerChoices() {
+function createSlotsAndExtractAnswerChoices(index) {
     let choices = [];
-    document.querySelectorAll("#outputRenderedHTML ruby").forEach((r) => {
-        const choice = r.innerHTML.replace(/<rt>.*?<\/rt>/g, "");
-        const jpBlank = "＿";
-        [...choice].forEach((c) => {
-            choices.push([
-                c,
-                "<div id='choice" +
+    document
+        .querySelectorAll("#renderedHTML" + index + " ruby")
+        .forEach((r) => {
+            const choice = r.innerHTML.replace(/<rt>.*?<\/rt>/g, "");
+            const jpBlank = "＿";
+            [...choice].forEach((c) => {
+                choices.push([
+                    c,
+                    "<div id='choice" +
+                        Math.floor(Date.now() * Math.random()) +
+                        "' class='choice' draggable='true' data-zone='" +
+                        index +
+                        "'>" +
+                        c +
+                        "</div>",
+                ]);
+            });
+
+            let repVal = "";
+            for (let x = 0; x < choice.length; x++) {
+                repVal +=
+                    "<div id='slot" +
                     Math.floor(Date.now() * Math.random()) +
-                    "' class='choice' draggable='true'>" +
-                    c +
-                    "</div>",
-            ]);
+                    "' class='slot' answer='" +
+                    choice.substring(x, x + 1) +
+                    "' data-zone='" +
+                    index +
+                    "'>＿</div>";
+            }
+
+            r.outerHTML = r.outerHTML.replace(
+                /<ruby>.+<rt>/g,
+                "<ruby>" + repVal + "<rt>"
+            );
         });
-
-        let repVal = "";
-        for (let x = 0; x < choice.length; x++) {
-            repVal +=
-                "<div id='slot" +
-                Math.floor(Date.now() * Math.random()) +
-                "' class='slot' answer='" +
-                choice.substring(x, x + 1) +
-                "'>＿</div>";
-        }
-
-        r.outerHTML = r.outerHTML.replace(
-            /<ruby>.+<rt>/g,
-            "<ruby>" + repVal + "<rt>"
-        );
-    });
 
     choices = choices.sort((a, b) => {
         return a[0].localeCompare(b[0], "ja");
     });
-    document.getElementById("choices").innerHTML = choices
+
+    document.getElementById("choices" + index).innerHTML = choices
         .map((c) => c[1])
         .join("");
-    registerDragDropEventHandlers();
+}
+
+function generateOutputContainer(index) {
+    let outputContainerDiv = document.createElement("div");
+    let renderedHTMLDiv = document.createElement("div");
+    let choicesDiv = document.createElement("div");
+
+    outputContainerDiv.classList.add("outputContainer");
+    renderedHTMLDiv.classList.add("renderedHTML");
+    choicesDiv.classList.add("choices");
+
+    renderedHTMLDiv.id = "renderedHTML" + index;
+    choicesDiv.id = "choices" + index;
+
+    outputContainerDiv.appendChild(renderedHTMLDiv);
+    outputContainerDiv.appendChild(choicesDiv);
+
+    return outputContainerDiv;
 }
 
 function registerDragDropEventHandlers() {
@@ -71,6 +81,10 @@ function registerDragDropEventHandlers() {
             const draggableElement = document.getElementById(data);
 
             e.target.classList.remove("hover");
+
+            // If the zone membership of the draggable doesn't match the target slot, bail.
+            // This check only really applies in cases where clusterSize QS is specified.
+            if (e.target.dataset.zone != draggableElement.dataset.zone) return;
 
             // If the target doesn't contain a guess yet
             if (e.target.innerHTML == "＿") {
@@ -186,13 +200,62 @@ function main() {
     const params = new URLSearchParams(window.location.search);
     const htmlQs = params.get("html");
     const hideInputQs = params.get("hideInput");
+    const clusterSizeQs = params.get("clusterSize");
 
     document.getElementById("inputHTML").addEventListener("input", function () {
         let tempHTML = document.getElementById("inputHTML").value;
-        document.getElementById("outputRenderedHTML").innerHTML = tempHTML;
-        createSlotsAndExtractAnswerChoices();
+        let sentenceHTMLChunks = [];
+        document.getElementById("playZone").innerHTML = "";
+
+        if (!clusterSizeQs || (clusterSizeQs && !Number(clusterSizeQs))) {
+            sentenceHTMLChunks.push(tempHTML);
+        } else {
+            sentenceHTMLChunks = tempHTML
+                .split("。")
+                .filter((c) => c.length > 0)
+                .map((c) => {
+                    return c + "。";
+                });
+        }
+
+        if (clusterSizeQs && clusterSizeQs > 1) {
+            let formedClusterCount = 0;
+            let tempReplaceSentenceHTMLChunks = [];
+            let formingChunk = "";
+
+            sentenceHTMLChunks.forEach((c, index) => {
+                if ((index + 1) % clusterSizeQs != 0) {
+                    formingChunk += c;
+
+                    if (index == sentenceHTMLChunks.length - 1) {
+                        tempReplaceSentenceHTMLChunks.push(formingChunk);
+                    }
+                } else {
+                    formingChunk += c;
+                    tempReplaceSentenceHTMLChunks.push(formingChunk);
+                    formingChunk = "";
+                }
+            });
+
+            sentenceHTMLChunks = tempReplaceSentenceHTMLChunks;
+        }
+
+        sentenceHTMLChunks.forEach((c, index) => {
+            let outputContainer = generateOutputContainer(index);
+
+            outputContainer.getElementsByClassName(
+                "renderedHTML"
+            )[0].innerHTML = c;
+
+            document.getElementById("playZone").appendChild(outputContainer);
+
+            createSlotsAndExtractAnswerChoices(index);
+        });
+
+        registerDragDropEventHandlers();
     });
 
+    // If html was passed to the tool via the URL
     if (htmlQs != undefined && htmlQs.length > 0) {
         Base64.extendString();
         try {
@@ -205,6 +268,7 @@ function main() {
         }
     }
 
+    // If the URL included the flag indicating we should hide the input HTML portion of the UI
     if (hideInputQs != undefined && hideInputQs.length > 0) {
         document.getElementById("inputZone").classList.add("noDisplay");
     }
