@@ -18,13 +18,14 @@ function createSlotsAndExtractAnswerChoices() {
         const choice = r.innerHTML.replace(/<rt>.*?<\/rt>/g, "");
         const jpBlank = "＿";
         [...choice].forEach((c) => {
-            choices.push(
+            choices.push([
+                c,
                 "<div id='choice" +
                     Math.floor(Date.now() * Math.random()) +
                     "' class='choice' draggable='true'>" +
                     c +
-                    "</div>"
-            );
+                    "</div>",
+            ]);
         });
 
         let repVal = "";
@@ -43,8 +44,12 @@ function createSlotsAndExtractAnswerChoices() {
         );
     });
 
-    shuffle(choices);
-    document.getElementById("choices").innerHTML = choices.join("");
+    choices = choices.sort((a, b) => {
+        return a[0].localeCompare(b[0], "ja");
+    });
+    document.getElementById("choices").innerHTML = choices
+        .map((c) => c[1])
+        .join("");
     registerDragDropEventHandlers();
 }
 
