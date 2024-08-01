@@ -211,6 +211,7 @@ function main() {
             sentenceHTMLChunks.push(tempHTML);
         } else {
             sentenceHTMLChunks = tempHTML
+                .replaceAll("<br/>", "")
                 .split("。")
                 .filter((c) => c.length > 0)
                 .map((c) => {
@@ -253,6 +254,8 @@ function main() {
         });
 
         registerDragDropEventHandlers();
+        this.style.height = "auto";
+        this.style.height = this.scrollHeight + "px";
     });
 
     // If html was passed to the tool via the URL
