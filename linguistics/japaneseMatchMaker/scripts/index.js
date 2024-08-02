@@ -120,6 +120,10 @@ function registerDragDropEventHandlers() {
                     draggableElement.remove();
                 }
             }
+            // Else if the target already contains a correct guess
+            else if (e.target.classList.contains("correct")) {
+                // Do nothing, as we don't want to support invalidating correct guesses.
+            }
             // Else the target already contains a guess and we are replacing it from either the choice pool or another slot
             else {
                 // If swapping two guesses already in slots results in both having correct answers now
