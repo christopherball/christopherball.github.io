@@ -127,12 +127,12 @@ div.slot.correct:hover {
 div.slot.incorrect {
     color: white;
     background-color: #2a2a2a;
-    border-bottom: 1px rgb(255, 0, 0) solid;
+    border-bottom: 1px #e93b81 solid;
     cursor: move;
 }
 
 div.slot.incorrect:hover {
-    color: rgb(255, 0, 0);
+    color: #e93b81;
 }
 
 div.english {
