@@ -14,3 +14,4 @@ Deconstructs Japanese sentences composed of standard ruby html markup, creating 
 
 Copyright © 2024 <a href="https://github.com/christopherball" target="_blank">Christopher Ball</a><br />
 License: <a href="https://github.com/christopherball/japaneseMatchMaker/blob/main/LICENSE">MIT License</a>, Source: <a href="https://github.com/christopherball/japaneseMatchMaker">Github</a><br />
+Credits: <a href="https://kodansha.us/product/the-kodansha-kanji-learners-course/">Kodansha Kanji Learner's Course</a> (Kanji Keywords)

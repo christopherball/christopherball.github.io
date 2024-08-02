@@ -11,7 +11,7 @@ body {
 
 div.content {
     min-height: 100%;
-    margin: 0 auto -42px;
+    margin: 0 auto -60px;
 }
 
 div.textAreaContainer,
@@ -59,7 +59,7 @@ div.footer {
     font-size: 1em;
     text-align: left;
     padding: 5px;
-    height: 42px;
+    height: 60px;
 }
 
 div.push {
