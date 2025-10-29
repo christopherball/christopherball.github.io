@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <title>Japanese Ruby Glosser</title>
+        <style>
+            body {
+                background-color: #1e1e2e;
+                color: #e0e0e0;
+                font-family: "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif;
+            }
+            .container {
+                position: relative;
+                display: inline-block;
+                font-size: 2em; /* Bigger Japanese text */
+                line-height: 1.8;
+                margin-bottom: 6em; /* keep glosses away from controls */
+            }
+            #jpText {
+                position: relative;
+                z-index: 1;
+            }
+            #jpText:focus {
+                outline: none;
+            }
+            .gloss-layer {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 0;
+            }
+            .gloss {
+                position: absolute;
+                pointer-events: auto;
+                transform: translateX(-50%);
+                padding: 3px 6px;
+                border-radius: 6px;
+                font-size: 14px;
+                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+                cursor: default;
+                text-align: center;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                color: coral;
+            }
+            .underlined {
+                text-decoration: underline;
+                text-decoration-thickness: 1.6px;
+                text-underline-offset: 4px;
+                margin-right: 3px;
+                color: coral;
+            }
+            #controls {
+                margin-bottom: 18px;
+                gap: 8px;
+                align-items: center;
+            }
+            input {
+                width: 250px;
+            }
+            button {
+                width: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <h3>Japanese Ruby Glosser</h3>
+        <div id="controls">
+            <input id="rubyInput" placeholder="Japanese ruby..." />
+            <button id="addRuby">Add Ruby</button>
+            <br />
+            <input id="glossInput" placeholder="English gloss..." />
+            <button id="addGloss">Add Gloss</button>
+        </div>
+
+        <div class="container" id="container">
+            <div id="jpText" tabindex="0"></div>
+            <div class="gloss-layer" id="glossLayer"></div>
+        </div>
+
+        <script>
+            const uid = () => "g" + Math.random().toString(36).slice(2, 9);
+            const addRubyBtn = document.getElementById("addRuby");
+            const rubyInput = document.getElementById("rubyInput");
+            const addGlossBtn = document.getElementById("addGloss");
+            const glossInput = document.getElementById("glossInput");
+            const glossLayer = document.getElementById("glossLayer");
+            const container = document.getElementById("container");
+
+            addRubyBtn.addEventListener("click", () => {
+                const text = rubyInput.value.trim();
+                document.getElementById("jpText").innerHTML = text;
+            });
+
+            addGlossBtn.addEventListener("click", () => {
+                const text = glossInput.value.trim();
+                if (!text) return alert("Enter a gloss first.");
+                const sel = window.getSelection();
+                if (!sel.rangeCount)
+                    return alert("Select some Japanese text first.");
+                const range = sel.getRangeAt(0);
+                if (!container.contains(range.commonAncestorContainer))
+                    return alert("Select some Japanese text first.");
+
+                const rect = range.getBoundingClientRect();
+                if (!rect || rect.width === 0)
+                    return alert("Invalid selection.");
+                const containerRect = container.getBoundingClientRect();
+                const centerX = rect.left - containerRect.left + rect.width / 2;
+                const topY = rect.bottom - containerRect.top + 6;
+
+                // Wrap selected content safely
+                const frag = range.extractContents();
+                const span = document.createElement("span");
+                const glossId = uid();
+                span.className = "underlined";
+                span.dataset.glossId = glossId;
+                span.appendChild(frag);
+                range.insertNode(span);
+                sel.removeAllRanges();
+
+                // Create gloss box
+                const box = document.createElement("div");
+                box.className = "gloss";
+                box.dataset.glossId = glossId;
+                box.textContent = text;
+                box.style.left = `${centerX}px`;
+                box.style.top = `${topY}px`;
+                box.style.maxWidth = `${rect.width}px`; // limit width to selection width
+                glossLayer.appendChild(box);
+
+                glossInput.value = "";
+
+                // Click to highlight
+                box.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    const under = container.querySelector(
+                        `[data-gloss-id="${glossId}"]`
+                    );
+                    if (!under) return;
+                    under.style.backgroundColor = "rgba(255,255,0,0.25)";
+                    setTimeout(() => (under.style.backgroundColor = ""), 400);
+                });
+
+                // Right-click to delete
+                box.addEventListener("contextmenu", (e) => {
+                    e.preventDefault();
+                    if (!confirm("Delete this gloss?")) return;
+                    const under = container.querySelector(
+                        `[data-gloss-id="${glossId}"]`
+                    );
+                    if (under) {
+                        while (under.firstChild)
+                            under.parentNode.insertBefore(
+                                under.firstChild,
+                                under
+                            );
+                        under.remove();
+                    }
+                    box.remove();
+                });
+            });
+
+            // Reposition on resize
+            function reposition() {
+                glossLayer.querySelectorAll(".gloss").forEach((box) => {
+                    const id = box.dataset.glossId;
+                    const span = container.querySelector(
+                        `[data-gloss-id="${id}"]`
+                    );
+                    if (!span) return;
+                    const rect = span.getBoundingClientRect();
+                    const cRect = container.getBoundingClientRect();
+                    box.style.left = `${
+                        rect.left - cRect.left + rect.width / 2
+                    }px`;
+                    box.style.top = `${rect.bottom - cRect.top + 6}px`;
+                    box.style.maxWidth = `${rect.width}px`;
+                });
+            }
+            window.addEventListener("resize", () => setTimeout(reposition, 60));
+            window.addEventListener(
+                "scroll",
+                () => setTimeout(reposition, 60),
+                true
+            );
+            window.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") addGlossBtn.click();
+            });
+        </script>
+    </body>
+</html>
