@@ -98,6 +98,7 @@
             <br />
             <input id="glossInput" placeholder="(English)" />
             <button id="addGloss" disabled="true">Add Gloss</button>
+            <span id="lastSelectionTextPreview"></span>
             <div class="color-picker-container">
                 <div id="greenSquare" class="color-square green selected">
                     ■
@@ -147,6 +148,8 @@
 
                 lastSelectionRange = null;
                 lastSelectionText = null;
+                document.getElementById("lastSelectionTextPreview").innerText =
+                    "";
                 document.getElementById("addGloss").disabled = true;
 
                 // Wrap selected content safely
@@ -176,23 +179,6 @@
                 glossLayer.appendChild(box);
 
                 glossInput.value = "";
-
-                box.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    if (!confirm("Delete this gloss?")) return;
-                    const under = container.querySelector(
-                        `[data-gloss-id="${glossId}"]`
-                    );
-                    if (under) {
-                        while (under.firstChild)
-                            under.parentNode.insertBefore(
-                                under.firstChild,
-                                under
-                            );
-                        under.remove();
-                    }
-                    box.remove();
-                });
             });
 
             window.addEventListener("keydown", (e) => {
@@ -206,6 +192,9 @@
                     lastSelectionText = selectedText;
                     lastSelectionRange = selectedRange;
                     document.getElementById("addGloss").disabled = false;
+                    document.getElementById(
+                        "lastSelectionTextPreview"
+                    ).innerText = "(to: " + lastSelectionText + ")";
                 }
             });
 
