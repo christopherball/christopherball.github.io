@@ -64,6 +64,9 @@
             button {
                 width: 100px;
             }
+            rt {
+                color: #878787 !important;
+            }
         </style>
     </head>
     <body>
@@ -73,7 +76,7 @@
             <button id="addRuby">Add Ruby</button>
             <br />
             <input id="glossInput" placeholder="English gloss..." />
-            <button id="addGloss">Add Gloss</button>
+            <button id="addGloss" disabled="true">Add Gloss</button>
         </div>
 
         <div class="container" id="container">
@@ -98,10 +101,9 @@
             addGlossBtn.addEventListener("click", () => {
                 const text = glossInput.value.trim();
                 if (!text) return alert("Enter a gloss first.");
-                const sel = window.getSelection();
-                if (!sel.rangeCount)
+                if (lastSelectionRange == null)
                     return alert("Select some Japanese text first.");
-                const range = sel.getRangeAt(0);
+                const range = lastSelectionRange;
                 if (!container.contains(range.commonAncestorContainer))
                     return alert("Select some Japanese text first.");
 
@@ -120,7 +122,10 @@
                 span.dataset.glossId = glossId;
                 span.appendChild(frag);
                 range.insertNode(span);
-                sel.removeAllRanges();
+
+                lastSelectionRange = null;
+                lastSelectionText = null;
+                document.getElementById("addGloss").disabled = true;
 
                 // Create gloss box
                 const box = document.createElement("div");
@@ -189,6 +194,18 @@
             );
             window.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") addGlossBtn.click();
+            });
+
+            var lastSelectionText = null;
+            var lastSelectionRange = null;
+            document.addEventListener("mouseup", function () {
+                const selectedText = window.getSelection().toString();
+                const selectedRange = window.getSelection().getRangeAt(0);
+                if (selectedText.length > 0) {
+                    lastSelectionText = selectedText;
+                    lastSelectionRange = selectedRange;
+                    document.getElementById("addGloss").disabled = false;
+                }
             });
         </script>
     </body>
