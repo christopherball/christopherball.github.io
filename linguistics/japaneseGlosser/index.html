@@ -2,7 +2,7 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8" />
-        <title>Japanese Ruby Glosser</title>
+        <title>Japanese Glosser</title>
         <style>
             body {
                 background-color: #1e1e2e;
@@ -12,9 +12,9 @@
             .container {
                 position: relative;
                 display: inline-block;
-                font-size: 2em; /* Bigger Japanese text */
+                font-size: 2em;
                 line-height: 1.8;
-                margin-bottom: 6em; /* keep glosses away from controls */
+                margin-bottom: 6em;
             }
             #jpText {
                 position: relative;
@@ -44,14 +44,12 @@
                 text-align: center;
                 word-wrap: break-word;
                 overflow-wrap: break-word;
-                color: coral;
             }
             .underlined {
                 text-decoration: underline;
                 text-decoration-thickness: 1.6px;
                 text-underline-offset: 4px;
                 margin-right: 3px;
-                color: coral;
             }
             #controls {
                 margin-bottom: 18px;
@@ -67,16 +65,49 @@
             rt {
                 color: #878787 !important;
             }
+
+            .color-picker-container {
+                display: flex;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .color-square {
+                width: 15px;
+                height: 15px;
+                cursor: pointer;
+            }
+            .red {
+                color: #ff7474;
+            }
+            .yellow {
+                color: #ffff4a;
+            }
+            .green {
+                color: #64b564;
+            }
+            .selected {
+                text-decoration: underline;
+                text-decoration-thickness: 1.6px;
+                text-underline-offset: 4px;
+            }
         </style>
     </head>
     <body>
-        <h3>Japanese Ruby Glosser</h3>
+        <h3>Japanese Glosser</h3>
         <div id="controls">
-            <input id="rubyInput" placeholder="Japanese ruby..." />
-            <button id="addRuby">Add Ruby</button>
+            <input id="textInput" placeholder="(Japanese)" />
+            <button id="addText">Add Text</button>
             <br />
-            <input id="glossInput" placeholder="English gloss..." />
+            <input id="glossInput" placeholder="(English)" />
             <button id="addGloss" disabled="true">Add Gloss</button>
+            <div class="color-picker-container">
+                <div id="greenSquare" class="color-square green selected">
+                    ■
+                </div>
+                <div id="yellowSquare" class="color-square yellow">■</div>
+                <div id="redSquare" class="color-square red">■</div>
+            </div>
         </div>
 
         <div class="container" id="container">
@@ -86,15 +117,18 @@
 
         <script>
             const uid = () => "g" + Math.random().toString(36).slice(2, 9);
-            const addRubyBtn = document.getElementById("addRuby");
-            const rubyInput = document.getElementById("rubyInput");
+            const addTextBtn = document.getElementById("addText");
+            const textInput = document.getElementById("textInput");
             const addGlossBtn = document.getElementById("addGloss");
             const glossInput = document.getElementById("glossInput");
             const glossLayer = document.getElementById("glossLayer");
             const container = document.getElementById("container");
 
-            addRubyBtn.addEventListener("click", () => {
-                const text = rubyInput.value.trim();
+            var lastSelectionText = null;
+            var lastSelectionRange = null;
+
+            addTextBtn.addEventListener("click", () => {
+                const text = textInput.value.trim();
                 document.getElementById("jpText").innerHTML = text;
             });
 
@@ -114,22 +148,29 @@
                 const centerX = rect.left - containerRect.left + rect.width / 2;
                 const topY = rect.bottom - containerRect.top + 6;
 
-                // Wrap selected content safely
-                const frag = range.extractContents();
-                const span = document.createElement("span");
-                const glossId = uid();
-                span.className = "underlined";
-                span.dataset.glossId = glossId;
-                span.appendChild(frag);
-                range.insertNode(span);
-
                 lastSelectionRange = null;
                 lastSelectionText = null;
                 document.getElementById("addGloss").disabled = true;
 
-                // Create gloss box
+                // Wrap selected content safely
+                const frag = range.extractContents();
+                const span = document.createElement("span");
+                const glossId = uid();
+                span.className =
+                    "underlined " +
+                    document
+                        .querySelector(".color-square.selected")
+                        .id.replace("Square", "");
+                span.dataset.glossId = glossId;
+                span.appendChild(frag);
+                range.insertNode(span);
+
                 const box = document.createElement("div");
-                box.className = "gloss";
+                box.className =
+                    "gloss " +
+                    document
+                        .querySelector(".color-square.selected")
+                        .id.replace("Square", "");
                 box.dataset.glossId = glossId;
                 box.textContent = text;
                 box.style.left = `${centerX}px`;
@@ -139,19 +180,7 @@
 
                 glossInput.value = "";
 
-                // Click to highlight
                 box.addEventListener("click", (e) => {
-                    e.stopPropagation();
-                    const under = container.querySelector(
-                        `[data-gloss-id="${glossId}"]`
-                    );
-                    if (!under) return;
-                    under.style.backgroundColor = "rgba(255,255,0,0.25)";
-                    setTimeout(() => (under.style.backgroundColor = ""), 400);
-                });
-
-                // Right-click to delete
-                box.addEventListener("contextmenu", (e) => {
                     e.preventDefault();
                     if (!confirm("Delete this gloss?")) return;
                     const under = container.querySelector(
@@ -169,35 +198,10 @@
                 });
             });
 
-            // Reposition on resize
-            function reposition() {
-                glossLayer.querySelectorAll(".gloss").forEach((box) => {
-                    const id = box.dataset.glossId;
-                    const span = container.querySelector(
-                        `[data-gloss-id="${id}"]`
-                    );
-                    if (!span) return;
-                    const rect = span.getBoundingClientRect();
-                    const cRect = container.getBoundingClientRect();
-                    box.style.left = `${
-                        rect.left - cRect.left + rect.width / 2
-                    }px`;
-                    box.style.top = `${rect.bottom - cRect.top + 6}px`;
-                    box.style.maxWidth = `${rect.width}px`;
-                });
-            }
-            window.addEventListener("resize", () => setTimeout(reposition, 60));
-            window.addEventListener(
-                "scroll",
-                () => setTimeout(reposition, 60),
-                true
-            );
             window.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") addGlossBtn.click();
             });
 
-            var lastSelectionText = null;
-            var lastSelectionRange = null;
             document.addEventListener("mouseup", function () {
                 const selectedText = window.getSelection().toString();
                 const selectedRange = window.getSelection().getRangeAt(0);
@@ -206,6 +210,24 @@
                     lastSelectionRange = selectedRange;
                     document.getElementById("addGloss").disabled = false;
                 }
+            });
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const redSquare = document.getElementById("redSquare");
+                const yellowSquare = document.getElementById("yellowSquare");
+                const greenSquare = document.getElementById("greenSquare");
+
+                const colorSquares = [redSquare, yellowSquare, greenSquare];
+
+                colorSquares.forEach((square) => {
+                    square.addEventListener("click", () => {
+                        colorSquares.forEach((s) =>
+                            s.classList.remove("selected")
+                        );
+
+                        square.classList.add("selected");
+                    });
+                });
             });
         </script>
     </body>
