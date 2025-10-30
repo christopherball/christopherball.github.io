@@ -13,12 +13,12 @@
                 position: relative;
                 display: inline-block;
                 font-size: 2em;
-                line-height: 1.8;
                 margin-bottom: 6em;
             }
             #jpText {
                 position: relative;
                 z-index: 1;
+                line-height: 3;
             }
             #jpText:focus {
                 outline: none;
@@ -36,10 +36,7 @@
                 position: absolute;
                 pointer-events: auto;
                 transform: translateX(-50%);
-                padding: 3px 6px;
-                border-radius: 6px;
                 font-size: 14px;
-                box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
                 cursor: default;
                 text-align: center;
                 word-wrap: break-word;
@@ -141,7 +138,7 @@
                 if (!container.contains(range.commonAncestorContainer))
                     return alert("Select some Japanese text first.");
 
-                const rect = range.getBoundingClientRect();
+                const rect = range.getClientRects()[0];
                 if (!rect || rect.width === 0)
                     return alert("Invalid selection.");
                 const containerRect = container.getBoundingClientRect();
