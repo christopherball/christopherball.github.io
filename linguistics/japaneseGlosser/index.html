@@ -364,6 +364,8 @@
                 const div = document.getElementById("jpText");
                 let capturedId = null;
 
+                if (searchValue == null) return;
+
                 const escaped = searchValue.replace(
                     /[.*+?^${}()|[\]\\]/g,
                     "\\$&",
