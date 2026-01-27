@@ -310,6 +310,7 @@
 
             window.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") addGlossBtn.click();
+                else if (e.key === "Delete") removeFormatting();
             });
 
             document.addEventListener("mouseup", function () {
@@ -357,6 +358,36 @@
                     });
                 });
             });
+
+            function removeFormatting() {
+                const searchValue = lastSelectionText;
+                const div = document.getElementById("jpText");
+                let capturedId = null;
+
+                const escaped = searchValue.replace(
+                    /[.*+?^${}()|[\]\\]/g,
+                    "\\$&",
+                );
+                const regex = new RegExp(
+                    `<span[^>]*data-gloss-id="([^"]*)"[^>]*>${escaped}</span>`,
+                );
+
+                // 1. Replace the span and extract the ID
+                div.innerHTML = div.innerHTML.replace(regex, (match, g1) => {
+                    capturedId = g1;
+                    return searchValue;
+                });
+
+                // 2. Find and delete the associated div
+                if (capturedId) {
+                    const targetDiv = document.querySelector(
+                        `div[data-gloss-id="${capturedId}"]`,
+                    );
+                    if (targetDiv) {
+                        targetDiv.remove();
+                    }
+                }
+            }
         </script>
     </body>
 </html>
