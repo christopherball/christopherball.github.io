@@ -99,6 +99,30 @@
                 color: violet;
             }
 
+            .redBg {
+                background-color: #ff7474;
+            }
+
+            .orangeBg {
+                background-color: orange;
+            }
+
+            .yellowBg {
+                background-color: #ffff4a;
+            }
+
+            .greenBg {
+                background-color: #64b564;
+            }
+
+            .blueBg {
+                background-color: rgb(45, 213, 255);
+            }
+
+            .violetBg {
+                background-color: violet;
+            }
+
             .selected {
                 text-decoration: underline;
                 text-decoration-thickness: 1.6px;
@@ -135,12 +159,24 @@
             </div>
             <div class="sectionHeader">Presets</div>
             <div class="presets">
-                <button id="addWho">who</button>
-                <button id="addWhere">where</button>
-                <button id="addWhen">when</button>
-                <button id="addWhy">why</button>
-                <button id="addHow">how</button>
-                <button id="addAction">action</button>
+                <button id="addWho" class="violetBg" disabled="true">
+                    Who
+                </button>
+                <button id="addWhere" class="blueBg" disabled="true">
+                    Where
+                </button>
+                <button id="addWhen" class="greenBg" disabled="true">
+                    When
+                </button>
+                <button id="addWhy" class="yellowBg" disabled="true">
+                    Why
+                </button>
+                <button id="addHow" class="orangeBg" disabled="true">
+                    How
+                </button>
+                <button id="addAction" class="redBg" disabled="true">
+                    Action
+                </button>
             </div>
         </div>
 
@@ -229,6 +265,9 @@
                 document.getElementById("lastSelectionTextPreview").innerText =
                     "";
                 document.getElementById("addGloss").disabled = true;
+                document.querySelectorAll(".presets button").forEach((b) => {
+                    b.disabled = true;
+                });
 
                 // Wrap selected content safely
                 const frag = range.extractContents();
@@ -270,6 +309,11 @@
                     lastSelectionText = selectedText;
                     lastSelectionRange = selectedRange;
                     document.getElementById("addGloss").disabled = false;
+                    document
+                        .querySelectorAll(".presets button")
+                        .forEach((b) => {
+                            b.disabled = false;
+                        });
                     document.getElementById(
                         "lastSelectionTextPreview",
                     ).innerText = "(to: " + lastSelectionText + ")";
