@@ -129,12 +129,17 @@
                 text-underline-offset: 4px;
             }
 
-            .sectionHeader {
+            .sectionHeader,
+            label {
                 font-size: 12px;
             }
 
             .presets button {
                 width: 56px;
+            }
+
+            input[type="checkbox"] {
+                width: 20px;
             }
         </style>
     </head>
@@ -143,6 +148,8 @@
         <div id="controls">
             <input id="textInput" placeholder="(Japanese)" />
             <button id="addText">Add Text</button>
+            <input type="checkbox" id="sentenceBreak" checked />
+            <label for="sentenceBreak">Sentence Breaks</label>
             <br />
             <input id="glossInput" placeholder="(English)" />
             <button id="addGloss" disabled="true">Add Gloss</button>
@@ -204,7 +211,10 @@
             var lastSelectionRange = null;
 
             addTextBtn.addEventListener("click", () => {
-                const text = textInput.value.trim();
+                let text = textInput.value.trim();
+                if (document.getElementById("sentenceBreak").checked) {
+                    text = text.replace(/。/g, "。<br/>");
+                }
                 document.getElementById("jpText").innerHTML = text;
             });
 
