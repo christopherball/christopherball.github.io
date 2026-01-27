@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
     <head>
         <meta charset="utf-8" />
@@ -74,19 +74,43 @@
                 height: 15px;
                 cursor: pointer;
             }
+
             .red {
                 color: #ff7474;
             }
+
+            .orange {
+                color: orange;
+            }
+
             .yellow {
                 color: #ffff4a;
             }
+
             .green {
                 color: #64b564;
             }
+
+            .blue {
+                color: rgb(45, 213, 255);
+            }
+
+            .violet {
+                color: violet;
+            }
+
             .selected {
                 text-decoration: underline;
                 text-decoration-thickness: 1.6px;
                 text-underline-offset: 4px;
+            }
+
+            .sectionHeader {
+                font-size: 12px;
+            }
+
+            .presets button {
+                width: 56px;
             }
         </style>
     </head>
@@ -100,11 +124,23 @@
             <button id="addGloss" disabled="true">Add Gloss</button>
             <span id="lastSelectionTextPreview"></span>
             <div class="color-picker-container">
-                <div id="greenSquare" class="color-square green selected">
+                <div id="violetSquare" class="color-square violet selected">
                     ■
                 </div>
+                <div id="blueSquare" class="color-square blue">■</div>
+                <div id="greenSquare" class="color-square green">■</div>
                 <div id="yellowSquare" class="color-square yellow">■</div>
+                <div id="orangeSquare" class="color-square orange">■</div>
                 <div id="redSquare" class="color-square red">■</div>
+            </div>
+            <div class="sectionHeader">Presets</div>
+            <div class="presets">
+                <button id="addWho">who</button>
+                <button id="addWhere">where</button>
+                <button id="addWhen">when</button>
+                <button id="addWhy">why</button>
+                <button id="addHow">how</button>
+                <button id="addAction">action</button>
             </div>
         </div>
 
@@ -116,6 +152,12 @@
         <script>
             const uid = () => "g" + Math.random().toString(36).slice(2, 9);
             const addTextBtn = document.getElementById("addText");
+            const addWhoBtn = document.getElementById("addWho");
+            const addWhereBtn = document.getElementById("addWhere");
+            const addWhenBtn = document.getElementById("addWhen");
+            const addWhyBtn = document.getElementById("addWhy");
+            const addHowBtn = document.getElementById("addHow");
+            const addActionBtn = document.getElementById("addAction");
             const textInput = document.getElementById("textInput");
             const addGlossBtn = document.getElementById("addGloss");
             const glossInput = document.getElementById("glossInput");
@@ -128,6 +170,42 @@
             addTextBtn.addEventListener("click", () => {
                 const text = textInput.value.trim();
                 document.getElementById("jpText").innerHTML = text;
+            });
+
+            addWhoBtn.addEventListener("click", () => {
+                glossInput.value = "who";
+                document.getElementById("violetSquare").click();
+                addGlossBtn.click();
+            });
+
+            addWhereBtn.addEventListener("click", () => {
+                glossInput.value = "where";
+                document.getElementById("blueSquare").click();
+                addGlossBtn.click();
+            });
+
+            addWhenBtn.addEventListener("click", () => {
+                glossInput.value = "when";
+                document.getElementById("greenSquare").click();
+                addGlossBtn.click();
+            });
+
+            addWhyBtn.addEventListener("click", () => {
+                glossInput.value = "why";
+                document.getElementById("yellowSquare").click();
+                addGlossBtn.click();
+            });
+
+            addHowBtn.addEventListener("click", () => {
+                glossInput.value = "how";
+                document.getElementById("orangeSquare").click();
+                addGlossBtn.click();
+            });
+
+            addActionBtn.addEventListener("click", () => {
+                glossInput.value = "action";
+                document.getElementById("redSquare").click();
+                addGlossBtn.click();
             });
 
             addGlossBtn.addEventListener("click", () => {
@@ -193,22 +271,32 @@
                     lastSelectionRange = selectedRange;
                     document.getElementById("addGloss").disabled = false;
                     document.getElementById(
-                        "lastSelectionTextPreview"
+                        "lastSelectionTextPreview",
                     ).innerText = "(to: " + lastSelectionText + ")";
                 }
             });
 
             document.addEventListener("DOMContentLoaded", () => {
                 const redSquare = document.getElementById("redSquare");
+                const orangeSquare = document.getElementById("orangeSquare");
                 const yellowSquare = document.getElementById("yellowSquare");
                 const greenSquare = document.getElementById("greenSquare");
+                const blueSquare = document.getElementById("blueSquare");
+                const violetSquare = document.getElementById("violetSquare");
 
-                const colorSquares = [redSquare, yellowSquare, greenSquare];
+                const colorSquares = [
+                    redSquare,
+                    orangeSquare,
+                    yellowSquare,
+                    greenSquare,
+                    blueSquare,
+                    violetSquare,
+                ];
 
                 colorSquares.forEach((square) => {
                     square.addEventListener("click", () => {
                         colorSquares.forEach((s) =>
-                            s.classList.remove("selected")
+                            s.classList.remove("selected"),
                         );
 
                         square.classList.add("selected");
