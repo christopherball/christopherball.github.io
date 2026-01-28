@@ -137,6 +137,7 @@
             .presets button {
                 width: 56px;
                 padding: 0px;
+                height: 42px;
             }
 
             input[type="checkbox"] {
@@ -168,22 +169,22 @@
             <div class="sectionHeader">Event Structure Presets</div>
             <div class="presets">
                 <button id="addActor" class="violetBg" disabled="true">
-                    Actor
+                    Actor<br />1
                 </button>
                 <button id="addLocation" class="blueBg" disabled="true">
-                    Location
+                    Location<br />2
                 </button>
                 <button id="addTime" class="greenBg" disabled="true">
-                    Time
+                    Time<br />3
                 </button>
                 <button id="addReason" class="yellowBg" disabled="true">
-                    Reason
+                    Reason<br />4
                 </button>
                 <button id="addManner" class="orangeBg" disabled="true">
-                    Manner
+                    Manner<br />5
                 </button>
                 <button id="addAction" class="redBg" disabled="true">
-                    Action
+                    Action<br />6
                 </button>
             </div>
         </div>
@@ -308,11 +309,18 @@
                 glossLayer.appendChild(box);
 
                 glossInput.value = "";
+                window.getSelection().removeAllRanges();
             });
 
             window.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") addGlossBtn.click();
                 else if (e.key === "Delete") removeFormatting();
+                else if (e.key === "1") addActorBtn.click();
+                else if (e.key === "2") addLocationBtn.click();
+                else if (e.key === "3") addTimeBtn.click();
+                else if (e.key === "4") addReasonBtn.click();
+                else if (e.key === "5") addMannerBtn.click();
+                else if (e.key === "6") addActionBtn.click();
             });
 
             document.addEventListener("mouseup", function () {
