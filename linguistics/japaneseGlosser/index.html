@@ -136,6 +136,7 @@
 
             .presets button {
                 width: 56px;
+                padding: 0px;
             }
 
             input[type="checkbox"] {
@@ -164,22 +165,22 @@
                 <div id="orangeSquare" class="color-square orange">■</div>
                 <div id="redSquare" class="color-square red">■</div>
             </div>
-            <div class="sectionHeader">Presets</div>
+            <div class="sectionHeader">Event Structure Presets</div>
             <div class="presets">
-                <button id="addWho" class="violetBg" disabled="true">
-                    Who
+                <button id="addActor" class="violetBg" disabled="true">
+                    Actor
                 </button>
-                <button id="addWhere" class="blueBg" disabled="true">
-                    Where
+                <button id="addLocation" class="blueBg" disabled="true">
+                    Location
                 </button>
-                <button id="addWhen" class="greenBg" disabled="true">
-                    When
+                <button id="addTime" class="greenBg" disabled="true">
+                    Time
                 </button>
-                <button id="addWhy" class="yellowBg" disabled="true">
-                    Why
+                <button id="addReason" class="yellowBg" disabled="true">
+                    Reason
                 </button>
-                <button id="addHow" class="orangeBg" disabled="true">
-                    How
+                <button id="addManner" class="orangeBg" disabled="true">
+                    Manner
                 </button>
                 <button id="addAction" class="redBg" disabled="true">
                     Action
@@ -195,11 +196,11 @@
         <script>
             const uid = () => "g" + Math.random().toString(36).slice(2, 9);
             const addTextBtn = document.getElementById("addText");
-            const addWhoBtn = document.getElementById("addWho");
-            const addWhereBtn = document.getElementById("addWhere");
-            const addWhenBtn = document.getElementById("addWhen");
-            const addWhyBtn = document.getElementById("addWhy");
-            const addHowBtn = document.getElementById("addHow");
+            const addActorBtn = document.getElementById("addActor");
+            const addLocationBtn = document.getElementById("addLocation");
+            const addTimeBtn = document.getElementById("addTime");
+            const addReasonBtn = document.getElementById("addReason");
+            const addMannerBtn = document.getElementById("addManner");
             const addActionBtn = document.getElementById("addAction");
             const textInput = document.getElementById("textInput");
             const addGlossBtn = document.getElementById("addGloss");
@@ -218,32 +219,32 @@
                 document.getElementById("jpText").innerHTML = text;
             });
 
-            addWhoBtn.addEventListener("click", () => {
-                glossInput.value = "who";
+            addActorBtn.addEventListener("click", () => {
+                glossInput.value = "actor";
                 document.getElementById("violetSquare").click();
                 addGlossBtn.click();
             });
 
-            addWhereBtn.addEventListener("click", () => {
-                glossInput.value = "where";
+            addLocationBtn.addEventListener("click", () => {
+                glossInput.value = "location";
                 document.getElementById("blueSquare").click();
                 addGlossBtn.click();
             });
 
-            addWhenBtn.addEventListener("click", () => {
-                glossInput.value = "when";
+            addTimeBtn.addEventListener("click", () => {
+                glossInput.value = "time";
                 document.getElementById("greenSquare").click();
                 addGlossBtn.click();
             });
 
-            addWhyBtn.addEventListener("click", () => {
-                glossInput.value = "why";
+            addReasonBtn.addEventListener("click", () => {
+                glossInput.value = "reason";
                 document.getElementById("yellowSquare").click();
                 addGlossBtn.click();
             });
 
-            addHowBtn.addEventListener("click", () => {
-                glossInput.value = "how";
+            addMannerBtn.addEventListener("click", () => {
+                glossInput.value = "manner";
                 document.getElementById("orangeSquare").click();
                 addGlossBtn.click();
             });
