@@ -273,15 +273,6 @@
                 const centerX = rect.left - containerRect.left + rect.width / 2;
                 const topY = rect.bottom - containerRect.top + 6;
 
-                lastSelectionRange = null;
-                lastSelectionText = null;
-                document.getElementById("lastSelectionTextPreview").innerText =
-                    "";
-                document.getElementById("addGloss").disabled = true;
-                document.querySelectorAll(".presets button").forEach((b) => {
-                    b.disabled = true;
-                });
-
                 // Wrap selected content safely
                 const frag = range.extractContents();
                 const span = document.createElement("span");
@@ -308,9 +299,21 @@
                 box.style.maxWidth = `${rect.width}px`; // limit width to selection width
                 glossLayer.appendChild(box);
 
+                resetState();
+            });
+
+            function resetState() {
+                lastSelectionRange = null;
+                lastSelectionText = null;
+                document.getElementById("lastSelectionTextPreview").innerText =
+                    "";
+                document.getElementById("addGloss").disabled = true;
+                document.querySelectorAll(".presets button").forEach((b) => {
+                    b.disabled = true;
+                });
                 glossInput.value = "";
                 window.getSelection().removeAllRanges();
-            });
+            }
 
             window.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") addGlossBtn.click();
@@ -324,6 +327,14 @@
             });
 
             document.addEventListener("mouseup", function () {
+                if (
+                    containsHtml(getSelectionHtml()) ||
+                    (isSelectionInSpan() && !isEntireParentSelected())
+                ) {
+                    resetState();
+                    return;
+                }
+
                 const selectedText = window.getSelection().toString();
                 const selectedRange = window.getSelection().getRangeAt(0);
                 if (selectedText.length > 0) {
@@ -369,6 +380,37 @@
                 });
             });
 
+            function getSelectionHtml() {
+                let html = "";
+                if (typeof window.getSelection != "undefined") {
+                    const sel = window.getSelection();
+                    if (sel.rangeCount) {
+                        const container = document.createElement("div");
+                        for (let i = 0, len = sel.rangeCount; i < len; ++i) {
+                            container.appendChild(
+                                sel.getRangeAt(i).cloneContents(),
+                            );
+                        }
+                        html = container.innerHTML;
+                    }
+                } else if (typeof document.selection != "undefined") {
+                    // Fallback for older IE (if needed)
+                    if (document.selection.type == "Text") {
+                        html = document.selection.createRange().htmlText;
+                    }
+                }
+                return html;
+            }
+
+            function containsHtml(str) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(str, "text/html");
+                // Check if the body contains any element nodes (nodeType === 1)
+                return Array.from(doc.body.childNodes).some(
+                    (node) => node.nodeType === 1,
+                );
+            }
+
             function getSelectionContainerAttribute(attributeName) {
                 const selection = window.getSelection();
 
@@ -394,6 +436,44 @@
                 }
 
                 return null;
+            }
+
+            function isSelectionInSpan() {
+                const selection = window.getSelection();
+                if (!selection.rangeCount) return false;
+
+                const container =
+                    selection.getRangeAt(0).commonAncestorContainer;
+                const parentElement =
+                    container.nodeType === Node.ELEMENT_NODE
+                        ? container
+                        : container.parentElement;
+
+                // Checks if the container itself OR any parent is a span
+                return !!parentElement.closest("span");
+            }
+
+            function isEntireParentSelected() {
+                const selection = window.getSelection();
+
+                // Basic validation for an active selection
+                if (!selection.rangeCount || selection.isCollapsed)
+                    return false;
+
+                const range = selection.getRangeAt(0);
+                const container = range.commonAncestorContainer;
+
+                // Get the immediate element parent
+                const parentElement =
+                    container.nodeType === Node.ELEMENT_NODE
+                        ? container
+                        : container.parentElement;
+
+                // Use .trim() to prevent failures from accidental leading/trailing whitespace
+                const selectedText = selection.toString().trim();
+                const parentText = parentElement.innerText.trim();
+
+                return selectedText === parentText && selectedText.length > 0;
             }
 
             function removeFormatting() {
@@ -426,6 +506,7 @@
                     const selector = `div[data-gloss-id="${targetId}"]`;
                     const elementToRemove = document.querySelector(selector);
                     if (elementToRemove) elementToRemove.remove();
+                    resetState();
                 }
             }
         </script>
