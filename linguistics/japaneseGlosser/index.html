@@ -414,11 +414,19 @@
                     `<span[^>]*data-gloss-id="${targetId}"[^>]*>${escaped}</span>`,
                 );
 
-                jpDiv.innerHTML = jpDiv.innerHTML.replace(regex, searchValue);
+                const replacementHTML = jpDiv.innerHTML.replace(
+                    regex,
+                    searchValue,
+                );
 
-                const selector = `div[data-gloss-id="${targetId}"]`;
-                const elementToRemove = document.querySelector(selector);
-                if (elementToRemove) elementToRemove.remove();
+                const inboundChange = replacementHTML != jpDiv.innerHTML;
+                jpDiv.innerHTML = replacementHTML;
+
+                if (inboundChange) {
+                    const selector = `div[data-gloss-id="${targetId}"]`;
+                    const elementToRemove = document.querySelector(selector);
+                    if (elementToRemove) elementToRemove.remove();
+                }
             }
         </script>
     </body>
