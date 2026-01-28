@@ -142,6 +142,7 @@
 
             input[type="checkbox"] {
                 width: 20px;
+                margin: 0px;
             }
         </style>
     </head>
@@ -366,7 +367,8 @@
                         });
                     document.getElementById(
                         "lastSelectionTextPreview",
-                    ).innerText = "(to: " + lastSelectionText + ")";
+                    ).innerText =
+                        " ► " + truncateWithLastChar(lastSelectionText, 30);
                 }
             });
 
@@ -397,6 +399,21 @@
                     });
                 });
             });
+
+            function truncateWithLastChar(str, maxLength) {
+                // Return the original string if it's already within the limit
+                if (str.length <= maxLength) {
+                    return str;
+                }
+
+                // Calculate the content length before the ellipsis.
+                // We need to keep room for the '...' (3 characters) and the final char (1 character).
+                // Total removed is 4 (3 for '...' + 1 for last character).
+                const allowedLength = maxLength - 4;
+
+                // Take the start of the string, add "...", and append the very last character
+                return str.slice(0, allowedLength) + "..." + str.slice(-1);
+            }
 
             function getSelectionHtml() {
                 let html = "";
