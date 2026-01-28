@@ -360,10 +360,39 @@
                 });
             });
 
+            function getSelectionContainerAttribute(attributeName) {
+                const selection = window.getSelection();
+
+                // Check if there is an active selection
+                if (!selection || selection.rangeCount === 0) {
+                    return null;
+                }
+
+                // Get the first range of the selection
+                const range = selection.getRangeAt(0);
+
+                // Get the common ancestor container node
+                let container = range.commonAncestorContainer;
+
+                // If the container is a text node, get its parent element
+                if (container.nodeType !== Node.ELEMENT_NODE) {
+                    container = container.parentNode;
+                }
+
+                // Check if the container is an actual element before trying to get an attribute
+                if (container && container.nodeType === Node.ELEMENT_NODE) {
+                    return container.getAttribute(attributeName);
+                }
+
+                return null;
+            }
+
             function removeFormatting() {
+                const targetId =
+                    getSelectionContainerAttribute("data-gloss-id");
                 const searchValue = lastSelectionText;
-                const div = document.getElementById("jpText");
-                let capturedId = null;
+                const jpDiv = document.getElementById("jpText");
+                const glossDiv = document.getElementById("glossLayer");
 
                 if (searchValue == null) return;
 
@@ -371,25 +400,16 @@
                     /[.*+?^${}()|[\]\\]/g,
                     "\\$&",
                 );
+
                 const regex = new RegExp(
-                    `<span[^>]*data-gloss-id="([^"]*)"[^>]*>${escaped}</span>`,
+                    `<span[^>]*data-gloss-id="${targetId}"[^>]*>${escaped}</span>`,
                 );
 
-                // 1. Replace the span and extract the ID
-                div.innerHTML = div.innerHTML.replace(regex, (match, g1) => {
-                    capturedId = g1;
-                    return searchValue;
-                });
+                jpDiv.innerHTML = jpDiv.innerHTML.replace(regex, searchValue);
 
-                // 2. Find and delete the associated div
-                if (capturedId) {
-                    const targetDiv = document.querySelector(
-                        `div[data-gloss-id="${capturedId}"]`,
-                    );
-                    if (targetDiv) {
-                        targetDiv.remove();
-                    }
-                }
+                const selector = `div[data-gloss-id="${targetId}"]`;
+                const elementToRemove = document.querySelector(selector);
+                if (elementToRemove) elementToRemove.remove();
             }
         </script>
     </body>
