@@ -222,39 +222,51 @@
             });
 
             addActorBtn.addEventListener("click", () => {
-                glossInput.value = "actor";
-                document.getElementById("violetSquare").click();
-                addGlossBtn.click();
+                if (!isSelectionInSpan()) {
+                    glossInput.value = "actor";
+                    document.getElementById("violetSquare").click();
+                    addGlossBtn.click();
+                }
             });
 
             addLocationBtn.addEventListener("click", () => {
-                glossInput.value = "location";
-                document.getElementById("blueSquare").click();
-                addGlossBtn.click();
+                if (!isSelectionInSpan()) {
+                    glossInput.value = "location";
+                    document.getElementById("blueSquare").click();
+                    addGlossBtn.click();
+                }
             });
 
             addTimeBtn.addEventListener("click", () => {
-                glossInput.value = "time";
-                document.getElementById("greenSquare").click();
-                addGlossBtn.click();
+                if (!isSelectionInSpan()) {
+                    glossInput.value = "time";
+                    document.getElementById("greenSquare").click();
+                    addGlossBtn.click();
+                }
             });
 
             addReasonBtn.addEventListener("click", () => {
-                glossInput.value = "reason";
-                document.getElementById("yellowSquare").click();
-                addGlossBtn.click();
+                if (!isSelectionInSpan()) {
+                    glossInput.value = "reason";
+                    document.getElementById("yellowSquare").click();
+                    addGlossBtn.click();
+                }
             });
 
             addMannerBtn.addEventListener("click", () => {
-                glossInput.value = "manner";
-                document.getElementById("orangeSquare").click();
-                addGlossBtn.click();
+                if (!isSelectionInSpan()) {
+                    glossInput.value = "manner";
+                    document.getElementById("orangeSquare").click();
+                    addGlossBtn.click();
+                }
             });
 
             addActionBtn.addEventListener("click", () => {
-                glossInput.value = "action";
-                document.getElementById("redSquare").click();
-                addGlossBtn.click();
+                if (!isSelectionInSpan()) {
+                    glossInput.value = "action";
+                    document.getElementById("redSquare").click();
+                    addGlossBtn.click();
+                }
             });
 
             addGlossBtn.addEventListener("click", () => {
@@ -331,15 +343,21 @@
                     containsHtml(getSelectionHtml()) ||
                     (isSelectionInSpan() && !isEntireParentSelected())
                 ) {
+                    document.execCommand("copy");
                     resetState();
                     return;
+                } else {
+                    document.execCommand("copy");
                 }
 
                 const selectedText = window.getSelection().toString();
-                const selectedRange = window.getSelection().getRangeAt(0);
                 if (selectedText.length > 0) {
                     lastSelectionText = selectedText;
-                    lastSelectionRange = selectedRange;
+                    if (window.getSelection().rangeCount > 0) {
+                        lastSelectionRange = window
+                            .getSelection()
+                            .getRangeAt(0);
+                    }
                     document.getElementById("addGloss").disabled = false;
                     document
                         .querySelectorAll(".presets button")
