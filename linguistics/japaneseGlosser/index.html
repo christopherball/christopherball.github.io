@@ -178,8 +178,8 @@
                 <button id="addTime" class="greenBg" disabled="true">
                     Time<br />3
                 </button>
-                <button id="addReason" class="yellowBg" disabled="true">
-                    Reason<br />4
+                <button id="addCause" class="yellowBg" disabled="true">
+                    Cause<br />4
                 </button>
                 <button id="addManner" class="orangeBg" disabled="true">
                     Manner<br />5
@@ -201,7 +201,7 @@
             const addActorBtn = document.getElementById("addActor");
             const addLocationBtn = document.getElementById("addLocation");
             const addTimeBtn = document.getElementById("addTime");
-            const addReasonBtn = document.getElementById("addReason");
+            const addCauseBtn = document.getElementById("addCause");
             const addMannerBtn = document.getElementById("addManner");
             const addActionBtn = document.getElementById("addAction");
             const textInput = document.getElementById("textInput");
@@ -246,9 +246,9 @@
                 }
             });
 
-            addReasonBtn.addEventListener("click", () => {
+            addCauseBtn.addEventListener("click", () => {
                 if (!isSelectionInSpan()) {
-                    glossInput.value = "reason";
+                    glossInput.value = "cause";
                     document.getElementById("yellowSquare").click();
                     addGlossBtn.click();
                 }
@@ -334,7 +334,7 @@
                 else if (e.key === "1") addActorBtn.click();
                 else if (e.key === "2") addLocationBtn.click();
                 else if (e.key === "3") addTimeBtn.click();
-                else if (e.key === "4") addReasonBtn.click();
+                else if (e.key === "4") addCauseBtn.click();
                 else if (e.key === "5") addMannerBtn.click();
                 else if (e.key === "6") addActionBtn.click();
             });
