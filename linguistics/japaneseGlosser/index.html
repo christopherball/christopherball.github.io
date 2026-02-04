@@ -20,7 +20,7 @@
             #jpText {
                 position: relative;
                 z-index: 1;
-                line-height: 3;
+                line-height: 2.2;
                 font-weight: 200;
             }
 
@@ -57,7 +57,6 @@
             }
 
             #controls {
-                margin-bottom: 18px;
                 gap: 8px;
                 align-items: center;
             }
@@ -77,7 +76,7 @@
             .color-picker-container {
                 display: flex;
                 gap: 10px;
-                margin-bottom: 20px;
+                margin-bottom: 15px;
             }
 
             .color-square {
@@ -140,9 +139,13 @@
                 text-underline-offset: 4px;
             }
 
-            .sectionHeader,
             label {
                 font-size: 12px;
+            }
+
+            .presetDescriptions {
+                font-size: 12px;
+                margin-top: 6px;
             }
 
             .presets button {
@@ -154,6 +157,24 @@
             input[type="checkbox"] {
                 width: 20px;
                 margin: 0px;
+            }
+
+            table {
+                width: 423px;
+                border: 1px grey solid;
+            }
+
+            td:first-child,
+            .column:first-child {
+                padding-right: 40px;
+            }
+
+            .letter {
+                font-weight: bold;
+            }
+
+            #lastSelectionTextPreview {
+                padding-left: 3px;
             }
         </style>
     </head>
@@ -178,52 +199,61 @@
                 <div id="orangeSquare" class="color-square orange">■</div>
                 <div id="redSquare" class="color-square red">■</div>
             </div>
-            <div class="sectionHeader">
-                Event Structure Presets (acronym: CASTLE)
-            </div>
             <div class="presets">
-                <button
-                    id="addCause"
-                    class="violetBg"
-                    disabled="true"
-                    title="Why the action occurs.">
+                <button id="addCause" class="violetBg" disabled="true">
                     Cause<br />1
                 </button>
-                <button
-                    id="addAction"
-                    class="blueBg"
-                    disabled="true"
-                    title="The event itself that occurs.">
+                <button id="addAction" class="blueBg" disabled="true">
                     Action<br />2
                 </button>
-                <button
-                    id="addStyle"
-                    class="greenBg"
-                    disabled="true"
-                    title="How the action occurs (qualitative).">
+                <button id="addStyle" class="greenBg" disabled="true">
                     Style<br />3
                 </button>
-                <button
-                    id="addTime"
-                    class="yellowBg"
-                    disabled="true"
-                    title="When the action occurs.">
+                <button id="addTime" class="yellowBg" disabled="true">
                     Time<br />4
                 </button>
-                <button
-                    id="addLocation"
-                    class="orangeBg"
-                    disabled="true"
-                    title="Where the action occurs.">
+                <button id="addLocation" class="orangeBg" disabled="true">
                     Location<br />5
                 </button>
-                <button
-                    id="addEntity"
-                    class="redBg"
-                    disabled="true"
-                    title="Who or what performs the action.">
+                <button id="addEntity" class="redBg" disabled="true">
                     Entity<br />6
                 </button>
+            </div>
+            <div class="presetDescriptions">
+                <div class="table-container">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span class="violet letter">C</span>ause
+                                </td>
+                                <td>Why the action occurs.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="blue letter">A</span>ction</td>
+                                <td>The event itself that occurs.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="green letter">S</span>tyle</td>
+                                <td>How the action occurs (qualitative).</td>
+                            </tr>
+                            <tr>
+                                <td><span class="yellow letter">T</span>ime</td>
+                                <td>When the action occurs.</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="orange letter">L</span>ocation
+                                </td>
+                                <td>Where the action occurs.</td>
+                            </tr>
+                            <tr>
+                                <td><span class="red letter">E</span>ntity</td>
+                                <td>Who or what performs the action.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
