@@ -9,20 +9,24 @@
                 color: #e0e0e0;
                 font-family: "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif;
             }
+
             .container {
                 position: relative;
                 display: inline-block;
                 font-size: 2em;
                 margin-bottom: 6em;
             }
+
             #jpText {
                 position: relative;
                 z-index: 1;
                 line-height: 3;
             }
+
             #jpText:focus {
                 outline: none;
             }
+
             .gloss-layer {
                 position: absolute;
                 left: 0;
@@ -32,33 +36,39 @@
                 pointer-events: none;
                 z-index: 0;
             }
+
             .gloss {
                 position: absolute;
                 pointer-events: auto;
-                transform: translateX(-50%);
                 font-size: 14px;
                 cursor: default;
                 text-align: center;
                 word-wrap: break-word;
                 overflow-wrap: break-word;
+                border-left: 1px grey solid;
+                border-right: 1px grey solid;
             }
+
             .underlined {
                 text-decoration: underline;
                 text-decoration-thickness: 1.6px;
                 text-underline-offset: 4px;
-                margin-right: 3px;
             }
+
             #controls {
                 margin-bottom: 18px;
                 gap: 8px;
                 align-items: center;
             }
+
             input {
                 width: 250px;
             }
+
             button {
                 width: 100px;
             }
+
             rt {
                 color: #878787 !important;
             }
@@ -307,9 +317,11 @@
                         .id.replace("Square", "");
                 box.dataset.glossId = glossId;
                 box.textContent = text;
-                box.style.left = `${centerX}px`;
-                box.style.top = `${topY}px`;
-                box.style.maxWidth = `${rect.width}px`; // limit width to selection width
+                box.style.left = `${Math.round(centerX)}px`;
+                box.style.top = `${Math.round(topY)}px`;
+                box.style.maxWidth = `${Math.round(rect.width) - 1}px`; // limit width to selection width
+                box.style.width = `${Math.round(rect.width) - 1}px`;
+                box.style.transform = `translateX(-${Math.round(rect.width / 2)}px)`;
                 glossLayer.appendChild(box);
 
                 resetState();
