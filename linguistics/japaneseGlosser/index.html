@@ -365,14 +365,22 @@
             }
 
             window.addEventListener("keydown", (e) => {
+                const glossInput = document.getElementById("glossInput");
+
                 if (e.key === "Enter") addGlossBtn.click();
                 else if (e.key === "Delete") removeFormatting();
-                else if (e.key === "1") addActorBtn.click();
-                else if (e.key === "2") addLocationBtn.click();
-                else if (e.key === "3") addTimeBtn.click();
-                else if (e.key === "4") addCauseBtn.click();
-                else if (e.key === "5") addMannerBtn.click();
-                else if (e.key === "6") addActionBtn.click();
+                else if (e.key === "1" && document.activeElement != glossInput)
+                    addActorBtn.click();
+                else if (e.key === "2" && document.activeElement != glossInput)
+                    addLocationBtn.click();
+                else if (e.key === "3" && document.activeElement != glossInput)
+                    addTimeBtn.click();
+                else if (e.key === "4" && document.activeElement != glossInput)
+                    addCauseBtn.click();
+                else if (e.key === "5" && document.activeElement != glossInput)
+                    addMannerBtn.click();
+                else if (e.key === "6" && document.activeElement != glossInput)
+                    addActionBtn.click();
             });
 
             document.addEventListener("mouseup", function () {
