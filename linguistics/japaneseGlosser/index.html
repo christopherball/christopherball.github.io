@@ -7,7 +7,7 @@
             body {
                 background-color: #1e1e2e;
                 color: #e0e0e0;
-                font-family: "Hiragino Kaku Gothic Pro", "Meiryo", sans-serif;
+                font-family: "Hiragino Sans", "Meiryo", sans-serif;
             }
 
             .container {
@@ -21,6 +21,7 @@
                 position: relative;
                 z-index: 1;
                 line-height: 3;
+                font-weight: 200;
             }
 
             #jpText:focus {
@@ -40,7 +41,7 @@
             .gloss {
                 position: absolute;
                 pointer-events: auto;
-                font-size: 14px;
+                font-size: 12px;
                 cursor: default;
                 text-align: center;
                 word-wrap: break-word;
@@ -62,7 +63,7 @@
             }
 
             input {
-                width: 250px;
+                width: 310px;
             }
 
             button {
@@ -145,7 +146,7 @@
             }
 
             .presets button {
-                width: 56px;
+                width: 66px;
                 padding: 0px;
                 height: 42px;
             }
@@ -177,49 +178,51 @@
                 <div id="orangeSquare" class="color-square orange">■</div>
                 <div id="redSquare" class="color-square red">■</div>
             </div>
-            <div class="sectionHeader">Event Structure Presets</div>
+            <div class="sectionHeader">
+                Event Structure Presets (acronym: CASTLE)
+            </div>
             <div class="presets">
                 <button
-                    id="addActor"
+                    id="addCause"
                     class="violetBg"
                     disabled="true"
-                    title="Who or what performs the action.">
-                    Actor<br />1
-                </button>
-                <button
-                    id="addLocation"
-                    class="blueBg"
-                    disabled="true"
-                    title="Where the action occurs.">
-                    Location<br />2
-                </button>
-                <button
-                    id="addTime"
-                    class="greenBg"
-                    disabled="true"
-                    title="When the action occurs.">
-                    Time<br />3
-                </button>
-                <button
-                    id="addCause"
-                    class="yellowBg"
-                    disabled="true"
                     title="Why the action occurs.">
-                    Cause<br />4
-                </button>
-                <button
-                    id="addManner"
-                    class="orangeBg"
-                    disabled="true"
-                    title="How the action occurs (qualitative).">
-                    Manner<br />5
+                    Cause<br />1
                 </button>
                 <button
                     id="addAction"
+                    class="blueBg"
+                    disabled="true"
+                    title="The event or state-of-being marker.">
+                    Action<br />2
+                </button>
+                <button
+                    id="addStyle"
+                    class="greenBg"
+                    disabled="true"
+                    title="How the action occurs (qualitative).">
+                    Style<br />3
+                </button>
+                <button
+                    id="addTime"
+                    class="yellowBg"
+                    disabled="true"
+                    title="When the action occurs.">
+                    Time<br />4
+                </button>
+                <button
+                    id="addLocation"
+                    class="orangeBg"
+                    disabled="true"
+                    title="Where the action occurs.">
+                    Location<br />5
+                </button>
+                <button
+                    id="addEntity"
                     class="redBg"
                     disabled="true"
-                    title="The event or state described.">
-                    Action<br />6
+                    title="Who or what the action concerns.">
+                    Entity<br />6
                 </button>
             </div>
         </div>
@@ -232,11 +235,11 @@
         <script>
             const uid = () => "g" + Math.random().toString(36).slice(2, 9);
             const addTextBtn = document.getElementById("addText");
-            const addActorBtn = document.getElementById("addActor");
+            const addEntityBtn = document.getElementById("addEntity");
             const addLocationBtn = document.getElementById("addLocation");
             const addTimeBtn = document.getElementById("addTime");
             const addCauseBtn = document.getElementById("addCause");
-            const addMannerBtn = document.getElementById("addManner");
+            const addStyleBtn = document.getElementById("addStyle");
             const addActionBtn = document.getElementById("addAction");
             const textInput = document.getElementById("textInput");
             const addGlossBtn = document.getElementById("addGloss");
@@ -256,49 +259,49 @@
                 document.getElementById("glossLayer").innerHTML = "";
             });
 
-            addActorBtn.addEventListener("click", () => {
-                if (!isSelectionInSpan()) {
-                    glossInput.value = "actor";
-                    document.getElementById("violetSquare").click();
-                    addGlossBtn.click();
-                }
-            });
-
-            addLocationBtn.addEventListener("click", () => {
-                if (!isSelectionInSpan()) {
-                    glossInput.value = "location";
-                    document.getElementById("blueSquare").click();
-                    addGlossBtn.click();
-                }
-            });
-
-            addTimeBtn.addEventListener("click", () => {
-                if (!isSelectionInSpan()) {
-                    glossInput.value = "time";
-                    document.getElementById("greenSquare").click();
-                    addGlossBtn.click();
-                }
-            });
-
             addCauseBtn.addEventListener("click", () => {
                 if (!isSelectionInSpan()) {
-                    glossInput.value = "cause";
-                    document.getElementById("yellowSquare").click();
-                    addGlossBtn.click();
-                }
-            });
-
-            addMannerBtn.addEventListener("click", () => {
-                if (!isSelectionInSpan()) {
-                    glossInput.value = "manner";
-                    document.getElementById("orangeSquare").click();
+                    glossInput.value = "C";
+                    document.getElementById("violetSquare").click();
                     addGlossBtn.click();
                 }
             });
 
             addActionBtn.addEventListener("click", () => {
                 if (!isSelectionInSpan()) {
-                    glossInput.value = "action";
+                    glossInput.value = "A";
+                    document.getElementById("blueSquare").click();
+                    addGlossBtn.click();
+                }
+            });
+
+            addStyleBtn.addEventListener("click", () => {
+                if (!isSelectionInSpan()) {
+                    glossInput.value = "S";
+                    document.getElementById("greenSquare").click();
+                    addGlossBtn.click();
+                }
+            });
+
+            addTimeBtn.addEventListener("click", () => {
+                if (!isSelectionInSpan()) {
+                    glossInput.value = "T";
+                    document.getElementById("yellowSquare").click();
+                    addGlossBtn.click();
+                }
+            });
+
+            addLocationBtn.addEventListener("click", () => {
+                if (!isSelectionInSpan()) {
+                    glossInput.value = "L";
+                    document.getElementById("orangeSquare").click();
+                    addGlossBtn.click();
+                }
+            });
+
+            addEntityBtn.addEventListener("click", () => {
+                if (!isSelectionInSpan()) {
+                    glossInput.value = "E";
                     document.getElementById("redSquare").click();
                     addGlossBtn.click();
                 }
@@ -318,7 +321,7 @@
                     return alert("Invalid selection.");
                 const containerRect = container.getBoundingClientRect();
                 const centerX = rect.left - containerRect.left + rect.width / 2;
-                const topY = rect.bottom - containerRect.top + 6;
+                const topY = rect.bottom - containerRect.top + 3;
 
                 // Wrap selected content safely
                 const frag = range.extractContents();
@@ -370,17 +373,17 @@
                 if (e.key === "Enter") addGlossBtn.click();
                 else if (e.key === "Delete") removeFormatting();
                 else if (e.key === "1" && document.activeElement != glossInput)
-                    addActorBtn.click();
-                else if (e.key === "2" && document.activeElement != glossInput)
-                    addLocationBtn.click();
-                else if (e.key === "3" && document.activeElement != glossInput)
-                    addTimeBtn.click();
-                else if (e.key === "4" && document.activeElement != glossInput)
                     addCauseBtn.click();
-                else if (e.key === "5" && document.activeElement != glossInput)
-                    addMannerBtn.click();
-                else if (e.key === "6" && document.activeElement != glossInput)
+                else if (e.key === "2" && document.activeElement != glossInput)
                     addActionBtn.click();
+                else if (e.key === "3" && document.activeElement != glossInput)
+                    addStyleBtn.click();
+                else if (e.key === "4" && document.activeElement != glossInput)
+                    addTimeBtn.click();
+                else if (e.key === "5" && document.activeElement != glossInput)
+                    addLocationBtn.click();
+                else if (e.key === "6" && document.activeElement != glossInput)
+                    addEntityBtn.click();
             });
 
             document.addEventListener("mouseup", function () {
