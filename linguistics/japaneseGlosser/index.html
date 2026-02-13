@@ -62,7 +62,7 @@
             }
 
             input {
-                width: 310px;
+                width: 437px;
             }
 
             button {
@@ -150,7 +150,7 @@
             }
 
             .presets button {
-                width: 66px;
+                width: 87px;
                 padding: 0px;
                 height: 42px;
             }
@@ -161,13 +161,13 @@
             }
 
             table {
-                width: 423px;
+                width: 549px;
                 border: 1px grey solid;
             }
 
             td:first-child,
             .column:first-child {
-                padding-right: 40px;
+                padding-right: 5px;
             }
 
             .letter {
@@ -176,20 +176,21 @@
 
             #lastSelectionTextPreview {
                 padding-left: 3px;
+                font-size: 12px;
+            }
+
+            summary {
+                font-size: 12px;
+            }
+
+            .presets {
+                padding-top: 4px;
             }
         </style>
     </head>
     <body>
         <h3>Japanese Glosser</h3>
         <div id="controls">
-            <input id="textInput" placeholder="(Japanese)" />
-            <button id="addText">Add Text</button>
-            <input type="checkbox" id="sentenceBreak" checked />
-            <label for="sentenceBreak">Sentence Breaks</label>
-            <br />
-            <input id="glossInput" placeholder="(English)" />
-            <button id="addGloss" disabled="true">Add Gloss</button>
-            <span id="lastSelectionTextPreview"></span>
             <div class="color-picker-container">
                 <div id="violetSquare" class="color-square violet selected">
                     ■
@@ -200,9 +201,15 @@
                 <div id="orangeSquare" class="color-square orange">■</div>
                 <div id="redSquare" class="color-square red">■</div>
             </div>
+            <input id="textInput" placeholder="(Japanese)" />
+            <button id="addText">Add Text</button>
+            <br />
+            <input id="glossInput" placeholder="(English)" />
+            <button id="addGloss" disabled="true">Add Gloss</button>
+            <span id="lastSelectionTextPreview"></span>
             <div class="presets">
-                <button id="addCause" class="violetBg" disabled="true">
-                    Cause<br />1
+                <button id="addCircumstance" class="violetBg" disabled="true">
+                    Circumstance<br />1
                 </button>
                 <button id="addAction" class="blueBg" disabled="true">
                     Action<br />2
@@ -220,42 +227,60 @@
                     Entity<br />6
                 </button>
             </div>
-            <div class="presetDescriptions">
-                <div class="table-container">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <span class="violet letter">C</span>ause
-                                </td>
-                                <td>Why the action occurs.</td>
-                            </tr>
-                            <tr>
-                                <td><span class="blue letter">A</span>ction</td>
-                                <td>The event itself that occurs.</td>
-                            </tr>
-                            <tr>
-                                <td><span class="green letter">S</span>tyle</td>
-                                <td>How the action occurs (qualitative).</td>
-                            </tr>
-                            <tr>
-                                <td><span class="yellow letter">T</span>ime</td>
-                                <td>When the action occurs.</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="orange letter">L</span>ocation
-                                </td>
-                                <td>Where the action occurs.</td>
-                            </tr>
-                            <tr>
-                                <td><span class="red letter">E</span>ntity</td>
-                                <td>Who or what performs the action.</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <details>
+                <summary>Details</summary>
+                <div class="presetDescriptions">
+                    <div class="table-container">
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <span class="violet letter">C</span
+                                        >ircumstance
+                                    </td>
+                                    <td>
+                                        The situation that brings about or
+                                        allows the action.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="blue letter">A</span>ction
+                                    </td>
+                                    <td>What happens.</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="green letter">S</span>tyle
+                                    </td>
+                                    <td>
+                                        How the action occurs (qualitative).
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="yellow letter">T</span>ime
+                                    </td>
+                                    <td>When the action occurs.</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="orange letter">L</span
+                                        >ocation
+                                    </td>
+                                    <td>Where the action occurs.</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span class="red letter">E</span>ntity
+                                    </td>
+                                    <td>Who or what performs the action.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </details>
         </div>
 
         <div class="container" id="container">
@@ -269,7 +294,8 @@
             const addEntityBtn = document.getElementById("addEntity");
             const addLocationBtn = document.getElementById("addLocation");
             const addTimeBtn = document.getElementById("addTime");
-            const addCauseBtn = document.getElementById("addCause");
+            const addCircumstanceBtn =
+                document.getElementById("addCircumstance");
             const addStyleBtn = document.getElementById("addStyle");
             const addActionBtn = document.getElementById("addAction");
             const textInput = document.getElementById("textInput");
@@ -283,14 +309,13 @@
 
             addTextBtn.addEventListener("click", () => {
                 let text = textInput.value.trim();
-                if (document.getElementById("sentenceBreak").checked) {
-                    text = text.replace(/。/g, "。<br/>");
-                }
+                text = text.replace(/。/g, "。<br/>");
+
                 document.getElementById("jpText").innerHTML = text;
                 document.getElementById("glossLayer").innerHTML = "";
             });
 
-            addCauseBtn.addEventListener("click", () => {
+            addCircumstanceBtn.addEventListener("click", () => {
                 if (!isSelectionInSpan()) {
                     glossInput.value = "C";
                     document.getElementById("violetSquare").click();
@@ -404,7 +429,7 @@
                 if (e.key === "Enter") addGlossBtn.click();
                 else if (e.key === "Delete") removeFormatting();
                 else if (e.key === "1" && document.activeElement != glossInput)
-                    addCauseBtn.click();
+                    addCircumstanceBtn.click();
                 else if (e.key === "2" && document.activeElement != glossInput)
                     addActionBtn.click();
                 else if (e.key === "3" && document.activeElement != glossInput)
