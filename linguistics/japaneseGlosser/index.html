@@ -63,11 +63,14 @@
 
             input {
                 width: 448px;
+                border: 2px solid transparent;
             }
 
             button {
                 width: 88px;
                 cursor: pointer;
+                border: 2px solid transparent;
+                border-radius: 0px;
             }
 
             rt {
@@ -152,12 +155,7 @@
             .presets button {
                 width: 87px;
                 padding: 0px;
-                height: 42px;
-            }
-
-            input[type="checkbox"] {
-                width: 20px;
-                margin: 0px;
+                height: 32px;
             }
 
             table {
@@ -186,6 +184,10 @@
             .presets {
                 padding-top: 4px;
             }
+
+            .spacer {
+                height: 1px;
+            }
         </style>
     </head>
     <body>
@@ -203,28 +205,28 @@
             </div>
             <input id="textInput" placeholder="(Japanese)" />
             <button id="addText">Add Text</button>
-            <br />
+            <div class="spacer"><br /></div>
             <input id="glossInput" placeholder="(English)" />
             <button id="addGloss" disabled="true">Add Gloss</button>
             <span id="lastSelectionTextPreview"></span>
             <div class="presets">
                 <button id="addCircumstance" class="violetBg" disabled="true">
-                    Circumstance<br />1
+                    Circumstance
                 </button>
                 <button id="addAction" class="blueBg" disabled="true">
-                    Action<br />2
+                    Action
                 </button>
                 <button id="addStyle" class="greenBg" disabled="true">
-                    Style<br />3
+                    Style
                 </button>
                 <button id="addTime" class="yellowBg" disabled="true">
-                    Time<br />4
+                    Time
                 </button>
                 <button id="addLocation" class="orangeBg" disabled="true">
-                    Location<br />5
+                    Location
                 </button>
                 <button id="addEntity" class="redBg" disabled="true">
-                    Entity<br />6
+                    Entity
                 </button>
             </div>
             <details>
