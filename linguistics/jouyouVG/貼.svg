@@ -45,13 +45,13 @@ kvg:type CDATA #IMPLIED >
 			<path id="kvg:08cbc-s4" kvg:type="㇐a" d="M17.91,53.45c7.75-0.95,13.02-1.45,21.54-2.34"/>
 			<path id="kvg:08cbc-s5" kvg:type="㇐a" d="M18.43,69.48c4.03,0,15.88-2.34,21.1-2.34"/>
 		</g>
-		<g id="kvg:08cbc-g3" kvg:position="bottom">
+		<g id="kvg:08cbc-g3" kvg:element="八" kvg:position="bottom">
 			<path id="kvg:08cbc-s6" kvg:type="㇒" d="M23.62,77.73c0.26,1.18,0.52,1.5,0,2.36c-1.57,2.59-7.3,10.59-10.45,13.66"/>
 			<path id="kvg:08cbc-s7" kvg:type="㇔" d="M35.51,75.2c3.69,4.36,8.06,12.27,9.07,16.08"/>
 		</g>
 	</g>
 	<g id="kvg:08cbc-g4" kvg:element="占" kvg:position="right">
-		<g id="kvg:08cbc-g5" kvg:element="卜" kvg:variant="true" kvg:original="ト" kvg:position="top">
+		<g id="kvg:08cbc-g5" kvg:element="卜" kvg:variant="true" kvg:position="top">
 			<path id="kvg:08cbc-s8" kvg:type="㇑a" d="M67.81,14.63c0.76,0.45,2.36,3.35,2.51,4.25c0.15,0.9-0.25,34.12-0.25,47.25"/>
 			<path id="kvg:08cbc-s9" kvg:type="㇐b" d="M70.25,41.24c8.82-0.91,18.12-2.73,19.34-2.73c1.23,0,3.43,0,4.41,0.3"/>
 		</g>
