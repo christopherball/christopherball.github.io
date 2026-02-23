@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Useful Kanji Phonetic Components</title>
+
+        <style>
+            :root {
+                --bg: #0f1117;
+                --cell: #1a1f2b;
+                --border: #2a3245;
+                --text-main: #e6e9ef;
+                --text-sub: #9aa3b2;
+            }
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    Helvetica, Arial, sans-serif;
+            }
+
+            body {
+                background: var(--bg);
+                color: var(--text-main);
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+            }
+
+            h1 {
+                font-weight: 500;
+                letter-spacing: 0.04em;
+                margin-bottom: 1.2rem;
+                text-align: center;
+            }
+
+            /* GRID SCALES TO VIEWPORT HEIGHT */
+
+            .grid {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                aspect-ratio: 5 / 8;
+                height: min(85vh, calc(100vw * 8 / 5));
+                max-width: calc(85vh * 5 / 8);
+            }
+
+            .cell {
+                position: relative;
+                border: 1px solid var(--border);
+                background: var(--cell);
+                cursor: pointer;
+                perspective: 800px;
+            }
+
+            .cell-inner {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transform-style: preserve-3d;
+                transition: transform 0.45s ease;
+            }
+
+            .cell.flipped .cell-inner {
+                transform: rotateY(180deg);
+            }
+
+            .face {
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                backface-visibility: hidden;
+            }
+
+            .front {
+            }
+
+            .back {
+                transform: rotateY(180deg);
+            }
+
+            /* Larger phonetic component display */
+            .front .symbol {
+                font-size: clamp(34px, 7.2vmin, 60px);
+                text-align: center;
+                white-space: nowrap;
+                line-height: 1;
+            }
+
+            /* Onyomi reading size unchanged */
+            .back .symbol {
+                font-size: clamp(26px, 5.5vmin, 44px);
+                text-align: center;
+                white-space: nowrap;
+                line-height: 1;
+            }
+
+            .stroke {
+                position: absolute;
+                bottom: 4px;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: clamp(10px, 1.7vmin, 14px);
+                color: var(--text-sub);
+                pointer-events: none;
+            }
+
+            @media (max-width: 600px) {
+                h1 {
+                    font-size: 1.2rem;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Useful Kanji Phonetic Components</h1>
+
+        <div class="grid" id="grid"></div>
+
+        <script>
+            const data = [
+                { comp: "亡", read: "ボウ", stroke: 3 },
+                { comp: "及", read: "キュウ" },
+                { comp: "干", read: "カン" },
+                { comp: "中", read: "チュウ", stroke: 4 },
+                { comp: "化", read: "カ" },
+                { comp: "付", read: "フ", stroke: 5 },
+                { comp: "令", read: "レイ" },
+                { comp: "包", read: "ホウ" },
+                { comp: "半", read: "ハン" },
+                { comp: "召", read: "ショウ" },
+                { comp: "可", read: "カ" },
+                { comp: "司", read: "シ" },
+                { comp: "圣", read: "ケイ" },
+                { comp: "旦", read: "タン" },
+                { comp: "生", read: "セイ" },
+                { comp: "申", read: "シン" },
+                { comp: "交", read: "コウ", stroke: 6 },
+                { comp: "亥", read: "ガイ" },
+                { comp: "同", read: "ドウ" },
+                { comp: "成", read: "セイ" },
+                { comp: "次", read: "シ" },
+                { comp: "羊", read: "ヨウ" },
+                { comp: "甫", read: "ホ", stroke: 7 },
+                { comp: "肖", read: "ショウ" },
+                { comp: "咅", read: "バイ", stroke: 8 },
+                { comp: "奇", read: "キ" },
+                { comp: "官", read: "カン" },
+                { comp: "東", read: "トウ" },
+                { comp: "采", read: "サイ" },
+                { comp: "青", read: "セイ" },
+                { comp: "兪", read: "ユ", stroke: 9 },
+                { comp: "冓", read: "コウ", stroke: 10 },
+                { comp: "啇", read: "テキ", stroke: 11 },
+                { comp: "票", read: "ヒョウ" },
+                { comp: "責", read: "セキ" },
+                { comp: "麻", read: "マ" },
+                { comp: "尞", read: "リョウ", stroke: 12 },
+                { comp: "義", read: "ギ", stroke: 13 },
+                { comp: "㐮", read: "ジョウ" },
+                { comp: "監", read: "カン", stroke: 15 },
+            ];
+
+            const grid = document.getElementById("grid");
+
+            data.forEach((item) => {
+                const cell = document.createElement("div");
+                cell.className = "cell";
+
+                const inner = document.createElement("div");
+                inner.className = "cell-inner";
+
+                const front = document.createElement("div");
+                front.className = "face front";
+
+                const back = document.createElement("div");
+                back.className = "face back";
+
+                const comp = document.createElement("div");
+                comp.className = "symbol";
+                comp.textContent = item.comp;
+
+                const reading = document.createElement("div");
+                reading.className = "symbol";
+                reading.textContent = item.read;
+
+                front.appendChild(comp);
+                back.appendChild(reading);
+
+                if (item.stroke !== undefined) {
+                    const stroke = document.createElement("div");
+                    stroke.className = "stroke";
+                    stroke.textContent = item.stroke;
+                    front.appendChild(stroke);
+                }
+
+                inner.appendChild(front);
+                inner.appendChild(back);
+                cell.appendChild(inner);
+
+                cell.addEventListener("click", () => {
+                    cell.classList.toggle("flipped");
+                });
+
+                grid.appendChild(cell);
+            });
+        </script>
+    </body>
+</html>
