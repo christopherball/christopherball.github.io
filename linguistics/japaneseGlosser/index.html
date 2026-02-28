@@ -66,6 +66,22 @@
                 border: 2px solid transparent;
             }
 
+            .checkboxContainer {
+                display: flex;
+                align-items: center; /* Forces all children to the exact vertical center */
+                height: 24px; /* Or whatever height your div has */
+                gap: 8px; /* Adds clean spacing between box and text */
+            }
+
+            input[type="checkbox"] {
+                width: auto;
+                margin: 0;
+            }
+
+            label {
+                margin: 0;
+            }
+
             button {
                 width: 88px;
                 cursor: pointer;
@@ -202,13 +218,20 @@
                 <div id="yellowSquare" class="color-square yellow">■</div>
                 <div id="orangeSquare" class="color-square orange">■</div>
                 <div id="redSquare" class="color-square red">■</div>
+                <div class="checkboxContainer">
+                    <input
+                        type="checkbox"
+                        id="autoCheckbox"
+                        title="Bypass that makes the Enter key after text selection simply apply color rotation for visual chunking." />
+                    <label for="autoCheckbox">Auto</label>
+                </div>
+                <span id="lastSelectionTextPreview"></span>
             </div>
             <input id="textInput" placeholder="(Japanese)" />
             <button id="addText">Add Text</button>
             <div class="spacer"><br /></div>
             <input id="glossInput" placeholder="(English)" />
             <button id="addGloss" disabled="true">Add Gloss</button>
-            <span id="lastSelectionTextPreview"></span>
             <div class="presets">
                 <button id="addCircumstance" class="violetBg" disabled="true">
                     Circumstance
@@ -308,6 +331,38 @@
 
             var lastSelectionText = null;
             var lastSelectionRange = null;
+
+            function autoRotateFeature() {
+                if (!addGlossBtn.disabled) {
+                    // 1. Get all squares in an array
+                    const squares = Array.from(
+                        document.querySelectorAll(
+                            ".color-picker-container .color-square",
+                        ),
+                    );
+
+                    // 2. Find the index of the one currently marked 'selected'
+                    const currentIndex = squares.findIndex((square) =>
+                        square.classList.contains("selected"),
+                    );
+
+                    // 3. Remove 'selected' from the current one
+                    if (currentIndex !== -1) {
+                        squares[currentIndex].classList.remove("selected");
+                    }
+
+                    // 4. Calculate the next index (Modulo % ensures it loops back to 0)
+                    const nextIndex = (currentIndex + 1) % squares.length;
+
+                    // 5. Add 'selected' to the new square
+                    squares[nextIndex].classList.add("selected");
+
+                    // Adding a Braille Blank to bypass trim checks, as we want a label-less look
+                    glossInput.value = "\u2800";
+
+                    addGlossBtn.click();
+                }
+            }
 
             addTextBtn.addEventListener("click", () => {
                 let text = textInput.value.trim();
@@ -427,8 +482,10 @@
 
             window.addEventListener("keydown", (e) => {
                 const glossInput = document.getElementById("glossInput");
+                const checkbox = document.getElementById("autoCheckbox");
 
-                if (e.key === "Enter") addGlossBtn.click();
+                if (e.key === "Enter" && checkbox.checked) autoRotateFeature();
+                else if (e.key === "Enter") addGlossBtn.click();
                 else if (e.key === "Delete") removeFormatting();
                 else if (e.key === "1" && document.activeElement != glossInput)
                     addCircumstanceBtn.click();
