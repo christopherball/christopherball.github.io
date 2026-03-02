@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Japanese Chunker</title>
+        <style>
+            :root {
+                color-scheme: dark;
+                --bg: #0b0f14;
+                --panel: #101826;
+                --panel2: #0f1724;
+                --text: #e6edf3;
+                --muted: #9aa7b2;
+                --border: #223046;
+                --accent: #7aa2ff;
+                --mono:
+                    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+                    "Liberation Mono", "Courier New", monospace;
+                --sans:
+                    system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+                    Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            }
+
+            html,
+            body {
+                height: 100%;
+            }
+            body {
+                margin: 0;
+                font-family: var(--sans);
+                background: radial-gradient(
+                        1200px 700px at 20% -10%,
+                        #16243a 0%,
+                        var(--bg) 55%
+                    )
+                    fixed;
+                color: var(--text);
+            }
+
+            .wrap {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            header {
+                display: flex;
+                align-items: baseline;
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+
+            h1 {
+                font-size: 18px;
+                margin: 0;
+                font-weight: 650;
+                letter-spacing: 0.2px;
+            }
+            .panel {
+                background: linear-gradient(
+                    180deg,
+                    var(--panel) 0%,
+                    var(--panel2) 100%
+                );
+                border: 1px solid var(--border);
+                border-radius: 14px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+                padding: 14px;
+            }
+
+            textarea {
+                width: 100%;
+                min-height: 110px;
+                resize: vertical;
+                border-radius: 12px;
+                border: 1px solid var(--border);
+                background: #0a1220;
+                color: var(--text);
+                font-family: var(--sans);
+                padding: 12px;
+                font-size: 16px;
+                line-height: 1.45;
+                outline: none;
+                box-sizing: border-box;
+            }
+            textarea:focus {
+                border-color: rgba(122, 162, 255, 0.8);
+                box-shadow: 0 0 0 3px rgba(122, 162, 255, 0.15);
+            }
+            .input-stage {
+                position: relative;
+            }
+            .sentence-view {
+                width: 100%;
+                min-height: 110px;
+                border-radius: 12px;
+                border: 1px solid var(--border);
+                background: #0a1220;
+                color: var(--text);
+                font-family: var(--sans);
+                padding: 12px;
+                font-size: 16px;
+                line-height: 1.45;
+                box-sizing: border-box;
+                white-space: pre-wrap;
+                word-break: break-word;
+                display: none;
+            }
+            .sentence-view.active {
+                display: block;
+            }
+            .sentence-neutral {
+                color: var(--text);
+            }
+            .edit-inline {
+                border: 1px solid var(--border);
+                background: rgba(255, 255, 255, 0.03);
+                color: var(--text);
+                padding: 6px 10px;
+                border-radius: 10px;
+                font-size: 12px;
+                cursor: pointer;
+                display: none;
+            }
+            .edit-inline.active {
+                display: inline-flex;
+                align-items: center;
+            }
+
+            .controls {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-top: 10px;
+                flex-wrap: wrap;
+            }
+
+            button {
+                border: 1px solid rgba(122, 162, 255, 0.35);
+                background: rgba(122, 162, 255, 0.12);
+                color: var(--text);
+                padding: 8px 12px;
+                border-radius: 10px;
+                font-weight: 600;
+                cursor: pointer;
+            }
+            button:hover {
+                background: rgba(122, 162, 255, 0.18);
+            }
+
+            .pill {
+                font-size: 12px;
+                color: var(--muted);
+                border: 1px solid var(--border);
+                background: rgba(255, 255, 255, 0.03);
+                padding: 6px 10px;
+                border-radius: 999px;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            select {
+                background: transparent;
+                color: inherit;
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 4px 8px;
+                outline: none;
+            }
+            .err {
+                margin-top: 10px;
+                color: #ffd1d1;
+                background: rgba(255, 107, 107, 0.1);
+                border: 1px solid rgba(255, 107, 107, 0.35);
+                padding: 10px;
+                border-radius: 12px;
+                font-family: var(--mono);
+                font-size: 12px;
+                white-space: pre-wrap;
+            }
+            .results-divider {
+                margin-top: 12px;
+                height: 1px;
+                border: 0;
+                background: linear-gradient(
+                    90deg,
+                    rgba(122, 162, 255, 0.05) 0%,
+                    rgba(122, 162, 255, 0.28) 50%,
+                    rgba(122, 162, 255, 0.05) 100%
+                );
+                display: none;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+                margin-top: 12px;
+                overflow: hidden;
+                border-radius: 14px;
+                border: 1px solid var(--border);
+            }
+
+            thead th {
+                text-align: left;
+                font-size: 12px;
+                color: var(--muted);
+                background: rgba(255, 255, 255, 0.03);
+                border-bottom: 1px solid var(--border);
+                padding: 10px 10px;
+                letter-spacing: 0.2px;
+            }
+
+            tbody td {
+                padding: 10px 10px;
+                border-bottom: 1px solid rgba(34, 48, 70, 0.6);
+                vertical-align: top;
+            }
+            tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+            .col-idx {
+                width: 48px;
+                color: var(--muted);
+                font-family: var(--mono);
+            }
+            .chunk {
+                font-size: 16px;
+            }
+            .reading {
+                font-family: var(--mono);
+                color: rgba(230, 237, 243, 0.92);
+            }
+            .struct {
+                color: rgba(230, 237, 243, 0.92);
+            }
+            .chunk-color-0 {
+                color: #89b4ff;
+            }
+            .chunk-color-1 {
+                color: #7ae6c7;
+            }
+            .chunk-color-2 {
+                color: #ffd27a;
+            }
+            .chunk-color-3 {
+                color: #ff9ea1;
+            }
+            .chunk-color-4 {
+                color: #b8a1ff;
+            }
+            .chunk-color-5 {
+                color: #93f0ff;
+            }
+            .chunk-color-6 {
+                color: #ffc58a;
+            }
+            .chunk-color-7 {
+                color: #9de08f;
+            }
+            .chunk-color-8 {
+                color: #f6a6ff;
+            }
+            .chunk-color-9 {
+                color: #f7e38a;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <header>
+                <h1>Japanese Chunker</h1>
+            </header>
+
+            <div class="panel">
+                <div class="input-stage">
+                    <textarea id="input" placeholder="Place your Japanese text here."></textarea>
+                    <div id="sentenceView" class="sentence-view"></div>
+                </div>
+                <div class="controls">
+                    <button id="analyze">Analyze</button>
+                    <button id="editInline" class="edit-inline" type="button">Edit</button>
+                    <span class="pill" id="engine">Tokenizer: (loading…)</span>
+
+                    <span class="pill">
+                        <span>Mode</span>
+                        <select id="mode">
+                            <option value="reading" selected>Reading</option>
+                            <option value="strict">Strict</option>
+                        </select>
+                    </span>
+
+                    <span class="pill" id="count">Chunks: —</span>
+                    <span class="pill" id="status">Idle.</span>
+                </div>
+
+                <div id="error" class="err" style="display: none"></div>
+                <hr id="resultsDivider" class="results-divider" />
+                <div id="out"></div>
+            </div>
+        </div>
+
+        <script>
+            const statusEl = document.getElementById("status");
+            const engineEl = document.getElementById("engine");
+            const countEl = document.getElementById("count");
+            const errEl = document.getElementById("error");
+            const resultsDividerEl = document.getElementById("resultsDivider");
+            const outEl = document.getElementById("out");
+            const inputEl = document.getElementById("input");
+            const sentenceViewEl = document.getElementById("sentenceView");
+            const editInlineEl = document.getElementById("editInline");
+            const btn = document.getElementById("analyze");
+            const modeEl = document.getElementById("mode");
+            const CHUNK_COLOR_COUNT = 10;
+            const DEBUG = (function getDebugFromQuery() {
+                const params = new URLSearchParams(location.search);
+                const v = params.get("debug");
+                if (v == null) return false;
+                const s = String(v).toLowerCase();
+                return s === "1" || s === "true" || s === "yes" || s === "on";
+            })();
+
+            function isDebugEnabled() {
+                return DEBUG;
+            }
+
+
+            let worker = null;
+            let workerReady = false;
+            const WORKER_CACHE_BUST = Date.now().toString();
+            let lastAnalyzedText = "";
+
+            function escapeHtml(s) {
+                return String(s).replace(
+                    /[&<>"']/g,
+                    (c) =>
+                        ({
+                            "&": "&amp;",
+                            "<": "&lt;",
+                            ">": "&gt;",
+                            '"': "&quot;",
+                            "'": "&#39;",
+                        })[c],
+                );
+            }
+
+            function setStatus(s) {
+                statusEl.textContent = s;
+            }
+            function showError(msg) {
+                errEl.style.display = "block";
+                errEl.textContent = msg;
+            }
+            function clearError() {
+                errEl.style.display = "none";
+                errEl.textContent = "";
+            }
+
+            function chunkColorClass(i) {
+                return `chunk-color-${i % CHUNK_COLOR_COUNT}`;
+            }
+
+            function setInputViewMode(mode) {
+                const analyzed = mode === "analyzed";
+                inputEl.style.display = analyzed ? "none" : "block";
+                sentenceViewEl.classList.toggle("active", analyzed);
+                editInlineEl.classList.toggle("active", analyzed);
+            }
+
+            function setResultsVisible(visible) {
+                resultsDividerEl.style.display = visible ? "block" : "none";
+            }
+
+            function renderSentenceView(chunks, sourceText) {
+                const src = String(sourceText || "");
+                if (!Array.isArray(chunks) || chunks.length === 0 || !src) {
+                    sentenceViewEl.textContent = src || inputEl.value || "";
+                    return;
+                }
+
+                let cursor = 0;
+                const parts = [];
+                let fallback = false;
+
+                for (let i = 0; i < chunks.length; i++) {
+                    const t = String((chunks[i] && chunks[i].text) || "");
+                    if (!t) continue;
+                    const idx = src.indexOf(t, cursor);
+                    if (idx === -1) {
+                        fallback = true;
+                        break;
+                    }
+                    if (idx > cursor) {
+                        parts.push(`<span class="sentence-neutral">${escapeHtml(src.slice(cursor, idx))}</span>`);
+                    }
+                    parts.push(`<span class="${chunkColorClass(i)}">${escapeHtml(t)}</span>`);
+                    cursor = idx + t.length;
+                }
+
+                if (fallback) {
+                    const html = (chunks || [])
+                        .map((c, i) => `<span class="${chunkColorClass(i)}">${escapeHtml(c.text)}</span>`)
+                        .join("");
+                    sentenceViewEl.innerHTML = html || escapeHtml(src || inputEl.value || "");
+                    return;
+                }
+
+                if (cursor < src.length) {
+                    parts.push(`<span class="sentence-neutral">${escapeHtml(src.slice(cursor))}</span>`);
+                }
+                sentenceViewEl.innerHTML = parts.join("");
+            }
+
+            function isTruthyParam(v) {
+                if (v == null) return false;
+                const s = String(v).toLowerCase();
+                return s === "1" || s === "true" || s === "yes" || s === "on";
+            }
+
+            function getRegressionOptionsFromQuery() {
+                const params = new URLSearchParams(location.search);
+                if (!isTruthyParam(params.get("regression"))) return null;
+                const idsRaw = params.get("regressionIds") || "";
+                const ids = idsRaw
+                    .split(",")
+                    .map((x) => x.trim())
+                    .filter(Boolean);
+                return { ids };
+            }
+
+            function render(chunks) {
+                const rows = chunks
+                    .map(
+                        (c, i) => `
+    <tr>
+      <td class="col-idx">${i + 1}</td>
+      <td class="chunk ${chunkColorClass(i)}">${escapeHtml(c.text)}</td>
+      <td class="reading">${escapeHtml(c.reading || "")}</td>
+      <td class="struct">${escapeHtml(c.struct || "")}</td>
+    </tr>
+  `,
+                    )
+                    .join("");
+
+                outEl.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Chunk</th>
+          <th>Reading (ひらがな)</th>
+          <th>Structure</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+                countEl.textContent = `Chunks: ${chunks.length}`;
+                renderSentenceView(chunks, lastAnalyzedText);
+                setInputViewMode("analyzed");
+                setResultsVisible(true);
+            }
+
+            function renderRegressionReport(report) {
+                setInputViewMode("edit");
+                const rows = report.results
+                    .map((r) => {
+                        const expected = escapeHtml((r.expected || []).join(" | "));
+                        const actual = escapeHtml((r.actual || []).join(" | "));
+                        const cls = r.pass ? "reading" : "struct";
+                        const verdict = r.pass ? "PASS" : "FAIL";
+                        return `
+    <tr>
+      <td class="col-idx">${escapeHtml(r.id)}</td>
+      <td class="${cls}">${verdict}</td>
+      <td class="chunk">${escapeHtml(r.mode || "reading")}</td>
+      <td class="reading">${expected}</td>
+      <td class="struct">${actual}</td>
+    </tr>
+  `;
+                    })
+                    .join("");
+
+                outEl.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Case</th>
+          <th>Result</th>
+          <th>Mode</th>
+          <th>Expected</th>
+          <th>Actual</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  `;
+                countEl.textContent = `Regression: ${report.passed}/${report.total} passing`;
+                setResultsVisible(true);
+            }
+
+            function summarizeDebugFailure(fail) {
+                if (!fail || !fail.debug) return "";
+                const dbg = fail.debug;
+                const inputTokens = (dbg.inputTokens || [])
+                    .map((t) => `${t.surf}/${t.pos}${t.d1 ? ":" + t.d1 : ""}`)
+                    .join(" ");
+                const base = ((dbg.stages && dbg.stages.base) || []).map((c) => c.text).join(" | ");
+                const merged = ((dbg.stages && dbg.stages.afterMergeMode) || [])
+                    .map((c) => c.rule ? `${c.text}{${c.rule}}` : c.text)
+                    .join(" | ");
+                const final = ((dbg.stages && dbg.stages.final) || []).map((c) => c.text).join(" | ");
+                return [
+                    `Case: ${fail.id}`,
+                    `Input: ${fail.text}`,
+                    `Expected: ${fail.expected.join(" | ")}`,
+                    `Actual: ${fail.actual.join(" | ")}`,
+                    `Input tokens: ${inputTokens}`,
+                    `Base chunks: ${base}`,
+                    `After merge: ${merged}`,
+                    `Final chunks: ${final}`,
+                ].join("\n");
+            }
+
+            async function runRegressionFromQuery() {
+                const opts = getRegressionOptionsFromQuery();
+                if (!opts) return false;
+                clearError();
+                setStatus("Running regression…");
+                if (worker) {
+                    worker.terminate();
+                    worker = null;
+                    workerReady = false;
+                }
+                engineEl.textContent = "Tokenizer: Regression mode";
+                setInputViewMode("edit");
+
+                try {
+                    await import("./regressionRunner.js");
+                    const report = await runJapaneseChunkerRegression({
+                        ids: opts.ids,
+                        workerPath: "./worker.js",
+                        casesPath: "./regressionCases.json",
+                        debug: isDebugEnabled(),
+                    });
+                    renderRegressionReport(report);
+                    const summary = `Regression complete: ${report.passed}/${report.total} passing`;
+                    setStatus(summary);
+                    if (report.failed > 0) {
+                        const failed = report.results.filter((r) => !r.pass);
+                        const failedIds = failed.map((r) => r.id);
+                        const lines = [`Failed cases (${failedIds.length}): ${failedIds.join(", ")}`];
+                        if (isDebugEnabled()) {
+                            const firstDetail = summarizeDebugFailure(failed[0]);
+                            if (firstDetail) {
+                                lines.push("");
+                                lines.push(firstDetail);
+                            }
+                            console.groupCollapsed("[chunker] Regression failed-case debug");
+                            for (const f of failed) {
+                                console.log(f.id, f);
+                            }
+                            console.groupEnd();
+                        }
+                        showError(lines.join("\n"));
+                    }
+                } catch (e) {
+                    showError(e && e.stack ? e.stack : String(e));
+                    setStatus("Regression error.");
+                }
+                return true;
+            }
+
+            function initWorker() {
+                worker = new Worker(`./worker.js?v=${encodeURIComponent(WORKER_CACHE_BUST)}`);
+                setStatus("Starting tokenizer…");
+                engineEl.textContent = "Tokenizer: Starting…";
+
+                worker.onmessage = (ev) => {
+                    const msg = ev.data || {};
+                    if (msg.type === "ready") {
+                        workerReady = true;
+                        engineEl.textContent = "Tokenizer: Ready";
+                        setStatus("Ready.");
+                        worker.postMessage({
+                            type: "config",
+                            mergeMode: modeEl.value,
+                            debug: isDebugEnabled(),
+                        });
+                        return;
+                    }
+                    if (msg.type === "result") {
+                        clearError();
+                        render(msg.chunks || []);
+                        setStatus("Done.");
+                        return;
+                    }
+                    if (msg.type === "error") {
+                        workerReady = false;
+                        engineEl.textContent = "Tokenizer: error";
+                        setStatus("Error.");
+                        showError(msg.error || "Unknown error");
+                        return;
+                    }
+                    if (msg.type === "status") {
+                        setStatus(msg.status || "");
+                    }
+                };
+
+                worker.onerror = (e) => {
+                    showError(String(e && e.message ? e.message : e));
+                    setStatus("Worker error.");
+                };
+            }
+
+            btn.addEventListener("click", () => {
+                clearError();
+                if (!worker) initWorker();
+                if (!workerReady) {
+                    setStatus("Tokenizer not ready yet…");
+                    return;
+                }
+                const text = inputEl.value.trim();
+                if (!text) return;
+                lastAnalyzedText = text;
+
+                setStatus("Analyzing…");
+                worker.postMessage({
+                    type: "config",
+                    mergeMode: modeEl.value,
+                    debug: isDebugEnabled(),
+                });
+                worker.postMessage({ type: "analyze", text });
+            });
+
+            editInlineEl.addEventListener("click", () => {
+                setInputViewMode("edit");
+                inputEl.focus();
+            });
+
+            inputEl.addEventListener("focus", () => {
+                setInputViewMode("edit");
+            });
+
+            modeEl.addEventListener("change", () => {
+                if (worker && workerReady)
+                    worker.postMessage({
+                        type: "config",
+                        mergeMode: modeEl.value,
+                        debug: isDebugEnabled(),
+                    });
+            });
+
+            // auto-run
+            (async function autoBoot() {
+                const ranRegression = await runRegressionFromQuery();
+                if (ranRegression) return;
+                initWorker();
+                setTimeout(() => btn.click(), 150);
+            })();
+        </script>
+    </body>
+</html>

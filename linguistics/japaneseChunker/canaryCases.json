@@ -1,0 +1,86 @@
+[
+  {
+    "id": "canary-coord-np",
+    "text": "日本とアメリカの企業が共同声明を出した。",
+    "mode": "reading",
+    "expectedChunks": [
+      "日本とアメリカの企業が",
+      "共同声明を",
+      "出した"
+    ]
+  },
+  {
+    "id": "canary-quote-analysis",
+    "text": "専門家は「景気は緩やかに回復している」と分析した。",
+    "mode": "reading",
+    "expectedChunks": [
+      "専門家は",
+      "景気は",
+      "緩やかに回復している",
+      "と",
+      "分析した"
+    ]
+  },
+  {
+    "id": "canary-date-span",
+    "text": "2024年10月1日に新制度を導入した。",
+    "mode": "reading",
+    "expectedChunks": [
+      "2024年10月1日に",
+      "新制度を",
+      "導入した"
+    ]
+  },
+  {
+    "id": "canary-kudasai",
+    "text": "必要事項を確認してから連絡してください。",
+    "mode": "reading",
+    "expectedChunks": [
+      "必要事項を",
+      "確認してから",
+      "連絡してください"
+    ]
+  },
+  {
+    "id": "canary-target-list",
+    "text": "対象は通信施設、発電所、燃料庫です。",
+    "mode": "reading",
+    "expectedChunks": [
+      "対象は",
+      "通信施設",
+      "発電所",
+      "燃料庫です"
+    ]
+  },
+  {
+    "id": "canary-renyou-boundary",
+    "text": "市場は回復し企業の投資が増えた。",
+    "mode": "reading",
+    "expectedChunks": [
+      "市場は",
+      "回復し",
+      "企業の投資が",
+      "増えた"
+    ]
+  },
+  {
+    "id": "canary-toshiteimasu",
+    "text": "政府は計画は妥当だとしています。",
+    "mode": "reading",
+    "expectedChunks": [
+      "政府は",
+      "計画は",
+      "妥当だ",
+      "としています"
+    ]
+  },
+  {
+    "id": "canary-katakana-compound",
+    "text": "対空ミサイル防衛システムを配備した。",
+    "mode": "reading",
+    "expectedChunks": [
+      "対空ミサイル防衛システムを",
+      "配備した"
+    ]
+  }
+]
