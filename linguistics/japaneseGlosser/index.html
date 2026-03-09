@@ -358,8 +358,9 @@
                     // 5. Add 'selected' to the new square
                     squares[nextIndex].classList.add("selected");
 
-                    // Adding a Braille Blank to bypass trim checks, as we want a label-less look
-                    glossInput.value = "\u2800";
+                    // Adding a Braille Blank to bypass trim checks (assuming no content manually typed), as we'll want a label-less look
+                    if (glossInput.value.trim().length == 0)
+                        glossInput.value = "\u2800";
 
                     addGlossBtn.click();
                 }
@@ -502,36 +503,53 @@
                     addEntityBtn.click();
             });
 
-            document.addEventListener("mouseup", function () {
-                if (
-                    containsHtml(getSelectionHtml()) ||
-                    (isSelectionInSpan() && !isEntireParentSelected())
-                ) {
-                    document.execCommand("copy");
-                    resetState();
-                    return;
-                } else {
-                    document.execCommand("copy");
-                }
+            document.addEventListener("mouseup", function (event) {
+                // Ignore if the user clicked an input or textarea
+                const isInput = ["input", "textarea"].includes(
+                    event.target.tagName,
+                );
+                if (isInput) return;
 
+                // Get the selection object
+                const selection = window.getSelection();
                 const selectedText = window.getSelection().toString();
-                if (selectedText.length > 0) {
-                    lastSelectionText = selectedText;
-                    if (window.getSelection().rangeCount > 0) {
-                        lastSelectionRange = window
-                            .getSelection()
-                            .getRangeAt(0);
-                    }
-                    document.getElementById("addGloss").disabled = false;
+
+                // Only copy if text is inside your div
+                if (
+                    selectedText.length > 0 &&
                     document
-                        .querySelectorAll(".presets button")
-                        .forEach((b) => {
-                            b.disabled = false;
-                        });
-                    document.getElementById(
-                        "lastSelectionTextPreview",
-                    ).innerText =
-                        " ► " + truncateWithLastChar(lastSelectionText, 30);
+                        .getElementById("jpText")
+                        .contains(selection.anchorNode)
+                ) {
+                    if (
+                        containsHtml(getSelectionHtml()) ||
+                        (isSelectionInSpan() && !isEntireParentSelected())
+                    ) {
+                        document.execCommand("copy");
+                        resetState();
+                        return;
+                    } else {
+                        document.execCommand("copy");
+                    }
+
+                    if (selectedText.length > 0) {
+                        lastSelectionText = selectedText;
+                        if (window.getSelection().rangeCount > 0) {
+                            lastSelectionRange = window
+                                .getSelection()
+                                .getRangeAt(0);
+                        }
+                        document.getElementById("addGloss").disabled = false;
+                        document
+                            .querySelectorAll(".presets button")
+                            .forEach((b) => {
+                                b.disabled = false;
+                            });
+                        document.getElementById(
+                            "lastSelectionTextPreview",
+                        ).innerText =
+                            " ► " + truncateWithLastChar(lastSelectionText, 30);
+                    }
                 }
             });
 
