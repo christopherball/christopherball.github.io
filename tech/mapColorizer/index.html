@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Map Colorizer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <h1>Map Colorizer</h1>
+        <p class="intro">
+          Color U.S. states or counties from a local CSV. No backend, no login, and no downloads.
+        </p>
+
+        <section class="panel-section">
+          <h2>Data</h2>
+
+          <div class="control-group">
+            <span class="control-label">Geography</span>
+            <div id="levelToggle" class="segment-control" aria-label="Geography mode">
+              <button type="button" data-level="state" class="is-active">States</button>
+              <button type="button" data-level="county">Counties</button>
+            </div>
+            <p class="help-text">
+              <a href="#" id="sampleDataLink" class="text-link">See sample state CSV</a>
+            </p>
+          </div>
+
+          <div class="control-group">
+            <label for="csvFile">Upload CSV</label>
+            <input type="file" id="csvFile" accept=".csv,text/csv" />
+          </div>
+
+          <div class="control-group">
+            <label for="exampleSelect">Or load a sample CSV</label>
+            <select id="exampleSelect">
+              <option value="">Choose sample data...</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="panel-section">
+          <h2>Coloring</h2>
+
+          <div class="control-group">
+            <label for="colorModeSelect">Color mode</label>
+            <select id="colorModeSelect">
+              <option value="numeric">Numeric</option>
+              <option value="categorical">Categorical</option>
+            </select>
+          </div>
+
+          <div id="numericColumnControl" class="control-group">
+            <span class="control-label">Numeric columns</span>
+            <div id="numericColumnList" class="numeric-stack"></div>
+          </div>
+
+          <div id="categoricalColumnControl" class="control-group" hidden>
+            <label for="categoricalColumnSelect">Category column</label>
+            <select id="categoricalColumnSelect" disabled>
+              <option value="">Load data first</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <div class="range-label-row">
+              <label for="visualIsolationRange">Visual Isolation</label>
+              <output id="visualIsolationValue" class="range-value" for="visualIsolationRange">0%</output>
+            </div>
+            <input
+              id="visualIsolationRange"
+              class="range-input"
+              type="range"
+              min="0"
+              max="100"
+              step="1"
+              value="0"
+              disabled
+            />
+            <p class="help-text">Fade unimpacted regions.</p>
+          </div>
+        </section>
+
+        <section id="legend" class="legend-box">
+          <strong>Legend</strong>
+          <p class="muted">Load a CSV to populate the map.</p>
+        </section>
+
+        <section id="details" class="details-box">
+          <strong>Details</strong>
+          <p class="muted">Click a region to inspect the full CSV row.</p>
+        </section>
+      </div>
+    </aside>
+
+    <main class="map-panel">
+      <div class="status-bar">
+        <div id="statusBar" class="status-copy">Ready. Load a CSV or sample file.</div>
+        <div class="status-actions">
+          <button id="aboutButton" type="button" class="secondary-button">About</button>
+          <button id="resetViewButton" type="button" class="secondary-button">Reset view</button>
+        </div>
+      </div>
+      <div id="mapStage" class="map-stage">
+        <svg id="mapSvg" aria-label="U.S. inset map"></svg>
+        <div id="mapTooltip" class="map-tooltip" hidden></div>
+      </div>
+    </main>
+  </div>
+
+  <div id="appModal" class="modal-backdrop" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="appModalTitle">
+      <div class="modal-header">
+        <h2 id="appModalTitle">Sample Data</h2>
+        <button id="closeModalButton" type="button" class="modal-close" aria-label="Close dialog">
+          Close
+        </button>
+      </div>
+      <div id="appModalContent" class="modal-content"></div>
+    </div>
+  </div>
+
+  <script src="vendor/d3.v7.min.js"></script>
+  <script src="vendor/papaparse.5.4.1.min.js"></script>
+  <script src="vendor/topojson-client.3.min.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+fips,county_name,state_abbr,overall_score,housing_score,job_market_score,school_fit_score,walkability_score,outdoor_access_score,commute_score,healthcare_access_score,climate_band,pace,recommendation,notes
+53033,King County,WA,72,26,90,76,7,84,4,9,Temperate-wet,Major-metro,Maybe,Salaries and amenities with steep housing
+41051,Multnomah County,OR,66,34,67,68,8,72,5,8,Temperate-wet,Urban-core,Maybe,Creative economy with tax pressure
+32031,Washoe County,NV,77,63,73,67,5,78,7,7,Hot-dry,Growing-metro,Shortlist,Lower taxes with Tahoe access
+08013,Boulder County,CO,80,22,79,82,6,93,6,9,Four-season,College-outdoors,Shortlist,Exceptional amenities with premium housing
+49035,Salt Lake County,UT,79,54,83,74,5,86,6,8,Four-season,Growing-metro,Shortlist,Jobs airport and mountain access
+04013,Maricopa County,AZ,69,60,74,59,3,58,6,8,Hot-dry,Sprawling-metro,Maybe,Large market with heat and long drives
+37183,Wake County,NC,81,71,84,78,4,71,7,8,Humid-subtropical,Growing-metro,Shortlist,Balanced costs and strong white collar jobs
+51107,Loudoun County,VA,74,18,88,85,2,63,5,9,Humid-subtropical,Affluent-suburb,Maybe,Excellent schools with very high housing
+27053,Hennepin County,MN,71,64,75,69,6,73,6,8,Cold-snowy,Urban-core,Maybe,Good value if winters fit
+26163,Wayne County,MI,60,,58,43,6,45,5,7,Cold-snowy,Legacy-metro,Pass,Low costs with uneven services
+06073,San Diego County,CA,78,15,82,72,7,88,6,9,Mediterranean,Coastal-metro,Maybe,Weather and access with very high housing
+48453,Travis County,TX,76,48,84,67,7,66,5,8,Hot-humid,Tech-metro,Shortlist,Strong jobs and culture with rising costs
+12086,Miami-Dade County,FL,64,22,,52,8,64,4,8,Hot-humid,International-metro,Maybe,Energy and weather with storm risk

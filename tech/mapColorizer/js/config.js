@@ -1,0 +1,62 @@
+export const APP_CONFIG = {
+  title: "Map Colorizer",
+  defaultLevel: "state",
+  map: {
+    viewport: {
+      width: 975,
+      height: 610,
+    },
+    fitPadding: 46,
+    fitScaleFactor: 0.9,
+    zoomExtent: [0.45, 8],
+    unmatchedFill: "#1a2534",
+    emptyValueFill: "#334356",
+    matchedOpacity: 0.96,
+    unmatchedOpacity: 0.66,
+    isolatedUnmatchedOpacity: 0.03,
+    unmatchedStrokeOpacity: 1,
+    isolatedUnmatchedStrokeOpacity: 0.14,
+    nationFill: "#0d1724",
+    nationStroke: "#7f97b3",
+    overlayStroke: "#a8bdd8",
+    featureStroke: "#7f95ae",
+    selectionStroke: "#ffd166",
+    partialDataStroke: "#e07f86",
+  },
+  geography: {
+    state: {
+      id: "state",
+      label: "States",
+      joinKey: "state_abbr",
+      joinHint: "State mode expects a <code>state_abbr</code> column with 2-letter abbreviations.",
+      boundary: {
+        url: "data/boundaries/states-albers-10m.json",
+        objectName: "states",
+      },
+    },
+    county: {
+      id: "county",
+      label: "Counties",
+      joinKey: "fips",
+      joinHint: "County mode expects a <code>fips</code> column with 5-digit county codes.",
+      boundary: {
+        url: "data/boundaries/counties-albers-10m.json",
+        objectName: "counties",
+      },
+    },
+  },
+  examples: [
+    {
+      id: "example-states",
+      label: "Sample state CSV",
+      level: "state",
+      path: "data/example-states.csv",
+    },
+    {
+      id: "example-counties",
+      label: "Sample county CSV",
+      level: "county",
+      path: "data/example-counties.csv",
+    },
+  ],
+};

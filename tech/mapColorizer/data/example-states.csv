@@ -1,0 +1,14 @@
+state_abbr,state_name,overall_score,housing_score,job_market_score,tax_friendliness_score,climate_comfort_score,outdoor_access_score,airport_access_score,healthcare_access_score,climate_band,disaster_risk_band,lifestyle,recommendation,notes
+WA,Washington,74,38,82,44,58,90,8,8,Temperate-wet,Moderate,Urban-outdoors,Shortlist,Jobs strong with gray winters
+OR,Oregon,68,42,63,52,60,86,7,7,Temperate-wet,Moderate,Laid-back,Maybe,Mild weather with tax burden
+NV,Nevada,73,65,71,88,72,78,7,6,Hot-dry,Moderate,Sun-and-space,Shortlist,Tax friendly with water concerns
+CO,Colorado,79,36,76,49,66,95,8,8,Four-season,Moderate,Outdoor-first,Shortlist,Excellent access with premium housing
+UT,Utah,78,55,82,73,67,92,7,7,Four-season,Low,Family-growth,Shortlist,Fast growth and mountain access
+AZ,Arizona,67,58,69,71,50,74,8,8,Hot-dry,High,Sun-and-suburbs,Maybe,Big metros with brutal summers
+NC,North Carolina,77,70,79,61,71,76,7,8,Humid-subtropical,Moderate,Balanced-growth,Shortlist,Balanced costs and strong metros
+VA,Virginia,72,46,84,51,65,70,8,9,Humid-subtropical,Moderate,Career-oriented,Maybe,Excellent jobs with uneven affordability
+MN,Minnesota,69,68,72,57,35,80,7,8,Cold-snowy,Low,Affordable-urban,Maybe,Good value if winters work
+MI,Michigan,66,72,60,56,41,69,6,7,Cold-snowy,Moderate,Great-lakes,Maybe,Lower costs with mixed economy
+CA,California,70,,88,24,90,88,9,10,Mediterranean,High,Coastal-amenities,Maybe,Weather and jobs with high housing
+TX,Texas,75,72,85,74,54,63,8,8,Hot-humid,Moderate,Jobs-and-space,Shortlist,Strong economy with hot summers
+FL,Florida,60,40,,58,78,62,8,8,Hot-humid,High,Warm-retiree,Pass,Storm and insurance pressures
