@@ -1,6 +1,14 @@
 import { APP_CONFIG } from "./config.js";
 
-export function createMapRenderer({ svgElement, onFeatureHover, onFeatureLeave, onFeatureClick, onBackgroundClick }) {
+export function createMapRenderer({
+  svgElement,
+  onFeatureHover,
+  onFeatureLeave,
+  onFeatureClick,
+  onBackgroundClick,
+  onViewportChangeStart,
+}) {
+  let path = d3.geoPath();
   const svg = d3
     .select(svgElement)
     .attr("viewBox", `0 0 ${APP_CONFIG.map.viewport.width} ${APP_CONFIG.map.viewport.height}`)
@@ -22,10 +30,17 @@ export function createMapRenderer({ svgElement, onFeatureHover, onFeatureLeave, 
   const regionLayer = zoomRoot.append("g").attr("class", "region-layer");
   const overlayLayer = zoomRoot.append("g").attr("class", "overlay-layer");
 
-  const path = d3.geoPath();
-  const zoom = d3.zoom().scaleExtent(APP_CONFIG.map.zoomExtent).on("zoom", (event) => {
-    zoomRoot.attr("transform", event.transform);
-  });
+  const zoom = d3
+    .zoom()
+    .scaleExtent(APP_CONFIG.map.zoomExtent)
+    .on("zoom", (event) => {
+      if (!transformsEqual(event.transform, state.currentTransform)) {
+        onViewportChangeStart?.();
+        state.currentTransform = event.transform;
+      }
+
+      zoomRoot.attr("transform", event.transform);
+    });
 
   svg.call(zoom).on("dblclick.zoom", null);
   svg.on(
@@ -40,6 +55,7 @@ export function createMapRenderer({ svgElement, onFeatureHover, onFeatureLeave, 
     levelConfig: null,
     joinLookup: new Map(),
     colorizer: null,
+    currentTransform: d3.zoomIdentity,
     getFeatureKey: null,
     selectedKey: "",
     fitTransform: d3.zoomIdentity,
@@ -67,18 +83,21 @@ export function createMapRenderer({ svgElement, onFeatureHover, onFeatureLeave, 
     state.selectedKey = selectedFeatureKey || "";
     state.unmatchedOpacity = unmatchedOpacity ?? APP_CONFIG.map.unmatchedOpacity;
     state.unmatchedStrokeOpacity = unmatchedStrokeOpacity ?? APP_CONFIG.map.unmatchedStrokeOpacity;
+    path = buildPath(boundaryData);
 
     nationLayer.selectAll("*").remove();
     overlayLayer.selectAll("*").remove();
 
-    nationLayer
-      .append("path")
-      .datum(boundaryData.nation)
-      .attr("class", "nation-shape")
-      .attr("fill", APP_CONFIG.map.nationFill)
-      .attr("stroke", APP_CONFIG.map.nationStroke)
-      .attr("stroke-width", 1.3)
-      .attr("d", path);
+    if (boundaryData.drawNation !== false) {
+      nationLayer
+        .append("path")
+        .datum(boundaryData.nation)
+        .attr("class", "nation-shape")
+        .attr("fill", APP_CONFIG.map.nationFill)
+        .attr("stroke", boundaryData.nationStroke === false ? "none" : APP_CONFIG.map.nationStroke)
+        .attr("stroke-width", boundaryData.nationStroke === false ? 0 : 1.3)
+        .attr("d", path);
+    }
 
     state.fitTransform = buildFitTransform(boundaryData.nation);
 
@@ -104,7 +123,22 @@ export function createMapRenderer({ svgElement, onFeatureHover, onFeatureLeave, 
 
     applyRegionStyles();
 
-    if (boundaryData.overlayMesh) {
+    if (boundaryData.overlayFeatures?.length) {
+      const overlayStrokeWidth = levelConfig.id === "county" ? 0.48 : 0.7;
+      const overlayStrokeOpacity = levelConfig.id === "county" ? 0.68 : 0.82;
+      overlayLayer
+        .selectAll("path.map-overlay")
+        .data(boundaryData.overlayFeatures)
+        .enter()
+        .append("path")
+        .attr("class", "map-overlay")
+        .attr("fill", "none")
+        .attr("stroke", APP_CONFIG.map.overlayStroke)
+        .attr("stroke-width", overlayStrokeWidth)
+        .attr("stroke-opacity", overlayStrokeOpacity)
+        .attr("d", path)
+        .attr("pointer-events", "none");
+    } else if (boundaryData.overlayMesh) {
       overlayLayer
         .append("path")
         .datum(boundaryData.overlayMesh)
@@ -238,6 +272,7 @@ export function createMapRenderer({ svgElement, onFeatureHover, onFeatureLeave, 
     regionLayer.selectAll("*").remove();
     overlayLayer.selectAll("*").remove();
     regionsSelection = regionLayer.selectAll("path.map-region");
+    state.currentTransform = d3.zoomIdentity;
     state.selectedKey = "";
     state.fitTransform = d3.zoomIdentity;
     onFeatureLeave?.();
@@ -268,6 +303,22 @@ export function createMapRenderer({ svgElement, onFeatureHover, onFeatureLeave, 
     const translateY = (APP_CONFIG.map.viewport.height - scale * (y0 + y1)) / 2;
 
     return d3.zoomIdentity.translate(translateX, translateY).scale(scale);
+  }
+
+  function buildPath(boundaryData) {
+    if (boundaryData.projection === "albersUsa") {
+      const projection = d3.geoAlbersUsa().fitSize(
+        [APP_CONFIG.map.viewport.width, APP_CONFIG.map.viewport.height],
+        boundaryData.nation,
+      );
+      return d3.geoPath(projection);
+    }
+
+    return d3.geoPath();
+  }
+
+  function transformsEqual(left, right) {
+    return left?.x === right?.x && left?.y === right?.y && left?.k === right?.k;
   }
 
   return {

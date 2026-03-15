@@ -22,14 +22,16 @@ function buildNumericColorizer(rows, columns, emptyColor) {
     return emptyColorizer(label, `No numeric values were found in ${joinedColumns}.`, emptyColor);
   }
 
-  const buckets = buildBuckets(values);
+  const bucketScale = buildBuckets(values);
+  const buckets = bucketScale.buckets;
   const isCombined = activeColumns.length > 1;
   const joinedColumns = activeColumns.join(" + ");
   const incompleteCount = rows.filter((row) => getMissingNumericColumns(row, activeColumns).length > 0).length;
   const legendTitle = isCombined ? "Combined numeric score" : `${activeColumns[0]} buckets`;
+  const rangeLabel = formatBucketRange(bucketScale.min, bucketScale.max, { isLast: true });
   let description = isCombined
-    ? `Quantile buckets based on the summed values of ${joinedColumns} across ${values.length} mapped rows.`
-    : `Quantile buckets based on ${values.length} mapped rows.`;
+    ? `Equal-width buckets spanning summed values from ${rangeLabel} across ${values.length} mapped rows.`
+    : `Equal-width buckets spanning ${rangeLabel} across ${values.length} mapped rows.`;
 
   if (incompleteCount) {
     description += ` Red outlines mark ${incompleteCount} region${incompleteCount === 1 ? "" : "s"} with missing selected values.`;
@@ -48,7 +50,7 @@ function buildNumericColorizer(rows, columns, emptyColor) {
       return getNumericTotal(row, activeColumns) != null;
     },
     legendItems: buckets.map((bucket) => ({
-      label: formatRange(bucket.min, bucket.max),
+      label: formatBucketRange(bucket.min, bucket.max, { isLast: bucket.isLast }),
       color: bucket.color,
     })),
     getTooltipEntries(row) {
@@ -79,7 +81,7 @@ function buildNumericColorizer(rows, columns, emptyColor) {
         return emptyColor;
       }
 
-      return buckets.find((bucket) => value <= bucket.max)?.color || buckets[buckets.length - 1].color;
+      return getBucketColor(value, bucketScale);
     },
   };
 }
@@ -128,31 +130,60 @@ function buildCategoricalColorizer(rows, column, emptyColor) {
 function buildBuckets(values) {
   const sorted = [...values].sort((left, right) => left - right);
   const bucketCount = Math.min(NUMERIC_PALETTE.length, new Set(sorted).size);
-  const buckets = [];
-  let startIndex = 0;
+  const min = sorted[0];
+  const max = sorted[sorted.length - 1];
 
-  for (let index = 0; index < bucketCount; index += 1) {
-    const endIndex =
-      index === bucketCount - 1
-        ? sorted.length - 1
-        : Math.max(startIndex, Math.ceil(((index + 1) * sorted.length) / bucketCount) - 1);
-
-    const min = sorted[startIndex];
-    const max = sorted[endIndex];
-
-    const previous = buckets[buckets.length - 1];
-    if (!previous || previous.min !== min || previous.max !== max) {
-      buckets.push({
-        min,
-        max,
-        color: NUMERIC_PALETTE[buckets.length],
-      });
-    }
-
-    startIndex = Math.min(sorted.length - 1, endIndex + 1);
+  if (min === max) {
+    return {
+      min,
+      max,
+      width: 0,
+      buckets: [
+        {
+          min,
+          max,
+          color: NUMERIC_PALETTE[0],
+          isLast: true,
+        },
+      ],
+    };
   }
 
-  return buckets;
+  const width = (max - min) / bucketCount;
+  const buckets = Array.from({ length: bucketCount }, (_, index) => ({
+    min: min + width * index,
+    max: index === bucketCount - 1 ? max : min + width * (index + 1),
+    color: NUMERIC_PALETTE[index],
+    isLast: index === bucketCount - 1,
+  }));
+
+  return {
+    min,
+    max,
+    width,
+    buckets,
+  };
+}
+
+function getBucketColor(value, bucketScale) {
+  if (!bucketScale.buckets.length) {
+    return NUMERIC_PALETTE[0];
+  }
+
+  if (!bucketScale.width) {
+    return bucketScale.buckets[0].color;
+  }
+
+  const epsilon = Math.max(Number.EPSILON, bucketScale.width * 1e-9);
+  const bucketIndex = Math.max(
+    0,
+    Math.min(
+      bucketScale.buckets.length - 1,
+      Math.floor((value - bucketScale.min + epsilon) / bucketScale.width),
+    ),
+  );
+
+  return bucketScale.buckets[bucketIndex].color;
 }
 
 function getCategoryColor(index) {
@@ -220,12 +251,48 @@ function parseNumericValue(value) {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
-function formatRange(min, max) {
+function formatBucketRange(min, max, { isLast = true } = {}) {
   if (min === max) {
-    return formatNumber(min);
+    return formatLegendNumber(min);
   }
 
-  return `${formatNumber(min)} to ${formatNumber(max)}`;
+  const precision = getLegendPrecision(min, max);
+  const lower = formatLegendNumber(min, precision);
+  const upper = formatLegendNumber(max, precision);
+  return isLast ? `${lower} to ${upper}` : `${lower} to <${upper}`;
+}
+
+function getLegendPrecision(min, max) {
+  return Math.max(
+    getRequiredLegendPrecision(min),
+    getRequiredLegendPrecision(max),
+    getRequiredLegendPrecision(max - min),
+  );
+}
+
+function formatLegendNumber(value, decimals = 2) {
+  if (decimals === 0) {
+    return String(Math.round(value));
+  }
+
+  return value.toFixed(decimals).replace(/\.?0+$/, "");
+}
+
+function getRequiredLegendPrecision(value) {
+  const absoluteValue = Math.abs(value);
+
+  if (!Number.isFinite(absoluteValue) || Number.isInteger(absoluteValue)) {
+    return 0;
+  }
+
+  for (let decimals = 1; decimals <= 6; decimals += 1) {
+    const scaled = absoluteValue * 10 ** decimals;
+    if (Math.abs(scaled - Math.round(scaled)) < 1e-8) {
+      return decimals;
+    }
+  }
+
+  return 6;
 }
 
 function formatNumber(value) {

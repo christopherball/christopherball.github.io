@@ -30,8 +30,12 @@
           </div>
 
           <div class="control-group">
-            <label for="csvFile">Upload CSV</label>
-            <input type="file" id="csvFile" accept=".csv,text/csv" />
+            <span class="control-label">Upload CSV</span>
+            <div class="file-picker">
+              <button type="button" id="csvFileTrigger" class="file-picker-button">Choose CSV file...</button>
+              <div id="csvFileStatus" class="file-picker-status" aria-live="polite">No file selected</div>
+            </div>
+            <input type="file" id="csvFile" class="visually-hidden-file-input" accept=".csv,text/csv" tabindex="-1" />
           </div>
 
           <div class="control-group">

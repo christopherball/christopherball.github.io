@@ -6,8 +6,11 @@ import { buildJoinStats, createDataset, parseCsvText } from "./js/csv.js";
 import { createMapRenderer } from "./js/mapRenderer.js";
 
 const els = {
+  sidebar: document.querySelector(".sidebar"),
   levelToggle: document.getElementById("levelToggle"),
   sampleDataLink: document.getElementById("sampleDataLink"),
+  csvFileTrigger: document.getElementById("csvFileTrigger"),
+  csvFileStatus: document.getElementById("csvFileStatus"),
   csvFile: document.getElementById("csvFile"),
   exampleSelect: document.getElementById("exampleSelect"),
   colorModeSelect: document.getElementById("colorModeSelect"),
@@ -55,6 +58,7 @@ function init() {
     onFeatureLeave: hideTooltip,
     onFeatureClick: handleFeatureClick,
     onBackgroundClick: handleBackgroundClick,
+    onViewportChangeStart: hideTooltip,
   });
 
   populateExampleOptions();
@@ -75,6 +79,18 @@ function bindEvents() {
     button.addEventListener("click", () => {
       setLevel(button.dataset.level);
     });
+  });
+
+  els.mapStage.addEventListener("click", (event) => {
+    if (event.defaultPrevented || event.target.closest?.(".map-region")) {
+      return;
+    }
+
+    handleBackgroundClick();
+  });
+
+  els.csvFileTrigger.addEventListener("click", () => {
+    els.csvFile.click();
   });
 
   els.resetViewButton.addEventListener("click", () => {
@@ -112,15 +128,19 @@ function bindEvents() {
       return;
     }
 
+    els.csvFileStatus.textContent = file.name;
+
     try {
       setStatus(`Parsing ${file.name}...`);
       const text = await file.text();
       const rawRows = await parseCsvText(text);
       await loadDataset(rawRows, file.name);
     } catch (error) {
+      els.csvFileStatus.textContent = "No file selected";
       handleError(error);
     } finally {
       event.target.value = "";
+      event.target.blur();
     }
   });
 
@@ -548,11 +568,13 @@ function handleFeatureHover({ event, feature, featureKey, row, levelId }) {
 function handleFeatureClick({ feature, featureKey, row, levelId }) {
   appState.selectedFeatureKey = featureKey;
   appState.renderer.setSelectedKey(featureKey);
-  hideTooltip();
 
   const levelConfig = APP_CONFIG.geography[levelId];
   const title = getFeatureTitle(feature, row, levelId);
   renderDetails(title, featureKey, levelConfig.joinKey, row);
+  requestAnimationFrame(() => {
+    revealDetailsPane();
+  });
 }
 
 function handleBackgroundClick() {
@@ -638,6 +660,34 @@ function renderDetailsPlaceholder() {
   `;
 }
 
+function revealDetailsPane() {
+  if (!els.details) {
+    return;
+  }
+
+  const sidebar = els.sidebar;
+  if (!sidebar || sidebar.scrollHeight <= sidebar.clientHeight) {
+    els.details.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+    return;
+  }
+
+  const padding = 16;
+  const sidebarRect = sidebar.getBoundingClientRect();
+  const detailsRect = els.details.getBoundingClientRect();
+  const visibleTop = sidebarRect.top + padding;
+  const visibleBottom = sidebarRect.bottom - padding;
+
+  if (detailsRect.top >= visibleTop && detailsRect.bottom <= visibleBottom) {
+    return;
+  }
+
+  const targetTop = sidebar.scrollTop + (detailsRect.top - sidebarRect.top) - padding;
+  sidebar.scrollTo({
+    top: Math.max(0, targetTop),
+    behavior: "smooth",
+  });
+}
+
 async function openSampleModal() {
   const example = APP_CONFIG.examples.find((entry) => entry.level === appState.level);
 
@@ -687,10 +737,10 @@ function closeModal() {
 
 function getFeatureKey(feature, levelId) {
   if (levelId === "state") {
-    return STATE_ABBR_BY_NAME[feature.properties?.name] || "";
+    return feature.properties?.state_abbr || STATE_ABBR_BY_NAME[feature.properties?.name] || feature.id || "";
   }
 
-  return String(feature.id || "").padStart(5, "0");
+  return String(feature.id || feature.properties?.GEOID || "").padStart(5, "0");
 }
 
 function getFeatureTitle(feature, row, levelId) {
