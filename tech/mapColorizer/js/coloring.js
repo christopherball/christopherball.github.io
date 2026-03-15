@@ -83,6 +83,14 @@ function buildNumericColorizer(rows, columns, emptyColor) {
 
       return getBucketColor(value, bucketScale);
     },
+    getBucketIndex(row) {
+      const value = getNumericTotal(row, activeColumns);
+      if (value == null) {
+        return -1;
+      }
+
+      return getBucketIndex(value, bucketScale);
+    },
   };
 }
 
@@ -170,20 +178,22 @@ function getBucketColor(value, bucketScale) {
     return NUMERIC_PALETTE[0];
   }
 
-  if (!bucketScale.width) {
-    return bucketScale.buckets[0].color;
+  return bucketScale.buckets[getBucketIndex(value, bucketScale)].color;
+}
+
+function getBucketIndex(value, bucketScale) {
+  if (!bucketScale.buckets.length || !bucketScale.width) {
+    return 0;
   }
 
   const epsilon = Math.max(Number.EPSILON, bucketScale.width * 1e-9);
-  const bucketIndex = Math.max(
+  return Math.max(
     0,
     Math.min(
       bucketScale.buckets.length - 1,
       Math.floor((value - bucketScale.min + epsilon) / bucketScale.width),
     ),
   );
-
-  return bucketScale.buckets[bucketIndex].color;
 }
 
 function getCategoryColor(index) {

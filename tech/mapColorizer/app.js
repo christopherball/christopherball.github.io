@@ -40,8 +40,14 @@ const appState = {
   datasetLabel: "",
   renderer: null,
   selectedFeatureKey: "",
+  selectedDetails: null,
   currentJoinStats: null,
   currentColorizer: null,
+  detailNumericColorizers: new Map(),
+  detailsSort: {
+    column: "",
+    direction: "asc",
+  },
   lastRenderedLevel: "",
   sampleTextCache: new Map(),
   numericColumnSelections: [""],
@@ -91,6 +97,15 @@ function bindEvents() {
 
   els.csvFileTrigger.addEventListener("click", () => {
     els.csvFile.click();
+  });
+
+  els.details.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-details-sort]");
+    if (!button) {
+      return;
+    }
+
+    updateDetailsSort(button.dataset.detailsSort);
   });
 
   els.resetViewButton.addEventListener("click", () => {
@@ -494,6 +509,7 @@ async function renderCurrentView({ forceResetView = false } = {}) {
     columns: getSelectedNumericColumns(),
     emptyColor: APP_CONFIG.map.emptyValueFill,
   });
+  appState.detailNumericColorizers = new Map();
   renderLegend(appState.currentColorizer);
   clearSelection();
   renderDetailsPlaceholder();
@@ -538,6 +554,7 @@ async function renderBaseMap({ forceResetView = false } = {}) {
 
   appState.currentJoinStats = null;
   appState.currentColorizer = null;
+  appState.detailNumericColorizers = new Map();
 
   appState.renderer.render({
     levelConfig,
@@ -571,6 +588,7 @@ function handleFeatureClick({ feature, featureKey, row, levelId }) {
 
   const levelConfig = APP_CONFIG.geography[levelId];
   const title = getFeatureTitle(feature, row, levelId);
+  appState.selectedDetails = { title, featureKey, joinKey: levelConfig.joinKey, row };
   renderDetails(title, featureKey, levelConfig.joinKey, row);
   requestAnimationFrame(() => {
     revealDetailsPane();
@@ -589,6 +607,7 @@ function handleBackgroundClick() {
 
 function clearSelection() {
   appState.selectedFeatureKey = "";
+  appState.selectedDetails = null;
   appState.renderer?.setSelectedKey("");
 }
 
@@ -639,16 +658,33 @@ function renderDetails(title, featureKey, joinKey, row) {
     return;
   }
 
-  html += '<table class="detail-table">';
-  Object.entries(row).forEach(([key, value]) => {
+  const detailEntries = getSortedDetailEntries(row, joinKey);
+
+  html += `
+    <table class="detail-table">
+      <thead>
+        <tr>
+          <th>${renderDetailsSortButton("field", "Field")}</th>
+          <th>${renderDetailsSortButton("value", "Value")}</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  detailEntries.forEach((entry) => {
+    const styleAttr = entry.cellStyle
+      ? ` style="background:${entry.cellStyle.backgroundColor};color:${entry.cellStyle.textColor}"`
+      : "";
+    const valueCellClass = `detail-value-cell${entry.cellStyle ? " is-numeric" : ""}`;
+
     html += `
       <tr>
-        <td>${escapeHtml(key)}</td>
-        <td>${escapeHtml(value)}</td>
+        <td>${escapeHtml(entry.key)}</td>
+        <td class="${valueCellClass}"${styleAttr}>${escapeHtml(entry.displayValue)}</td>
       </tr>
     `;
   });
-  html += "</table>";
+  html += "</tbody></table>";
 
   els.details.innerHTML = html;
 }
@@ -658,6 +694,142 @@ function renderDetailsPlaceholder() {
     <strong>Details</strong>
     <p class="muted">Click a region to inspect the full CSV row.</p>
   `;
+}
+
+function renderDetailsSortButton(column, label) {
+  const isActive = appState.detailsSort.column === column;
+  const direction = isActive ? appState.detailsSort.direction : "";
+  const indicator = direction === "asc" ? "↑" : direction === "desc" ? "↓" : "↕";
+  const activeClass = isActive ? " is-active" : "";
+  const nextDirection = !isActive || direction === "desc" ? "ascending" : "descending";
+
+  return `
+    <button
+      type="button"
+      class="detail-sort-button${activeClass}"
+      data-details-sort="${column}"
+      aria-label="Sort ${escapeHtml(label)} ${nextDirection}"
+    >
+      <span>${escapeHtml(label)}</span>
+      <span class="detail-sort-indicator" aria-hidden="true">${indicator}</span>
+    </button>
+  `;
+}
+
+function updateDetailsSort(column) {
+  if (!column) {
+    return;
+  }
+
+  if (appState.detailsSort.column === column) {
+    appState.detailsSort.direction = appState.detailsSort.direction === "asc" ? "desc" : "asc";
+  } else {
+    appState.detailsSort = {
+      column,
+      direction: "asc",
+    };
+  }
+
+  if (!appState.selectedDetails) {
+    return;
+  }
+
+  const { title, featureKey, joinKey, row } = appState.selectedDetails;
+  renderDetails(title, featureKey, joinKey, row);
+}
+
+function getSortedDetailEntries(row, joinKey) {
+  const numericColumns = new Set(appState.dataset?.numericColumns || []);
+  const entries = Object.entries(row)
+    .filter(([key]) => key !== joinKey)
+    .map(([key, value], index) => {
+    const numericValue = parseNumericValue(value);
+    const detailNumericData = getNumericDetailData(key, row, numericValue, numericColumns);
+
+    return {
+      key,
+      index,
+      displayValue: String(value ?? ""),
+      numericValue,
+      isNumeric: numericValue != null,
+      bucketIndex: detailNumericData?.bucketIndex ?? -1,
+      cellStyle: detailNumericData?.cellStyle ?? null,
+    };
+    });
+
+  if (!appState.detailsSort.column) {
+    return entries;
+  }
+
+  const direction = appState.detailsSort.direction === "desc" ? -1 : 1;
+  return [...entries].sort((left, right) => direction * compareDetailEntries(left, right));
+}
+
+function compareDetailEntries(left, right) {
+  if (appState.detailsSort.column === "field") {
+    return compareText(left.key, right.key) || left.index - right.index;
+  }
+
+  if (left.isNumeric && right.isNumeric) {
+    const leftHasBucket = left.bucketIndex >= 0;
+    const rightHasBucket = right.bucketIndex >= 0;
+
+    if (leftHasBucket && rightHasBucket) {
+      return left.bucketIndex - right.bucketIndex || left.numericValue - right.numericValue || compareText(left.key, right.key);
+    }
+
+    if (leftHasBucket !== rightHasBucket) {
+      return leftHasBucket ? -1 : 1;
+    }
+
+    return left.numericValue - right.numericValue || compareText(left.key, right.key);
+  }
+
+  if (left.isNumeric !== right.isNumeric) {
+    return left.isNumeric ? -1 : 1;
+  }
+
+  return compareText(left.displayValue, right.displayValue) || compareText(left.key, right.key);
+}
+
+function getNumericDetailData(column, row, numericValue, numericColumns) {
+  if (numericValue == null || !numericColumns.has(column)) {
+    return null;
+  }
+
+  const colorizer = getDetailNumericColorizer(column);
+  if (!colorizer?.hasRenderableValue?.(row)) {
+    return null;
+  }
+
+  const backgroundColor = colorizer.getFillColor(row);
+  return {
+    bucketIndex: colorizer.getBucketIndex?.(row) ?? -1,
+    cellStyle: {
+      backgroundColor,
+      textColor: getReadableTextColor(backgroundColor),
+    },
+  };
+}
+
+function getDetailNumericColorizer(column) {
+  if (!column || !appState.currentJoinStats?.uniqueRows?.length) {
+    return null;
+  }
+
+  if (!appState.detailNumericColorizers.has(column)) {
+    appState.detailNumericColorizers.set(
+      column,
+      buildColorizer({
+        rows: appState.currentJoinStats.uniqueRows,
+        mode: "numeric",
+        columns: [column],
+        emptyColor: APP_CONFIG.map.emptyValueFill,
+      }),
+    );
+  }
+
+  return appState.detailNumericColorizers.get(column);
 }
 
 function revealDetailsPane() {
@@ -794,6 +966,51 @@ function showTooltip(html, event) {
 function hideTooltip() {
   els.mapTooltip.hidden = true;
   els.mapTooltip.innerHTML = "";
+}
+
+function compareText(left, right) {
+  return String(left ?? "").localeCompare(String(right ?? ""), undefined, {
+    numeric: true,
+    sensitivity: "base",
+  });
+}
+
+function parseNumericValue(value) {
+  const normalized = String(value ?? "").trim();
+  if (!normalized) {
+    return null;
+  }
+
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function getReadableTextColor(backgroundColor) {
+  const hex = normalizeHexColor(backgroundColor);
+  if (!hex) {
+    return "#eef5ff";
+  }
+
+  const [red, green, blue] = [0, 2, 4].map((index) => Number.parseInt(hex.slice(index, index + 2), 16));
+  const luminance = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
+  return luminance > 0.6 ? "#08131d" : "#eef5ff";
+}
+
+function normalizeHexColor(value) {
+  const normalized = String(value ?? "").trim();
+  if (/^#[0-9a-f]{6}$/i.test(normalized)) {
+    return normalized.slice(1);
+  }
+
+  if (/^#[0-9a-f]{3}$/i.test(normalized)) {
+    return normalized
+      .slice(1)
+      .split("")
+      .map((character) => character + character)
+      .join("");
+  }
+
+  return "";
 }
 
 function escapeHtml(value) {

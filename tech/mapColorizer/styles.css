@@ -521,6 +521,7 @@ input:disabled {
   font-size: 0.92rem;
 }
 
+.detail-table th,
 .detail-table td {
   padding: 0.55rem 0;
   border-top: 1px solid rgba(139, 163, 186, 0.14);
@@ -529,11 +530,55 @@ input:disabled {
   word-break: break-word;
 }
 
+.detail-table th {
+  padding-top: 0;
+  padding-bottom: 0.4rem;
+  border-top: 0;
+  text-align: left;
+}
+
 .detail-table td:first-child {
   width: 52%;
   padding-right: 0.8rem;
   color: var(--muted);
   font-weight: 600;
+}
+
+.detail-sort-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+  padding: 0.32rem 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.detail-sort-button:hover,
+.detail-sort-button.is-active {
+  color: var(--accent);
+}
+
+.detail-sort-indicator {
+  flex: 0 0 auto;
+  font-size: 0.82rem;
+}
+
+.detail-value-cell {
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.detail-value-cell.is-numeric {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .map-panel {
