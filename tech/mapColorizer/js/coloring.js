@@ -137,7 +137,6 @@ function buildCategoricalColorizer(rows, column, emptyColor) {
 
 function buildBuckets(values) {
   const sorted = [...values].sort((left, right) => left - right);
-  const bucketCount = Math.min(NUMERIC_PALETTE.length, new Set(sorted).size);
   const min = sorted[0];
   const max = sorted[sorted.length - 1];
 
@@ -150,18 +149,19 @@ function buildBuckets(values) {
         {
           min,
           max,
-          color: NUMERIC_PALETTE[0],
+          color: getNumericBucketColor(0, 1),
           isLast: true,
         },
       ],
     };
   }
 
+  const bucketCount = NUMERIC_PALETTE.length;
   const width = (max - min) / bucketCount;
   const buckets = Array.from({ length: bucketCount }, (_, index) => ({
     min: min + width * index,
     max: index === bucketCount - 1 ? max : min + width * (index + 1),
-    color: NUMERIC_PALETTE[index],
+    color: getNumericBucketColor(index, bucketCount),
     isLast: index === bucketCount - 1,
   }));
 
@@ -179,6 +179,15 @@ function getBucketColor(value, bucketScale) {
   }
 
   return bucketScale.buckets[getBucketIndex(value, bucketScale)].color;
+}
+
+function getNumericBucketColor(index, bucketCount) {
+  if (bucketCount <= 1) {
+    return NUMERIC_PALETTE[Math.floor(NUMERIC_PALETTE.length / 2)];
+  }
+
+  const paletteIndex = Math.round((index * (NUMERIC_PALETTE.length - 1)) / (bucketCount - 1));
+  return NUMERIC_PALETTE[paletteIndex];
 }
 
 function getBucketIndex(value, bucketScale) {

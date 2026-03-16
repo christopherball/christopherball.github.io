@@ -264,6 +264,7 @@ label {
 }
 
 select,
+input[type="number"],
 input[type="file"] {
   width: 100%;
   padding: 0.78rem 0.9rem;
@@ -322,6 +323,26 @@ select:disabled,
 input:disabled {
   color: #697b8d;
   background: rgba(13, 21, 31, 0.9);
+}
+
+.toggle-control {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.toggle-control input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.toggle-control span {
+  margin: 0;
 }
 
 .segment-control {
@@ -648,7 +669,11 @@ input:disabled {
 
 .nation-shape,
 .map-overlay,
-.map-region {
+.map-region,
+.airport-ring-outline,
+.airport-ring,
+.airport-marker-arm,
+.airport-marker-core {
   vector-effect: non-scaling-stroke;
 }
 
@@ -687,6 +712,49 @@ input:disabled {
 
 .map-region.is-selected[data-level="county"] {
   stroke-width: 0.95;
+}
+
+.airport-ring-outline {
+  fill: none;
+  stroke: rgba(7, 14, 22, 0.62);
+  stroke-width: 2.1;
+  stroke-linejoin: round;
+}
+
+.airport-ring {
+  fill: none;
+  stroke: rgba(117, 224, 236, 0.58);
+  stroke-width: 1.15;
+  stroke-linejoin: round;
+}
+
+.airport-marker-arm {
+  fill: none;
+  stroke: rgba(255, 209, 102, 0.92);
+  stroke-width: 1.15;
+  stroke-linecap: round;
+}
+
+.airport-marker-core {
+  fill: rgba(255, 209, 102, 0.96);
+  stroke: rgba(8, 17, 27, 0.88);
+  stroke-width: 1.15;
+}
+
+.airport-marker.is-large .airport-marker-arm {
+  stroke: rgba(140, 229, 176, 0.94);
+}
+
+.airport-marker.is-large .airport-marker-core {
+  fill: rgba(140, 229, 176, 0.98);
+}
+
+.airport-marker.is-other .airport-marker-arm {
+  stroke: rgba(231, 108, 118, 0.94);
+}
+
+.airport-marker.is-other .airport-marker-core {
+  fill: rgba(231, 108, 118, 0.98);
 }
 
 .map-tooltip {

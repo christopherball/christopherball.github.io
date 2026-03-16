@@ -1,7 +1,8 @@
 import { loadBoundaryData } from "./js/boundaries.js";
+import { loadAirportOverlayData } from "./js/airports.js";
 import { buildColorizer } from "./js/coloring.js";
 import { APP_CONFIG } from "./js/config.js";
-import { STATE_ABBR_BY_FIPS, STATE_ABBR_BY_NAME } from "./js/constants.js";
+import { NUMERIC_PALETTE, STATE_ABBR_BY_FIPS, STATE_ABBR_BY_NAME } from "./js/constants.js";
 import { buildJoinStats, createDataset, parseCsvText } from "./js/csv.js";
 import { createMapRenderer } from "./js/mapRenderer.js";
 
@@ -18,8 +19,14 @@ const els = {
   numericColumnList: document.getElementById("numericColumnList"),
   categoricalColumnControl: document.getElementById("categoricalColumnControl"),
   categoricalColumnSelect: document.getElementById("categoricalColumnSelect"),
+  showLargeAirportsToggle: document.getElementById("showLargeAirportsToggle"),
+  showMediumAirportsToggle: document.getElementById("showMediumAirportsToggle"),
+  showOtherAirportsToggle: document.getElementById("showOtherAirportsToggle"),
+  showAirportRingsToggle: document.getElementById("showAirportRingsToggle"),
+  airportRadiusMilesInput: document.getElementById("airportRadiusMilesInput"),
   visualIsolationRange: document.getElementById("visualIsolationRange"),
   visualIsolationValue: document.getElementById("visualIsolationValue"),
+  visualIsolationHelp: document.getElementById("visualIsolationHelp"),
   legend: document.getElementById("legend"),
   details: document.getElementById("details"),
   statusBar: document.getElementById("statusBar"),
@@ -51,7 +58,14 @@ const appState = {
   lastRenderedLevel: "",
   sampleTextCache: new Map(),
   numericColumnSelections: [""],
-  visualIsolation: 0,
+  unmatchedIsolation: 0,
+  numericIsolationLevel: 1,
+  showLargeAirports: false,
+  showMediumAirports: false,
+  showOtherAirports: false,
+  showAirportRings: false,
+  airportRadiusMiles: APP_CONFIG.airports.defaultRadiusMiles,
+  airportOverlayData: null,
 };
 
 init();
@@ -73,6 +87,7 @@ function init() {
   renderNumericColumnControls();
   syncColorControlVisibility();
   syncVisualIsolationControl();
+  syncAirportControls();
   updateSampleLink();
   renderLegendPlaceholder("Load a CSV to populate the map.");
   renderDetailsPlaceholder();
@@ -190,11 +205,65 @@ function bindEvents() {
     renderCurrentView().catch(handleError);
   });
 
+  els.showLargeAirportsToggle.addEventListener("change", () => {
+    appState.showLargeAirports = els.showLargeAirportsToggle.checked;
+    if (!hasVisibleAirportClasses()) {
+      appState.showAirportRings = false;
+    }
+
+    syncAirportControls();
+    updateAirportOverlay().catch(handleError);
+  });
+
+  els.showMediumAirportsToggle.addEventListener("change", () => {
+    appState.showMediumAirports = els.showMediumAirportsToggle.checked;
+    if (!hasVisibleAirportClasses()) {
+      appState.showAirportRings = false;
+    }
+
+    syncAirportControls();
+    updateAirportOverlay().catch(handleError);
+  });
+
+  els.showOtherAirportsToggle.addEventListener("change", () => {
+    appState.showOtherAirports = els.showOtherAirportsToggle.checked;
+    if (!hasVisibleAirportClasses()) {
+      appState.showAirportRings = false;
+    }
+
+    syncAirportControls();
+    updateAirportOverlay().catch(handleError);
+  });
+
+  els.showAirportRingsToggle.addEventListener("change", () => {
+    appState.showAirportRings = els.showAirportRingsToggle.checked;
+    syncAirportControls();
+    updateAirportOverlay().catch(handleError);
+  });
+
+  els.airportRadiusMilesInput.addEventListener("input", () => {
+    appState.airportRadiusMiles = normalizeAirportRadiusMiles(els.airportRadiusMilesInput.value);
+    syncAirportControls();
+    updateAirportOverlay().catch(handleError);
+  });
+
   els.visualIsolationRange.addEventListener("input", (event) => {
-    appState.visualIsolation = Number(event.target.value) || 0;
+    const rawValue = Number(event.target.value);
+
+    if (isNumericIsolationMode()) {
+      appState.numericIsolationLevel = normalizeNumericIsolationLevel(rawValue);
+    } else {
+      appState.unmatchedIsolation = rawValue || 0;
+    }
+
     syncVisualIsolationControl();
 
     if (!appState.dataset) {
+      return;
+    }
+
+    if (isNumericIsolationMode()) {
+      appState.renderer.setHiddenNumericBucketCount(getHiddenNumericBucketCount());
       return;
     }
 
@@ -286,24 +355,144 @@ function syncColorControlVisibility() {
   els.categoricalColumnControl.hidden = isNumeric;
 }
 
+function syncAirportControls() {
+  els.showLargeAirportsToggle.checked = appState.showLargeAirports;
+  els.showMediumAirportsToggle.checked = appState.showMediumAirports;
+  els.showOtherAirportsToggle.checked = appState.showOtherAirports;
+  els.showAirportRingsToggle.checked = appState.showAirportRings;
+  els.showAirportRingsToggle.disabled = !hasVisibleAirportClasses();
+  els.airportRadiusMilesInput.value = String(appState.airportRadiusMiles);
+  els.airportRadiusMilesInput.disabled = !hasVisibleAirportClasses() || !appState.showAirportRings;
+}
+
+function normalizeAirportRadiusMiles(value) {
+  const parsed = Number(value);
+  const fallback = APP_CONFIG.airports.defaultRadiusMiles;
+  if (!Number.isFinite(parsed)) {
+    return fallback;
+  }
+
+  const bounded = Math.max(APP_CONFIG.airports.minRadiusMiles, Math.min(APP_CONFIG.airports.maxRadiusMiles, parsed));
+  return Math.round(bounded / APP_CONFIG.airports.radiusStepMiles) * APP_CONFIG.airports.radiusStepMiles;
+}
+
 function syncVisualIsolationControl() {
-  els.visualIsolationRange.value = String(appState.visualIsolation);
-  els.visualIsolationValue.textContent = `${appState.visualIsolation}%`;
+  if (isNumericIsolationMode()) {
+    const level = normalizeNumericIsolationLevel(appState.numericIsolationLevel);
+    const visibleBucketCount = NUMERIC_PALETTE.length - (level - 1);
+    els.visualIsolationRange.min = "1";
+    els.visualIsolationRange.max = String(NUMERIC_PALETTE.length);
+    els.visualIsolationRange.step = "1";
+    els.visualIsolationRange.value = String(level);
+    els.visualIsolationValue.textContent = `${visibleBucketCount} of ${NUMERIC_PALETTE.length}`;
+    els.visualIsolationHelp.textContent = "Mute lower numeric buckets from darkest to lightest.";
+  } else {
+    els.visualIsolationRange.min = "0";
+    els.visualIsolationRange.max = "100";
+    els.visualIsolationRange.step = "1";
+    els.visualIsolationRange.value = String(appState.unmatchedIsolation);
+    els.visualIsolationValue.textContent = `${appState.unmatchedIsolation}%`;
+    els.visualIsolationHelp.textContent = "Fade unimpacted regions.";
+  }
+
   els.visualIsolationRange.disabled = !appState.dataset;
 }
 
 function getCurrentUnmatchedOpacity() {
-  const ratio = appState.visualIsolation / 100;
+  if (isNumericIsolationMode()) {
+    return APP_CONFIG.map.unmatchedOpacity;
+  }
+
+  const ratio = appState.unmatchedIsolation / 100;
   const maxOpacity = APP_CONFIG.map.unmatchedOpacity;
   const minOpacity = APP_CONFIG.map.isolatedUnmatchedOpacity;
   return maxOpacity - (maxOpacity - minOpacity) * ratio;
 }
 
 function getCurrentUnmatchedStrokeOpacity() {
-  const ratio = appState.visualIsolation / 100;
+  if (isNumericIsolationMode()) {
+    return APP_CONFIG.map.unmatchedStrokeOpacity;
+  }
+
+  const ratio = appState.unmatchedIsolation / 100;
   const maxOpacity = APP_CONFIG.map.unmatchedStrokeOpacity;
   const minOpacity = APP_CONFIG.map.isolatedUnmatchedStrokeOpacity;
   return maxOpacity - (maxOpacity - minOpacity) * ratio;
+}
+
+function isNumericIsolationMode() {
+  return Boolean(appState.dataset) && els.colorModeSelect.value === "numeric";
+}
+
+function normalizeNumericIsolationLevel(value) {
+  const numericValue = Number.isFinite(value) ? value : NUMERIC_PALETTE.length;
+  return Math.max(1, Math.min(NUMERIC_PALETTE.length, Math.round(numericValue)));
+}
+
+function getHiddenNumericBucketCount() {
+  if (!isNumericIsolationMode()) {
+    return 0;
+  }
+
+  return Math.max(0, normalizeNumericIsolationLevel(appState.numericIsolationLevel) - 1);
+}
+
+async function getCurrentAirportOverlay() {
+  if (!hasVisibleAirportClasses()) {
+    return {
+      enabled: false,
+      ringsEnabled: false,
+      radiusMiles: appState.airportRadiusMiles,
+      projection: null,
+      airports: [],
+    };
+  }
+
+  if (!appState.airportOverlayData) {
+    appState.airportOverlayData = await loadAirportOverlayData(APP_CONFIG.airports.url);
+  }
+
+  const airports = appState.airportOverlayData.airports.filter((airport) => {
+    const tier = getAirportTier(airport.type);
+    return (
+      (tier === "large" && appState.showLargeAirports) ||
+      (tier === "medium" && appState.showMediumAirports) ||
+      (tier === "other" && appState.showOtherAirports)
+    );
+  });
+
+  return {
+    enabled: airports.length > 0,
+    ringsEnabled: appState.showAirportRings && airports.length > 0,
+    radiusMiles: appState.airportRadiusMiles,
+    projection: appState.airportOverlayData.projection,
+    airports,
+  };
+}
+
+async function updateAirportOverlay() {
+  if (!appState.renderer) {
+    return;
+  }
+
+  const airportOverlay = await getCurrentAirportOverlay();
+  appState.renderer.setAirportOverlay(airportOverlay);
+}
+
+function hasVisibleAirportClasses() {
+  return appState.showLargeAirports || appState.showMediumAirports || appState.showOtherAirports;
+}
+
+function getAirportTier(type) {
+  if (type === "large_airport") {
+    return "large";
+  }
+
+  if (type === "medium_airport") {
+    return "medium";
+  }
+
+  return "other";
 }
 
 async function loadDataset(rawRows, label, { forceResetView = false } = {}) {
@@ -510,10 +699,12 @@ async function renderCurrentView({ forceResetView = false } = {}) {
     emptyColor: APP_CONFIG.map.emptyValueFill,
   });
   appState.detailNumericColorizers = new Map();
+  syncVisualIsolationControl();
   renderLegend(appState.currentColorizer);
   clearSelection();
   renderDetailsPlaceholder();
   hideTooltip();
+  const airportOverlay = await getCurrentAirportOverlay();
 
   setStatus(`Loading ${levelConfig.label.toLowerCase()} boundaries...`);
   const boundaryData = await loadBoundaryData(levelConfig);
@@ -527,6 +718,8 @@ async function renderCurrentView({ forceResetView = false } = {}) {
     shouldResetView: forceResetView,
     unmatchedOpacity,
     unmatchedStrokeOpacity,
+    hiddenNumericBucketCount: getHiddenNumericBucketCount(),
+    airportOverlay,
   });
 
   appState.lastRenderedLevel = levelConfig.id;
@@ -555,6 +748,8 @@ async function renderBaseMap({ forceResetView = false } = {}) {
   appState.currentJoinStats = null;
   appState.currentColorizer = null;
   appState.detailNumericColorizers = new Map();
+  syncVisualIsolationControl();
+  const airportOverlay = await getCurrentAirportOverlay();
 
   appState.renderer.render({
     levelConfig,
@@ -570,6 +765,8 @@ async function renderBaseMap({ forceResetView = false } = {}) {
     shouldResetView: forceResetView,
     unmatchedOpacity: APP_CONFIG.map.unmatchedOpacity,
     unmatchedStrokeOpacity: APP_CONFIG.map.unmatchedStrokeOpacity,
+    hiddenNumericBucketCount: 0,
+    airportOverlay,
   });
 
   appState.lastRenderedLevel = levelConfig.id;

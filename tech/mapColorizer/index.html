@@ -84,7 +84,44 @@
               value="0"
               disabled
             />
-            <p class="help-text">Fade unimpacted regions.</p>
+            <p id="visualIsolationHelp" class="help-text">Fade unimpacted regions.</p>
+          </div>
+        </section>
+
+        <section class="panel-section">
+          <h2>Airports</h2>
+
+          <div class="control-group">
+            <label class="toggle-control" for="showLargeAirportsToggle">
+              <input id="showLargeAirportsToggle" type="checkbox" />
+              <span>Show large airports</span>
+            </label>
+          </div>
+
+          <div class="control-group">
+            <label class="toggle-control" for="showMediumAirportsToggle">
+              <input id="showMediumAirportsToggle" type="checkbox" />
+              <span>Show medium airports</span>
+            </label>
+          </div>
+
+          <div class="control-group">
+            <label class="toggle-control" for="showOtherAirportsToggle">
+              <input id="showOtherAirportsToggle" type="checkbox" />
+              <span>Show other airports</span>
+            </label>
+          </div>
+
+          <div class="control-group">
+            <label class="toggle-control" for="showAirportRingsToggle">
+              <input id="showAirportRingsToggle" type="checkbox" disabled />
+              <span>Show distance rings</span>
+            </label>
+          </div>
+
+          <div class="control-group">
+            <label for="airportRadiusMilesInput">Ring radius (miles)</label>
+            <input id="airportRadiusMilesInput" type="number" min="10" max="250" step="10" value="20" disabled />
           </div>
         </section>
 

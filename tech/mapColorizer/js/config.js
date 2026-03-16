@@ -23,6 +23,13 @@ export const APP_CONFIG = {
     selectionStroke: "#ffd166",
     partialDataStroke: "#e07f86",
   },
+  airports: {
+    url: "data/overlays/us-scheduled-airports.json",
+    defaultRadiusMiles: 20,
+    minRadiusMiles: 10,
+    maxRadiusMiles: 250,
+    radiusStepMiles: 10,
+  },
   geography: {
     state: {
       id: "state",
