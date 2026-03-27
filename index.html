@@ -811,6 +811,7 @@
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
                 gap: 1rem;
+                align-items: stretch;
             }
 
             .entry-card,
@@ -820,9 +821,10 @@
 
             .entry-card {
                 position: relative;
-                display: grid;
+                display: flex;
+                flex-direction: column;
                 gap: 0.85rem;
-                min-height: 100%;
+                height: 100%;
                 padding: 1rem;
                 border: 1px solid rgba(255, 255, 255, 0.04);
                 border-radius: 20px;
@@ -897,6 +899,10 @@
             .entry-card a.entry-footer:hover,
             .entry-card a.entry-footer:focus-visible {
                 color: var(--accent-strong);
+            }
+
+            .entry-card p {
+                flex: 1;
             }
 
             .entry-footer::before {
