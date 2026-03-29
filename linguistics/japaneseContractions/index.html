@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Casual Japanese Contractions — Manga Reader's Reference</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=DM+Serif+Display&display=swap"
+            rel="stylesheet" />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            :root {
+                --bg: #111110;
+                --bg2: #181817;
+                --bg3: #1f1f1d;
+                --border: rgba(255, 255, 255, 0.07);
+                --border2: rgba(255, 255, 255, 0.13);
+                --accent: #c8a97e;
+                --accent2: #7e9ec8;
+                --text: #e8e4dc;
+                --text2: #a09890;
+                --text3: #6a6560;
+                --jp: #f0ece3;
+                --tag-bg: rgba(200, 169, 126, 0.1);
+                --tag-text: #c8a97e;
+
+                /* unified column widths — all tables share these */
+                --col-casual: 18%;
+                --col-std: 18%;
+                --col-example: 28%;
+                --col-explanation: 36%;
+            }
+
+            html {
+                font-size: 15px;
+            }
+            body {
+                background: var(--bg);
+                color: var(--text);
+                font-family: "Noto Sans JP", sans-serif;
+                font-weight: 300;
+                line-height: 1.7;
+                min-height: 100vh;
+            }
+
+            /* ── layout ── */
+            .page {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 3rem 2rem 6rem;
+            }
+
+            /* ── header ── */
+            header {
+                border-bottom: 1px solid var(--border2);
+                padding-bottom: 2rem;
+                margin-bottom: 3rem;
+            }
+            .eyebrow {
+                display: none;
+            }
+            h1 {
+                font-family: "DM Serif Display", serif;
+                font-size: clamp(1.8rem, 4vw, 2.8rem);
+                font-weight: 400;
+                color: var(--text);
+                line-height: 1.2;
+                margin-bottom: 0.6rem;
+            }
+            .subtitle {
+                font-size: 0.88rem;
+                color: var(--text2);
+                max-width: 560px;
+                line-height: 1.6;
+            }
+
+            /* ── section ── */
+            section {
+                margin-bottom: 3.5rem;
+            }
+            .section-label {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                margin-bottom: 1rem;
+            }
+            .section-label h2 {
+                font-family: "DM Serif Display", serif;
+                font-size: 1.05rem;
+                font-weight: 400;
+                color: var(--accent);
+                letter-spacing: 0.02em;
+            }
+            .section-label::after {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: var(--border);
+            }
+
+            /* ── table wrapper ── */
+            .table-wrap {
+                width: 100%;
+                overflow-x: auto;
+                border-radius: 8px;
+                border: 1px solid var(--border);
+                background: var(--bg2);
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                table-layout: fixed;
+            }
+
+            /* column widths — applied via col groups */
+            col.c-casual {
+                width: var(--col-casual);
+            }
+            col.c-std {
+                width: var(--col-std);
+            }
+            col.c-example {
+                width: var(--col-example);
+            }
+            col.c-explanation {
+                width: var(--col-explanation);
+            }
+
+            thead tr {
+                background: var(--bg3);
+                border-bottom: 1px solid var(--border2);
+            }
+            th {
+                padding: 0.65rem 1rem;
+                font-size: 0.7rem;
+                font-weight: 500;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--text3);
+                text-align: left;
+            }
+            td {
+                padding: 0.85rem 1rem;
+                vertical-align: top;
+                border-bottom: 1px solid var(--border);
+                font-size: 0.88rem;
+                line-height: 1.6;
+            }
+            tr:last-child td {
+                border-bottom: none;
+            }
+            tr:hover td {
+                background: rgba(255, 255, 255, 0.018);
+            }
+
+            /* cell types */
+            .cell-casual {
+                font-family: "Noto Serif JP", serif;
+                font-size: 1rem;
+                color: var(--jp);
+                font-weight: 400;
+            }
+            .cell-std {
+                font-family: "Noto Sans JP", sans-serif;
+                color: var(--text2);
+                font-size: 0.85rem;
+            }
+            .cell-explanation {
+                color: var(--text2);
+                font-size: 0.82rem;
+                line-height: 1.65;
+            }
+            .cell-example {
+                font-family: "Noto Serif JP", serif;
+                font-size: 0.9rem;
+                color: var(--accent2);
+            }
+            .cell-example .translation {
+                font-family: "Noto Sans JP", sans-serif;
+                color: var(--text3);
+                font-size: 0.78rem;
+                font-style: italic;
+                display: block;
+                margin-top: 0.3rem;
+            }
+
+            /* ── mobile ── */
+            @media (max-width: 700px) {
+                .page {
+                    padding: 2rem 1rem 4rem;
+                }
+                :root {
+                    --col-casual: 22%;
+                    --col-std: 20%;
+                    --col-example: 28%;
+                    --col-explanation: 30%;
+                }
+                td {
+                    padding: 0.7rem 0.6rem;
+                    font-size: 0.82rem;
+                }
+                th {
+                    padding: 0.55rem 0.6rem;
+                }
+                .cell-casual {
+                    font-size: 0.92rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="page">
+            <header>
+                <p class="eyebrow">Reference</p>
+                <h1>Casual Japanese Contractions</h1>
+                <p class="subtitle">
+                    Common spoken reductions, clipped endings, and casual
+                    equivalents that show up in manga, anime, and everyday
+                    dialogue. Some entries are colloquial counterparts rather
+                    than strict one-to-one textbook substitutions.
+                </p>
+            </header>
+
+            <!-- ① Quotation と -->
+            <section>
+                <div class="section-label">
+                    <h2>Quotation と contractions</h2>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <colgroup>
+                            <col class="c-casual" />
+                            <col class="c-std" />
+                            <col class="c-example" />
+                            <col class="c-explanation" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Casual form</th>
+                                <th>Standard form</th>
+                                <th>Example</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="cell-casual">って</td>
+                                <td class="cell-std">と / とは</td>
+                                <td class="cell-example">
+                                    行くって言った<span class="translation"
+                                        >"He said he's going."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    The casual way of reporting speech or
+                                    attributing a statement to someone. Also
+                                    used to mark a topic being defined or
+                                    questioned.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">なんて</td>
+                                <td class="cell-std">などと / なんと</td>
+                                <td class="cell-example">
+                                    なんていっても無駄だよ<span
+                                        class="translation"
+                                        >"No matter what you say, it's
+                                        pointless."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    A flexible casual form used for quoting,
+                                    downplaying, or reacting with surprise or
+                                    disbelief. Depending on context it may line
+                                    up with などと, なんと, or the dismissive
+                                    "the very idea of ~", so it is not a
+                                    one-to-one substitute for a single standard
+                                    form.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">ったら</td>
+                                <td class="cell-std">と言ったら</td>
+                                <td class="cell-example">
+                                    もう、あなたったら!<span class="translation"
+                                        >"Honestly, you're something
+                                        else!"</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    Often follows a person's name or pronoun to
+                                    signal exasperation, teasing, or
+                                    affectionate frustration. It keeps the
+                                    flavor of と言ったら but sounds much more
+                                    conversational.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">てゆーか<br />てか</td>
+                                <td class="cell-std">というか</td>
+                                <td class="cell-example">
+                                    てか、それ違くない?<span class="translation"
+                                        >"I mean, isn't that wrong?"</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    Used to pivot, correct, or reframe what was
+                                    just said. Closer to "actually" or "I mean"
+                                    than a direct translation. Very common in
+                                    young, casual speech.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ② Verb/auxiliary -->
+            <section>
+                <div class="section-label">
+                    <h2>Verb / auxiliary contractions</h2>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <colgroup>
+                            <col class="c-casual" />
+                            <col class="c-std" />
+                            <col class="c-example" />
+                            <col class="c-explanation" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Casual form</th>
+                                <th>Standard form</th>
+                                <th>Example</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="cell-casual">〜てる<br />〜でる</td>
+                                <td class="cell-std">〜ている<br />〜でいる</td>
+                                <td class="cell-example">
+                                    まだ食べてる<span class="translation"
+                                        >"He's still eating."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    The い of いる is swallowed almost
+                                    universally in casual speech. Covers both
+                                    ongoing actions and states resulting from a
+                                    past event.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">〜とく<br />〜どく</td>
+                                <td class="cell-std">〜ておく<br />〜でおく</td>
+                                <td class="cell-example">
+                                    先に買っとく<span class="translation"
+                                        >"I'll buy it ahead of time."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    A contraction of ておく / でおく, which
+                                    expresses doing something in preparation for
+                                    later. The お of おく is dropped and the
+                                    remainder attaches directly to the て-form.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">
+                                    〜ちゃう<br />〜じゃう
+                                </td>
+                                <td class="cell-std">
+                                    〜てしまう<br />〜でしまう
+                                </td>
+                                <td class="cell-example">
+                                    全部食べちゃった<span class="translation"
+                                        >"I went and ate it all."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    Marks an action as fully completed, often
+                                    with a sense of unintended consequence, mild
+                                    regret, or surprise. Past form is ちゃった.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">〜なきゃ</td>
+                                <td class="cell-std">〜なければ(ならない)</td>
+                                <td class="cell-example">
+                                    もう行かなきゃ<span class="translation"
+                                        >"I have to go now."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    Compressed from なければ, and in obligation
+                                    patterns it usually stands in for
+                                    なければならない or なければいけない. In
+                                    speech the rest of the obligation phrase is
+                                    often left unspoken.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">〜なくちゃ</td>
+                                <td class="cell-std">〜なくてはいけない</td>
+                                <td class="cell-example">
+                                    やらなくちゃいけない<span
+                                        class="translation"
+                                        >"I've got to do it."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    Another obligation contraction, slightly
+                                    softer in feel than なきゃ. The いけない is
+                                    often dropped too, leaving just なくちゃ.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">〜とこ</td>
+                                <td class="cell-std">〜ところ</td>
+                                <td class="cell-example">
+                                    今やるとこだよ<span class="translation"
+                                        >"I'm just about to do it."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    ところ contracts to とこ in casual speech
+                                    whether used as a physical noun ("place") or
+                                    in grammatical constructions indicating
+                                    timing.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">
+                                    〜ちまう<br />〜じまう
+                                </td>
+                                <td class="cell-std">
+                                    〜てしまう<br />〜でしまう
+                                </td>
+                                <td class="cell-example">
+                                    財布なくしちまった<span class="translation"
+                                        >"I went and lost my wallet."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    A rougher, more characterful contraction
+                                    than ちゃう / じゃう. Common in manga and
+                                    anime dialogue, often with a blunt or
+                                    masculine voice.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ③ Copula -->
+            <section>
+                <div class="section-label">
+                    <h2>Copula だ / です contractions</h2>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <colgroup>
+                            <col class="c-casual" />
+                            <col class="c-std" />
+                            <col class="c-example" />
+                            <col class="c-explanation" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Casual form</th>
+                                <th>Standard form</th>
+                                <th>Example</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="cell-casual">じゃ</td>
+                                <td class="cell-std">では</td>
+                                <td class="cell-example">
+                                    それじゃダメだよ<span class="translation"
+                                        >"That won't do."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    The standard negative and conditional
+                                    connector では becomes じゃ in virtually all
+                                    casual contexts. Look for it before ない,
+                                    ダメ, and なくて.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">だろ</td>
+                                <td class="cell-std">だろう</td>
+                                <td class="cell-example">
+                                    そうだろ?<span class="translation"
+                                        >"That's how it is, right?"</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    Used to seek agreement or float a
+                                    conjecture. The trailing う is often dropped
+                                    in casual speech; sentence-final だろ can
+                                    sound blunt or masculine depending on tone,
+                                    while でしょ is a softer alternative many
+                                    speakers prefer.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">じゃん</td>
+                                <td class="cell-std">
+                                    ではないか / じゃないか
+                                </td>
+                                <td class="cell-example">
+                                    これ、便利じゃん<span class="translation"
+                                        >"Hey, this is pretty handy."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    A casual contraction used to point out
+                                    something obvious, seek agreement, or add a
+                                    light "see?" nuance. It is not simply a
+                                    plain negative; intonation and context do a
+                                    lot of the work.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ④ Particle/connective -->
+            <section>
+                <div class="section-label">
+                    <h2>Particle / connective contractions</h2>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <colgroup>
+                            <col class="c-casual" />
+                            <col class="c-std" />
+                            <col class="c-example" />
+                            <col class="c-explanation" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Casual form</th>
+                                <th>Standard form</th>
+                                <th>Example</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="cell-casual">〜けど</td>
+                                <td class="cell-std">〜けれど(も)</td>
+                                <td class="cell-example">
+                                    行きたいけど、無理<span class="translation"
+                                        >"I want to go, but it's
+                                        impossible."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    The everyday contrastive connector. けど is
+                                    near-universal in casual speech and feels
+                                    lighter and more conversational than
+                                    けれど(も).
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">んで</td>
+                                <td class="cell-std">ので</td>
+                                <td class="cell-example">
+                                    遅れるんで先に行って<span
+                                        class="translation"
+                                        >"I'll be late, so go on ahead."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    A casual reduction of ので. Connects a
+                                    reason to a result, with a softer feel than
+                                    から. The の contracts to ん and the full
+                                    form collapses to んで in casual spoken
+                                    Japanese.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">
+                                    ん / んだ<br />んです
+                                </td>
+                                <td class="cell-std">のだ / のです</td>
+                                <td class="cell-example">
+                                    そうなんだ<span class="translation"
+                                        >"Oh, so that's how it is."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    One of the most frequent patterns in casual
+                                    Japanese. Adds an explanatory or assertive
+                                    nuance — the speaker is either offering a
+                                    reason or reacting to new information.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">〜ちゃ<br />〜じゃ</td>
+                                <td class="cell-std">〜ては / 〜では</td>
+                                <td class="cell-example">
+                                    行っちゃダメだよ<span class="translation"
+                                        >"You mustn't go."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    Contractions of ては and では respectively.
+                                    Used in conditional patterns where the
+                                    implication is that doing something is
+                                    problematic or prohibited. ては contracts to
+                                    ちゃ after most verbs; では contracts to
+                                    じゃ.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ⑤ Phonetic reductions -->
+            <section>
+                <div class="section-label"><h2>Phonetic reductions</h2></div>
+                <div class="table-wrap">
+                    <table>
+                        <colgroup>
+                            <col class="c-casual" />
+                            <col class="c-std" />
+                            <col class="c-example" />
+                            <col class="c-explanation" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Casual form</th>
+                                <th>Standard form</th>
+                                <th>Example</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="cell-casual">わかんない</td>
+                                <td class="cell-std">わからない</td>
+                                <td class="cell-example">
+                                    そんなのわかんないよ<span
+                                        class="translation"
+                                        >"I don't know that."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    A very common spoken reduction of
+                                    わからない. In fast casual speech the ら
+                                    drops and the rest tightens to んない, which
+                                    is often reflected in informal writing too.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">
+                                    すごっ<br />やばっ<br />かわいっ
+                                </td>
+                                <td class="cell-std">
+                                    すごい<br />やばい<br />かわいい
+                                </td>
+                                <td class="cell-example">
+                                    すごっ、なにそれ!<span class="translation"
+                                        >"Whoa, what is that!"</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    い-adjectives clipped of their final い for
+                                    exclamatory effect. The abrupt cutoff itself
+                                    conveys the force of the reaction — it's a
+                                    stylistic intensifier, not just laziness.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">ほんと</td>
+                                <td class="cell-std">ほんとう</td>
+                                <td class="cell-example">
+                                    ほんと?信じられない<span class="translation"
+                                        >"Really? I can't believe it."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    Final う is routinely dropped in casual
+                                    speech. ほんとう is the full form but ほんと
+                                    is so prevalent it barely registers as a
+                                    contraction.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">ありがと</td>
+                                <td class="cell-std">ありがとう</td>
+                                <td class="cell-example">
+                                    ありがと、助かった!<span class="translation"
+                                        >"Thanks, you're a lifesaver!"</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    The same final う drop as ほんと. Entirely
+                                    standard in casual contexts — using the full
+                                    ありがとう can sound stiff or overly formal
+                                    between friends.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">〜ないで</td>
+                                <td class="cell-std">〜ないでください</td>
+                                <td class="cell-example">
+                                    泣かないでよ<span class="translation"
+                                        >"Please don't cry."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    Not so much a sound contraction as a casual
+                                    shortening of the request pattern
+                                    〜ないでください. Dropping ください removes
+                                    politeness and makes the request feel more
+                                    personal or direct.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ⑥ Manga-heavy reductions -->
+            <section>
+                <div class="section-label">
+                    <h2>Manga-heavy casual speech</h2>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <colgroup>
+                            <col class="c-casual" />
+                            <col class="c-std" />
+                            <col class="c-example" />
+                            <col class="c-explanation" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Casual form</th>
+                                <th>Standard form</th>
+                                <th>Example</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="cell-casual">〜ねえ<br />〜ねぇ</td>
+                                <td class="cell-std">〜ない</td>
+                                <td class="cell-example">
+                                    そんなの知らねえよ<span class="translation"
+                                        >"I don't know anything about
+                                        that."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    A rough vowel-shifted negative common in
+                                    manga, anime, and blunt spoken Japanese.
+                                    Frequently reads as tougher or more
+                                    masculine than the plain ない form.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">
+                                    じゃねえ<br />じゃねぇ
+                                </td>
+                                <td class="cell-std">じゃない</td>
+                                <td class="cell-example">
+                                    俺のせいじゃねえ<span class="translation"
+                                        >"It's not my fault."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    The rough counterpart of じゃない. Very
+                                    common in confrontational or masculine
+                                    dialogue, and easy to confuse with entirely
+                                    different words if you have not seen the
+                                    pattern before.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">〜てえ<br />〜てぇ</td>
+                                <td class="cell-std">〜たい</td>
+                                <td class="cell-example">
+                                    早く帰りてえ<span class="translation"
+                                        >"I wanna go home already."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    A rough or emotionally charged version of
+                                    the desire form たい. Often used when a
+                                    character is frustrated, determined, or
+                                    speaking in a very unfiltered voice.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">
+                                    すげえ<br />うめえ<br />やべえ
+                                </td>
+                                <td class="cell-std">
+                                    すごい<br />うまい<br />やばい
+                                </td>
+                                <td class="cell-example">
+                                    この店、マジでうめえな<span
+                                        class="translation"
+                                        >"This place is seriously good."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    Highly common vowel-shifted forms in rough
+                                    casual speech. Not every adjective shifts
+                                    this way, but these particular ones appear
+                                    constantly in manga-style dialogue.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">
+                                    〜りゃ<br />〜けりゃ
+                                </td>
+                                <td class="cell-std">〜れば<br />〜ければ</td>
+                                <td class="cell-example">
+                                    見りゃわかるだろ<span class="translation"
+                                        >"You'd know if you looked."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    A clipped conditional meaning "if" or
+                                    "when." Very common in compressed spoken
+                                    lines like ありゃ, なけりゃ, or やりゃ,
+                                    especially in terse male dialogue.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">そりゃ<br />こりゃ</td>
+                                <td class="cell-std">それは<br />これは</td>
+                                <td class="cell-example">
+                                    そりゃ無理だ<span class="translation"
+                                        >"Well, that's impossible."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    Frequent spoken contractions that often
+                                    appear at the start of a reaction or
+                                    judgment. They can feel throwaway in
+                                    English, but in Japanese they are common
+                                    rhythm-setting openings in dialogue.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="cell-casual">〜っす</td>
+                                <td class="cell-std">〜です</td>
+                                <td class="cell-example">
+                                    了解っす<span class="translation"
+                                        >"Got it."</span
+                                    >
+                                </td>
+                                <td class="cell-explanation">
+                                    A slurred, youth-coded version of です.
+                                    Often signals a junior, sporty, delinquent,
+                                    or overly casual-polite character voice
+                                    rather than plain neutral politeness.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </body>
+</html>
