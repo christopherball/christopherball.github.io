@@ -152,7 +152,7 @@ function refreshKanjiResults() {
         componentsContainingActiveKanji.push(
             ...allKanjiDataKeys
                 .filter((k) => k.endsWith(c))
-                .map((k) => Number(k.replace(/\../g, "")))
+                .map((k) => Number(k.replace(/\..+/g, "")))
         );
     });
 

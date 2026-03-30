@@ -46,7 +46,7 @@ kvg:type CDATA #IMPLIED >
         </style>
 <g id="kvg:StrokePaths_051f6" style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;">
 <g id="kvg:051f6" kvg:element="凶">
-	<g id="kvg:051f6-g1" kvg:element="乂">
+	<g id="kvg:051f6-g1" kvg:element="乂" kvg:position="kamaec">
 		<g id="kvg:051f6-g2" kvg:element="丿">
 			<path id="kvg:051f6-s1" kvg:type="㇒" d="M67.6,18.18c0.59,1.4,0.68,3-0.21,5.47C59.5,45.75,48.38,62.62,31,75.07"/>
 		</g>
