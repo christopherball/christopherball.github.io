@@ -111,54 +111,36 @@
                 position: relative;
                 border: 1px solid var(--border);
                 background: var(--cell);
-                cursor: pointer;
-                perspective: 800px;
                 container-type: size;
             }
 
-            .cell-inner {
+            .cell-body {
                 position: absolute;
                 inset: 0;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                transform-style: preserve-3d;
-                transition: transform 0.45s ease;
+                padding: clamp(2px, 4cqmin, 6px);
             }
 
-            .cell.flipped .cell-inner {
-                transform: rotateY(180deg);
-            }
-
-            .face {
-                position: absolute;
-                inset: 0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                backface-visibility: hidden;
-            }
-
-            .back {
-                transform: rotateY(180deg);
-                background-color: #31762d;
-                border: 1px white solid;
-            }
-
-            /* Larger phonetic component display */
-            .front .symbol {
+            .symbol {
                 font-size: clamp(14px, 38cqmin, 60px);
                 text-align: center;
                 white-space: nowrap;
                 line-height: 0.92;
             }
 
-            /* Onyomi reading size unchanged */
-            .back .symbol {
-                font-size: clamp(10px, 24cqmin, 44px);
+            .reading {
+                position: absolute;
+                left: 50%;
+                bottom: clamp(3px, 6cqmin, 8px);
+                transform: translateX(-50%);
+                font-size: clamp(7px, 16cqmin, 20px);
+                letter-spacing: 0.08em;
+                color: var(--text-sub);
                 text-align: center;
                 white-space: nowrap;
-                line-height: 0.95;
+                line-height: 1.05;
             }
 
             .stroke {
@@ -166,6 +148,7 @@
                 top: clamp(2px, 4cqmin, 6px);
                 left: 50%;
                 transform: translateX(-50%);
+                min-height: clamp(8px, 10cqmin, 14px);
                 font-size: clamp(8px, 10cqmin, 14px);
                 color: var(--text-sub);
                 line-height: 1;
@@ -189,13 +172,13 @@
         <div class="page-header">
             <h1>Useful Kanji Phonetic Components</h1>
             <nav class="mode-toggle" aria-label="View mode">
+                <a class="mode-link" href="index.html">Flip</a>
                 <a
                     class="mode-link"
-                    href="index.html"
+                    href="master.html"
                     aria-current="page"
-                    >Flip</a
+                    >Master</a
                 >
-                <a class="mode-link" href="master.html">Master</a>
             </nav>
         </div>
 
@@ -251,40 +234,25 @@
                 const cell = document.createElement("div");
                 cell.className = "cell";
 
-                const inner = document.createElement("div");
-                inner.className = "cell-inner";
-
-                const front = document.createElement("div");
-                front.className = "face front";
-
-                const back = document.createElement("div");
-                back.className = "face back";
+                const body = document.createElement("div");
+                body.className = "cell-body";
 
                 const comp = document.createElement("div");
                 comp.className = "symbol";
                 comp.textContent = item.comp;
 
                 const reading = document.createElement("div");
-                reading.className = "symbol";
+                reading.className = "reading";
                 reading.textContent = item.read;
 
-                front.appendChild(comp);
-                back.appendChild(reading);
+                const stroke = document.createElement("div");
+                stroke.className = "stroke";
+                stroke.textContent = item.stroke ?? "";
 
-                if (item.stroke !== undefined) {
-                    const stroke = document.createElement("div");
-                    stroke.className = "stroke";
-                    stroke.textContent = item.stroke;
-                    front.appendChild(stroke);
-                }
-
-                inner.appendChild(front);
-                inner.appendChild(back);
-                cell.appendChild(inner);
-
-                cell.addEventListener("click", () => {
-                    cell.classList.toggle("flipped");
-                });
+                body.appendChild(comp);
+                cell.appendChild(body);
+                cell.appendChild(reading);
+                cell.appendChild(stroke);
 
                 grid.appendChild(cell);
             });
