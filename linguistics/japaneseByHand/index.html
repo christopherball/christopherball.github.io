@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0a0d12">
+    <title>Japanese By Hand</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage" aria-labelledby="stage-heading">
+        <h1 id="stage-heading" class="sr-only">Japanese stroke order viewer</h1>
+        <p id="empty-state" class="empty-state">
+          Enter a Japanese word or short phrase (25 char. max) to inspect stroke orders.
+        </p>
+        <div class="render-frame">
+          <div class="render-track">
+            <output id="render-output" class="render-output" aria-live="polite"></output>
+          </div>
+        </div>
+      </section>
+
+      <section class="controls" aria-label="Lookup controls">
+        <form id="lookup-form" class="control-bar" autocomplete="off">
+          <label class="sr-only" for="word-input">Japanese text</label>
+          <input
+            id="word-input"
+            name="text"
+            class="word-input"
+            type="text"
+            inputmode="text"
+            enterkeyhint="done"
+            autocapitalize="none"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            placeholder="Japanese word or short phrase"
+          >
+          <button id="paste-button" class="action-button action-button-secondary" type="button">Paste</button>
+        </form>
+
+        <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
