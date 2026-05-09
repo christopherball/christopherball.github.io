@@ -226,6 +226,13 @@
                         title="Bypass that makes the Enter key after text selection simply apply color rotation for visual chunking." />
                     <label for="autoCheckbox">Auto</label>
                 </div>
+                <div class="checkboxContainer">
+                    <input
+                        type="checkbox"
+                        id="noColorCheckbox"
+                        title="Bypass that allows uncolored gloss to be applied." />
+                    <label for="noColorCheckbox">No Color</label>
+                </div>
                 <span id="lastSelectionTextPreview"></span>
             </div>
             <input id="textInput" placeholder="(Japanese)" />
@@ -423,6 +430,9 @@
             });
 
             addGlossBtn.addEventListener("click", () => {
+                const noColorCheckbox =
+                    document.getElementById("noColorCheckbox");
+
                 const text = glossInput.value.trim();
                 if (!text) return alert("Enter a gloss first.");
                 if (lastSelectionRange == null)
@@ -442,21 +452,27 @@
                 const frag = range.extractContents();
                 const span = document.createElement("span");
                 const glossId = uid();
-                span.className =
-                    "underlined " +
-                    document
-                        .querySelector(".color-square.selected")
-                        .id.replace("Square", "");
+                span.className = "underlined";
+                if (!noColorCheckbox.checked) {
+                    span.className +=
+                        " " +
+                        document
+                            .querySelector(".color-square.selected")
+                            .id.replace("Square", "");
+                }
                 span.dataset.glossId = glossId;
                 span.appendChild(frag);
                 range.insertNode(span);
 
                 const box = document.createElement("div");
-                box.className =
-                    "gloss " +
-                    document
-                        .querySelector(".color-square.selected")
-                        .id.replace("Square", "");
+                box.className = "gloss";
+                if (!noColorCheckbox.checked) {
+                    box.className +=
+                        " " +
+                        document
+                            .querySelector(".color-square.selected")
+                            .id.replace("Square", "");
+                }
                 box.dataset.glossId = glossId;
                 box.textContent = text;
                 box.style.left = `${Math.round(centerX)}px`;
@@ -484,9 +500,10 @@
 
             window.addEventListener("keydown", (e) => {
                 const glossInput = document.getElementById("glossInput");
-                const checkbox = document.getElementById("autoCheckbox");
+                const autoCheckbox = document.getElementById("autoCheckbox");
 
-                if (e.key === "Enter" && checkbox.checked) autoRotateFeature();
+                if (e.key === "Enter" && autoCheckbox.checked)
+                    autoRotateFeature();
                 else if (e.key === "Enter") addGlossBtn.click();
                 else if (e.key === "Delete") removeFormatting();
                 else if (e.key === "1" && document.activeElement != glossInput)
