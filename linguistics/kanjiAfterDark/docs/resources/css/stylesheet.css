@@ -1,0 +1,214 @@
+/* main document styles */
+@font-face {
+    font-family: "FontAwesomeWeb";
+    src: url("../fonts/fontawesome-webfont.eot?v=4.7.0");
+    src:
+        url("../fonts/fontawesome-webfont.eot?#iefix&v=4.7.0")
+            format("embedded-opentype"),
+        url("../fonts/fontawesome-webfont.woff2?v=4.7.0") format("woff2"),
+        url("../fonts/fontawesome-webfont.woff?v=4.7.0") format("woff"),
+        url("../fonts/fontawesome-webfont.ttf?v=4.7.0") format("truetype"),
+        url("../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular")
+            format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.fa {
+    display: inline-block;
+    font:
+        normal normal normal 14px/1 FontAwesomeWeb,
+        FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a,
+a:visited {
+    color: #36c;
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover {
+    color: #14a;
+    text-decoration: underline;
+}
+
+a:focus {
+    color: #028;
+    text-decoration: underline;
+}
+
+header {
+    color: #fff;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+header h1 {
+    font-size: 32px;
+}
+
+a#fork-me {
+    color: #fff;
+    background: #333;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    line-height: 30px;
+    height: 30px;
+    width: 200px;
+    transform: rotate(45deg);
+    position: absolute;
+    right: -55px;
+    top: 30px;
+    transition-property: color, background;
+    transition-duration: 300ms;
+}
+
+a#fork-me:hover,
+a#fork-me:focus {
+    color: #333;
+    background: #fff;
+}
+
+body {
+    color: #333;
+    background: #222222;
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+p {
+    font-size: 14px;
+}
+
+#can {
+    filter: invert(1);
+}
+
+.candidate {
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition:
+        background-color 0.15s,
+        transform 0.1s;
+}
+
+.candidate.copied {
+    background-color: #4caf50;
+    color: white;
+    transform: scale(1.15);
+}
+
+.center {
+    text-align: center;
+}
+
+#content {
+    flex: 1 0 auto;
+}
+
+.footer {
+    text-align: center;
+    padding: 5px;
+    color: rgb(191, 191, 191);
+}
+
+.content-block {
+    background-color: #222222;
+    border-top: none;
+    border-bottom: none;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 8px;
+}
+
+.title {
+    color: #36c;
+    font-size: 20px;
+    border-bottom: 2px solid #36c;
+    padding-bottom: 3px;
+}
+
+button {
+    width: 126px;
+    color: #fff;
+    background-color: rgb(112, 112, 112);
+    font-size: 13px;
+    text-decoration: none;
+    border: none;
+    font-weight: bold;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 3px;
+    cursor: pointer;
+    outline: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+button:hover {
+    background-color: #25b;
+}
+button:focus {
+    background-color: #14a;
+}
+
+/* button icons */
+button .fa {
+    font-size: 18px;
+    vertical-align: -2px;
+    margin-right: 6px;
+}
+
+/* kanji canvas styles */
+.kanji-canvas-container {
+    text-align: center;
+}
+
+.kanji-canvas {
+    background-color: #fff;
+    border: 1px solid #000;
+    outline: none;
+}
+
+.kanji-canvas:focus {
+    border-color: #000;
+}
+
+.kanji-canvas-controls {
+    font-size: 0;
+    margin: 5px 0;
+}
+
+.kanji-canvas-candidates:empty {
+    visibility: hidden;
+}
+.kanji-canvas-candidates {
+    font-size: 32px;
+    width: 258px;
+    background-color: #000000;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 5px 10px;
+    min-height: 60px;
+}

@@ -1,0 +1,136 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Kanji After Dark</title>
+        <meta name="title" content="Kanji After Dark" />
+        <meta
+            name="description"
+            content="Free Online Kanji (Japanese Character) Recognition in Javascript" />
+        <meta
+            property="og:description"
+            content="Free Online Kanji (Japanese Character) Recognition in Javascript" />
+
+        <meta
+            name="keywords"
+            content="Kanji Canvas, Kanji Handwriting Recognition, Online Kanji Recognition, Online Japanese Character Recognition"
+            lang="en" />
+        <meta name="language" content="en" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="stylesheet" href="resources/css/stylesheet.css" />
+    </head>
+
+    <body>
+        <header>
+            <h1>Kanji After Dark</h1>
+        </header>
+
+        <div id="content">
+            <div id="kanji-canvas" class="content-block">
+                <div class="kanji-canvas-container">
+                    <canvas
+                        id="can"
+                        class="kanji-canvas"
+                        data-candidate-list="candidateList"
+                        width="256"
+                        height="256"></canvas>
+                    <div class="kanji-canvas-controls">
+                        <button
+                            onclick="KanjiCanvas.erase('can')"
+                            title="(CTRL+X)">
+                            <i class="fa">&#xf12d;</i>Erase
+                        </button>
+                        <button
+                            onclick="KanjiCanvas.deleteLast('can')"
+                            title="(CTRL+Z)">
+                            <i class="fa">&#xf0e2;</i>Undo
+                        </button>
+                        <button
+                            onclick="KanjiCanvas.recognize('can')"
+                            title="(CTRL+F)"
+                            style="display: none">
+                            <i class="fa">&#xf002;</i>Recognize
+                        </button>
+                    </div>
+                    <div
+                        id="candidateList"
+                        class="kanji-canvas-candidates"></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            Fork of
+            <a href="http://github.com/asdfjkl/kanjicanvas" target="_blank"
+                >Kanji Canvas</a
+            >
+            (<a href="LICENSE.txt">Original License</a>)
+        </div>
+
+        <script src="resources/javascript/kanji-canvas.js"></script>
+        <script src="resources/javascript/ref-patterns.js"></script>
+        <script>
+            KanjiCanvas.init("can");
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const canvas = document.getElementById("can");
+
+                const autoRecognize = () => {
+                    KanjiCanvas.recognize("can");
+                };
+
+                canvas.addEventListener("mouseup", autoRecognize);
+                canvas.addEventListener("touchend", autoRecognize);
+            });
+        </script>
+        <script>
+            const candidateList = document.getElementById("candidateList");
+
+            candidateList.addEventListener("click", (e) => {
+                if (!e.target.classList.contains("candidate")) return;
+
+                const candidate = e.target;
+                const kanji = candidate.textContent;
+
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard
+                        .writeText(kanji)
+                        .then(() => showCopiedFeedback(candidate))
+                        .catch(copyFallback);
+                } else {
+                    copyFallback();
+                }
+
+                function showCopiedFeedback(el) {
+                    el.classList.add("copied");
+
+                    setTimeout(() => {
+                        el.classList.remove("copied");
+                    }, 500);
+                }
+
+                function copyFallback() {
+                    const textarea = document.createElement("textarea");
+                    textarea.value = kanji;
+
+                    textarea.style.position = "fixed";
+                    textarea.style.opacity = "0";
+
+                    document.body.appendChild(textarea);
+
+                    textarea.focus();
+                    textarea.select();
+
+                    try {
+                        document.execCommand("copy");
+                        showCopiedFeedback(candidate);
+                    } catch (err) {
+                        console.error("Copy failed", err);
+                    }
+
+                    document.body.removeChild(textarea);
+                }
+            });
+        </script>
+    </body>
+</html>
