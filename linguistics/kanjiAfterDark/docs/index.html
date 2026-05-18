@@ -86,51 +86,43 @@
         <script>
             const candidateList = document.getElementById("candidateList");
 
-            candidateList.addEventListener("click", (e) => {
-                if (!e.target.classList.contains("candidate")) return;
+            candidateList.addEventListener("click", handle);
 
-                const candidate = e.target;
-                const kanji = candidate.textContent;
+            function handle(e) {
+                const target = e.target.closest(".candidate");
+                if (!target) return;
 
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard
-                        .writeText(kanji)
-                        .then(() => showCopiedFeedback(candidate))
-                        .catch(copyFallback);
-                } else {
-                    copyFallback();
-                }
+                const kanji = target.textContent;
 
-                function showCopiedFeedback(el) {
-                    el.classList.add("copied");
+                let copied = false;
 
-                    setTimeout(() => {
-                        el.classList.remove("copied");
-                    }, 500);
-                }
+                try {
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(kanji);
+                        copied = true;
+                    }
+                } catch {}
 
-                function copyFallback() {
+                if (!copied) {
                     const textarea = document.createElement("textarea");
                     textarea.value = kanji;
-
                     textarea.style.position = "fixed";
                     textarea.style.opacity = "0";
 
                     document.body.appendChild(textarea);
-
                     textarea.focus();
                     textarea.select();
 
                     try {
                         document.execCommand("copy");
-                        showCopiedFeedback(candidate);
-                    } catch (err) {
-                        console.error("Copy failed", err);
-                    }
+                    } catch {}
 
                     document.body.removeChild(textarea);
                 }
-            });
+
+                target.classList.add("copied");
+                setTimeout(() => target.classList.remove("copied"), 200);
+            }
         </script>
     </body>
 </html>
