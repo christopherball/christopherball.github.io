@@ -146,6 +146,19 @@ function handleAllQuizzesComplete() {
 
     if (cycledCount <= totalSteps - 1) {
         render();
+    } else {
+        let lastClickTime = 0;
+
+        window.addEventListener("click", () => {
+            const currentTime = new Date().getTime();
+            const timeDifference = currentTime - lastClickTime;
+
+            if (timeDifference < 300) {
+                location.reload();
+            }
+
+            lastClickTime = currentTime;
+        });
     }
 }
 
