@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Kanji Quizzer</title>
+        <link rel="stylesheet" href="index.css" />
+        <script src="./lib/hanzi-writer.min.js"></script>
+    </head>
+    <body>
+        <div id="master-container">
+            <div id="layout-container">
+                <div id="progress-container">
+                    <div id="progress-bar"></div>
+                </div>
+                <div id="word"></div>
+            </div>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="300"
+                height="300"
+                id="grid-background">
+                <line x1="0" y1="0" x2="300" y2="300" stroke="#3d3d3d" />
+                <line x1="300" y1="0" x2="0" y2="300" stroke="#3d3d3d" />
+                <line x1="150" y1="0" x2="150" y2="300" stroke="#3d3d3d" />
+                <line x1="0" y1="150" x2="300" y2="150" stroke="#3d3d3d" />
+            </svg>
+        </div>
+        <script src="index.js"></script>
+    </body>
+</html>

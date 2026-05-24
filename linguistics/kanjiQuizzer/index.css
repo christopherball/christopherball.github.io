@@ -1,0 +1,108 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #1a1a1a;
+    color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: safe center;
+    min-height: 100vh;
+}
+
+#master-container {
+    padding: 5px 0px 5px 0px;
+}
+
+#layout-container {
+    display: flex;
+    flex-direction: column; /* Stacks items vertically */
+    align-items: center; /* Centers items horizontally */
+    width: 100%;
+    gap: 5px;
+}
+
+#license-link {
+    color: lightgrey;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+#input-field {
+    width: 210px;
+    font-size: 20px;
+    text-align: center;
+}
+
+#paste-button,
+#study-button {
+    width: 100%;
+    height: 30px;
+}
+
+#progress-container {
+    width: 100%;
+    max-width: 300px;
+    background: #3d3d3d;
+    border-radius: 8px;
+    display: none;
+}
+
+#progress-bar {
+    width: 0%;
+    height: 24px;
+    background: #2196f3;
+    transition: width 0.3s ease;
+    border-radius: 8px;
+}
+
+.anim-cjk-match {
+    font-family:
+        "YuKyokasho Yoko", "YuKyokasho", "Yu Mincho", "Hiragino Mincho ProN",
+        serif;
+    font-variant-ligatures: no-common-ligatures;
+    color: #ddd;
+}
+
+#word {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    flex-direction: column;
+}
+
+#grid-background {
+    display: none;
+}
+
+/* Each kanji container */
+#word > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#word > div.kanji {
+    border: 1px #3d3d3d solid;
+}
+
+#word svg {
+    display: block;
+}
+
+/* Kana */
+.kana {
+    font-size: 250px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-2px);
+}
+
+.kana,
+#word svg {
+    width: 300px;
+    height: 300px;
+}
