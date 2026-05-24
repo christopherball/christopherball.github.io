@@ -146,20 +146,46 @@ function handleAllQuizzesComplete() {
 
     if (cycledCount <= totalSteps - 1) {
         render();
-    } else {
-        let lastClickTime = 0;
-
-        window.addEventListener("click", () => {
-            const currentTime = new Date().getTime();
-            const timeDifference = currentTime - lastClickTime;
-
-            if (timeDifference < 300) {
-                location.reload();
-            }
-
-            lastClickTime = currentTime;
-        });
     }
 }
 
+function swipeToReload() {
+    let startX = 0;
+    let endX = 0;
+    let isDragging = false;
+    const threshold = 100;
+
+    const handleGesture = () => {
+        if (endX > startX + threshold) {
+            window.location.reload();
+        }
+    };
+
+    const getX = (e) => {
+        return e.touches ? e.touches[0].screenX : e.screenX;
+    };
+
+    const startAction = (e) => {
+        if (e.target.closest("div.kanji")) return;
+
+        isDragging = true;
+        startX = getX(e);
+    };
+
+    const endAction = (e) => {
+        if (!isDragging) return;
+
+        endX = e.changedTouches ? e.changedTouches[0].screenX : e.screenX;
+        isDragging = false;
+
+        handleGesture();
+    };
+
+    window.addEventListener("touchstart", startAction);
+    window.addEventListener("touchend", endAction);
+    window.addEventListener("mousedown", startAction);
+    window.addEventListener("mouseup", endAction);
+}
+
 assignInput();
+swipeToReload();
