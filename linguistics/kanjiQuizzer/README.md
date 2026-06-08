@@ -12,7 +12,7 @@ While the tool doesn't directly advertise this, I have added support such that y
 
 ## Japanese Font Support
 
-Please note that the font data used comes from a port of AnimCJK data for the purposes of hanzi-writer compatibility.  See https://github.com/mnako/hanzi-writer-data-ja for more details.  Given this, normal かな doesn't have supporting data files so I have written the application logic such that かな is rendered alongside the kanji to practice.
+Please note that the font data used comes from a port of AnimCJK data for the purposes of hanzi-writer compatibility.  See https://github.com/mnako/hanzi-writer-data-ja for more details.  Please note that since the aforementioned project doesn't port over kana, I have ported all of the kana data over from AnimCJK data as well so that this application supports writing both kanji and kana.
 
 ## License
 
