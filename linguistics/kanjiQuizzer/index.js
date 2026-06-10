@@ -5,16 +5,8 @@ let completedCount = 0;
 let cycledCount = 0;
 const totalSteps = 4;
 
-function isKanjiOrKana(ch) {
-    return /\p{Script=Han}|\p{Script=Hiragana}|\p{Script=Katakana}/u.test(ch);
-}
-
-function getKanjiOrKanaCount() {
-    return (
-        input.match(
-            /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/gu,
-        ) || []
-    ).length;
+function isKanji(ch) {
+    return /\p{Script=Han}/u.test(ch);
 }
 
 function assignInput() {
@@ -79,13 +71,17 @@ function assignInput() {
     }
 }
 
+function getKanjiCount() {
+    return (input.match(/[\u4e00-\u9faf]/g) || []).length;
+}
+
 function render() {
     word.replaceChildren();
 
     for (const ch of input) {
         const div = document.createElement("div");
 
-        if (isKanjiOrKana(ch)) {
+        if (isKanji(ch)) {
             const charSVG = document
                 .getElementById("grid-background")
                 .cloneNode(true);
@@ -121,10 +117,8 @@ function render() {
                 onComplete: function (summaryData) {
                     completedCount++;
 
-                    if (completedCount === getKanjiOrKanaCount()) {
-                        setTimeout(() => {
-                            handleAllQuizzesComplete();
-                        }, 700);
+                    if (completedCount === getKanjiCount()) {
+                        handleAllQuizzesComplete();
                     }
                 },
             });
