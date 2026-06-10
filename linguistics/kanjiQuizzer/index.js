@@ -19,14 +19,13 @@ function assignInput() {
     const studyBtn = document.createElement("button");
     const license = document.createElement("a");
 
-    title.textContent = "Kanji Quizzer";
-    layoutContainer.appendChild(title);
-
     if (i) {
         input = i;
         document.getElementById("progress-container").style.display = "block";
         render();
     } else {
+        title.textContent = "Kanji Quizzer";
+        layoutContainer.appendChild(title);
         inp.id = "input-field";
         inp.type = "text";
         inp.placeholder = "漢字・言葉";
@@ -165,7 +164,7 @@ function swipeToReload() {
 
     const handleGesture = () => {
         if (endX > startX + threshold) {
-            window.location.reload();
+            window.location.replace(window.location.pathname);
         }
     };
 
