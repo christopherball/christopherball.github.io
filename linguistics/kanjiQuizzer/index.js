@@ -13,10 +13,15 @@ function assignInput() {
     const body = document.getElementsByTagName("body")[0];
     const params = new URLSearchParams(window.location.search);
     const i = params.get("input");
+    const title = document.createElement("h1");
     const inp = document.createElement("input");
     const pasteBtn = document.createElement("button");
     const studyBtn = document.createElement("button");
     const license = document.createElement("a");
+
+    title.textContent = "Kanji Quizzer";
+    layoutContainer.appendChild(title);
+
     if (i) {
         input = i;
         document.getElementById("progress-container").style.display = "block";
@@ -51,6 +56,7 @@ function assignInput() {
         studyBtn.id = "study-button";
         studyBtn.textContent = "Study";
         studyBtn.addEventListener("click", () => {
+            layoutContainer.removeChild(title);
             input = inp.value;
             layoutContainer.removeChild(inp);
             layoutContainer.removeChild(pasteBtn);
@@ -118,7 +124,9 @@ function render() {
                     completedCount++;
 
                     if (completedCount === getKanjiCount()) {
-                        handleAllQuizzesComplete();
+                        setTimeout(() => {
+                            handleAllQuizzesComplete();
+                        }, 700);
                     }
                 },
             });
