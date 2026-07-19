@@ -500,6 +500,22 @@
                         lastSelectionColor = square.id.replace("Square", ""); // Update lastSelectionColor when a color is selected
                     });
                 });
+
+                document
+                    .querySelectorAll("div.checkboxContainer input")
+                    .forEach((checkbox) => {
+                        checkbox.addEventListener("change", () => {
+                            if (checkbox.id === "autoWithGlossCheckbox") {
+                                document.getElementById(
+                                    "noColorCheckbox",
+                                ).checked = false;
+                            } else if (checkbox.id === "noColorCheckbox") {
+                                document.getElementById(
+                                    "autoWithGlossCheckbox",
+                                ).checked = false;
+                            }
+                        });
+                    });
             });
 
             function truncateWithLastChar(str, maxLength) {
