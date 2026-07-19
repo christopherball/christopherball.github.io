@@ -233,6 +233,7 @@
         </div>
 
         <script>
+            // Creates a short id used to link each inline text span with its positioned gloss box.
             const uid = () => "g" + Math.random().toString(36).slice(2, 9);
             const addTextBtn = document.getElementById("addText");
             const textInput = document.getElementById("textInput");
@@ -245,8 +246,11 @@
             var lastSelectionRange = null;
             var lastSelectionColor = null;
 
+            // Applies the current gloss and advances the active color for rapid chunk-by-chunk glossing.
             function autoRotateFeature() {
                 if (!addGlossBtn.disabled) {
+                    addGlossBtn.click();
+
                     // 1. Get all squares in an array
                     const squares = Array.from(
                         document.querySelectorAll(
@@ -269,11 +273,10 @@
 
                     // 5. Add 'selected' to the new square
                     squares[nextIndex].classList.add("selected");
-
-                    addGlossBtn.click();
                 }
             }
 
+            // Loads the entered Japanese sentence into the selectable text area and clears old glosses.
             addTextBtn.addEventListener("click", () => {
                 let text = textInput.value.trim();
                 text = text.replace(/。/g, "。<br/>");
@@ -282,6 +285,7 @@
                 document.getElementById("glossLayer").innerHTML = "";
             });
 
+            // Wraps the stored selection in a colored span and places its gloss box below the text.
             addGlossBtn.addEventListener("click", () => {
                 const noColorCheckbox =
                     document.getElementById("noColorCheckbox");
@@ -298,8 +302,8 @@
 
                 const text = glossInput.value.trim();
 
-                const rect = range.getClientRects()[0];
-                if (!rect || rect.width === 0)
+                const rect = getUsableSelectionRect(range);
+                if (!rect)
                     return alert("Invalid selection.");
                 const containerRect = container.getBoundingClientRect();
                 const centerX = rect.left - containerRect.left + rect.width / 2;
@@ -364,6 +368,7 @@
                 resetState();
             });
 
+            // Clears the active selection state after a gloss is added, deleted, or rejected.
             function resetState() {
                 lastSelectionRange = null;
                 lastSelectionText = null;
@@ -374,6 +379,7 @@
                 window.getSelection().removeAllRanges();
             }
 
+            // Routes keyboard shortcuts for adding text, focusing gloss input, auto mode, and deletion.
             window.addEventListener("keydown", (e) => {
                 const textInput = document.getElementById("textInput");
                 const glossInput = document.getElementById("glossInput");
@@ -406,6 +412,7 @@
                 else if (e.key === "Delete") removeFormatting();
             });
 
+            // Captures valid mouse selections while rejecting selections that cross existing gloss boundaries.
             document.addEventListener("mouseup", function (event) {
                 // Ignore if the user clicked an input or textarea
                 const isInput = ["input", "textarea"].includes(
@@ -424,9 +431,17 @@
                         .getElementById("jpText")
                         .contains(selection.anchorNode)
                 ) {
+                    normalizeAdjacentSpanSelection(selection, selectedText);
+                    const selectionHtml = getSelectionHtml();
+                    const selectionContainsHtml = containsHtml(selectionHtml);
+                    const selectionInSpan =
+                        !selectionContainsHtml && isSelectionInSpan();
+                    const entireParentSelected =
+                        selectionInSpan && isEntireParentSelected();
+
                     if (
-                        containsHtml(getSelectionHtml()) ||
-                        (isSelectionInSpan() && !isEntireParentSelected())
+                        selectionContainsHtml ||
+                        (selectionInSpan && !entireParentSelected)
                     ) {
                         document.execCommand("copy");
                         resetState();
@@ -473,6 +488,7 @@
                 }
             });
 
+            // Wires up color selection and keeps the auto/no-color modes mutually exclusive.
             document.addEventListener("DOMContentLoaded", () => {
                 const redSquare = document.getElementById("redSquare");
                 const orangeSquare = document.getElementById("orangeSquare");
@@ -518,6 +534,7 @@
                     });
             });
 
+            // Shortens the selection preview while preserving the final character for context.
             function truncateWithLastChar(str, maxLength) {
                 // Return the original string if it's already within the limit
                 if (str.length <= maxLength) {
@@ -533,6 +550,154 @@
                 return str.slice(0, allowedLength) + "..." + str.slice(-1);
             }
 
+            // Finds a real layout rectangle for a selection, skipping zero-sized boundary rects.
+            function getUsableSelectionRect(range) {
+                return Array.from(range.getClientRects()).find(
+                    (rect) => rect.width > 0 && rect.height > 0,
+                );
+            }
+
+            // Normalizes browser range shapes that include neighboring span artifacts at chunk edges.
+            function normalizeAdjacentSpanSelection(selection, selectedText) {
+                if (!selection || selection.rangeCount === 0) return;
+
+                const selected = selectedText.trim();
+                if (selected.length === 0) return;
+
+                const fragment = selection.getRangeAt(0).cloneContents();
+                const spans = Array.from(
+                    fragment.querySelectorAll("span[data-gloss-id]"),
+                );
+                const nonEmptySpans = spans.filter(
+                    (span) => span.textContent.trim().length > 0,
+                );
+                if (
+                    spans.length === 1 &&
+                    nonEmptySpans.length === 1 &&
+                    nonEmptySpans[0].textContent.trim() === selected &&
+                    normalizeSelectionToOriginalSpanText(
+                        selection,
+                        nonEmptySpans[0].dataset.glossId,
+                        selected,
+                    )
+                ) {
+                    return;
+                }
+
+                const hasEmptySpanNoise = spans.some(
+                    (span) => span.textContent.trim().length === 0,
+                );
+
+                if (
+                    hasEmptySpanNoise &&
+                    nonEmptySpans.length === 0 &&
+                    fragment.textContent.trim() === selected &&
+                    normalizePlainTextSelection(selection, selected)
+                ) {
+                    return;
+                }
+
+                const hasOnlyEmptySpanNoise =
+                    spans.length > nonEmptySpans.length &&
+                    spans.every(
+                        (span) =>
+                            span.textContent.trim().length === 0 ||
+                            span.textContent.trim() === selected,
+                    );
+
+                if (
+                    nonEmptySpans.length !== 1 ||
+                    nonEmptySpans[0].textContent.trim() !== selected ||
+                    !hasOnlyEmptySpanNoise
+                ) {
+                    return;
+                }
+
+                normalizeSelectionToOriginalSpanText(
+                    selection,
+                    nonEmptySpans[0].dataset.glossId,
+                    selected,
+                );
+            }
+
+            // Rebuilds a selection so it covers the original text node inside a selected gloss span.
+            function normalizeSelectionToOriginalSpanText(
+                selection,
+                glossId,
+                selected,
+            ) {
+                const originalSpan = document.querySelector(
+                    `#jpText span[data-gloss-id="${glossId}"]`,
+                );
+                const textNode =
+                    originalSpan &&
+                    Array.from(originalSpan.childNodes).find(
+                        (node) => node.nodeType === Node.TEXT_NODE,
+                    );
+
+                if (
+                    !textNode ||
+                    textNode.textContent.trim() !== selected
+                ) {
+                    return false;
+                }
+
+                const range = document.createRange();
+                range.setStart(textNode, 0);
+                range.setEnd(textNode, textNode.textContent.length);
+                selection.removeAllRanges();
+                selection.addRange(range);
+                return true;
+            }
+
+            // Rebuilds a plain-text selection when a range includes empty neighboring span noise.
+            function normalizePlainTextSelection(selection, selectedText) {
+                const range = selection.getRangeAt(0);
+                const endpoints = [
+                    {
+                        node: range.startContainer,
+                        offset: range.startOffset,
+                        direction: "forward",
+                    },
+                    {
+                        node: range.endContainer,
+                        offset: range.endOffset,
+                        direction: "backward",
+                    },
+                ];
+
+                for (const endpoint of endpoints) {
+                    if (
+                        endpoint.node.nodeType !== Node.TEXT_NODE ||
+                        endpoint.node.parentElement.closest("span")
+                    ) {
+                        continue;
+                    }
+
+                    const text = endpoint.node.textContent;
+                    const start =
+                        endpoint.direction === "forward"
+                            ? endpoint.offset
+                            : endpoint.offset - selectedText.length;
+                    const end = start + selectedText.length;
+
+                    if (
+                        start >= 0 &&
+                        text.slice(start, end) === selectedText
+                    ) {
+                        const normalizedRange = document.createRange();
+                        normalizedRange.setStart(endpoint.node, start);
+                        normalizedRange.setEnd(endpoint.node, end);
+                        selection.removeAllRanges();
+                        selection.addRange(normalizedRange);
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            // Serializes the active selection so boundary-crossing HTML can be detected.
             function getSelectionHtml() {
                 let html = "";
                 if (typeof window.getSelection != "undefined") {
@@ -555,15 +720,19 @@
                 return html;
             }
 
+            // Reports whether serialized selection HTML contains meaningful element markup.
             function containsHtml(str) {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(str, "text/html");
-                // Check if the body contains any element nodes (nodeType === 1)
+                // Some browsers can clone an empty neighboring span at a chunk edge.
                 return Array.from(doc.body.childNodes).some(
-                    (node) => node.nodeType === 1,
+                    (node) =>
+                        node.nodeType === 1 &&
+                        node.textContent.trim().length > 0,
                 );
             }
 
+            // Reads an attribute from the element that owns the current selection range.
             function getSelectionContainerAttribute(attributeName) {
                 const selection = window.getSelection();
 
@@ -591,6 +760,7 @@
                 return null;
             }
 
+            // Determines whether the current selection is located inside an existing gloss span.
             function isSelectionInSpan() {
                 const selection = window.getSelection();
                 if (!selection.rangeCount) return false;
@@ -606,6 +776,7 @@
                 return !!parentElement.closest("span");
             }
 
+            // Checks whether the selection covers exactly one full existing gloss chunk.
             function isEntireParentSelected() {
                 const selection = window.getSelection();
 
@@ -649,6 +820,7 @@
                 return result;
             }
 
+            // Removes the selected gloss span and its matching gloss box, restoring plain text.
             function removeFormatting() {
                 const targetId =
                     getSelectionContainerAttribute("data-gloss-id");
@@ -657,6 +829,26 @@
                 const glossDiv = document.getElementById("glossLayer");
 
                 if (searchValue == null) return;
+
+                const targetSpan = targetId
+                    ? document.querySelector(
+                          `#jpText span[data-gloss-id="${targetId}"]`,
+                      )
+                    : null;
+                if (
+                    targetSpan &&
+                    targetSpan.textContent.trim() === searchValue.trim()
+                ) {
+                    targetSpan.replaceWith(
+                        document.createTextNode(targetSpan.textContent),
+                    );
+
+                    const selector = `div[data-gloss-id="${targetId}"]`;
+                    const elementToRemove = document.querySelector(selector);
+                    if (elementToRemove) elementToRemove.remove();
+                    jpDiv.normalize();
+                    return;
+                }
 
                 const escaped = searchValue.replace(
                     /[.*+?^${}()|[\]\\]/g,
@@ -674,6 +866,7 @@
 
                 const inboundChange = replacementHTML != jpDiv.innerHTML;
                 jpDiv.innerHTML = replacementHTML;
+                jpDiv.normalize();
 
                 if (inboundChange) {
                     const selector = `div[data-gloss-id="${targetId}"]`;
