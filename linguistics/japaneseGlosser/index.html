@@ -163,17 +163,6 @@
                 font-size: 12px;
             }
 
-            .presetDescriptions {
-                font-size: 12px;
-                margin-top: 6px;
-            }
-
-            .presets button {
-                width: 87px;
-                padding: 0px;
-                height: 32px;
-            }
-
             table {
                 width: 549px;
                 border: 1px grey solid;
@@ -198,10 +187,6 @@
                 font-size: 12px;
             }
 
-            .presets {
-                padding-top: 4px;
-            }
-
             .spacer {
                 height: 1px;
             }
@@ -222,9 +207,9 @@
                 <div class="checkboxContainer">
                     <input
                         type="checkbox"
-                        id="autoCheckbox"
-                        title="Bypass that makes the Enter key after text selection simply apply color rotation for visual chunking." />
-                    <label for="autoCheckbox">Auto</label>
+                        id="autoWithGlossCheckbox"
+                        title="Bypass that makes the Enter key, after text selection, jump to the gloss input while applying automatic color rotation for visual chunking." />
+                    <label for="autoWithGlossCheckbox">Auto</label>
                 </div>
                 <div class="checkboxContainer">
                     <input
@@ -238,82 +223,8 @@
             <input id="textInput" placeholder="(Japanese)" />
             <button id="addText">Add Text</button>
             <div class="spacer"><br /></div>
-            <input id="glossInput" placeholder="(English)" />
+            <input id="glossInput" placeholder="(Gloss)" />
             <button id="addGloss" disabled="true">Add Gloss</button>
-            <div class="presets">
-                <button id="addCircumstance" class="violetBg" disabled="true">
-                    Circumstance
-                </button>
-                <button id="addAction" class="blueBg" disabled="true">
-                    Action
-                </button>
-                <button id="addStyle" class="greenBg" disabled="true">
-                    Style
-                </button>
-                <button id="addTime" class="yellowBg" disabled="true">
-                    Time
-                </button>
-                <button id="addLocation" class="orangeBg" disabled="true">
-                    Location
-                </button>
-                <button id="addEntity" class="redBg" disabled="true">
-                    Entity
-                </button>
-            </div>
-            <details>
-                <summary>Details</summary>
-                <div class="presetDescriptions">
-                    <div class="table-container">
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <span class="violet letter">C</span
-                                        >ircumstance
-                                    </td>
-                                    <td>
-                                        The situation that brings about or
-                                        allows the action.
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="blue letter">A</span>ction
-                                    </td>
-                                    <td>What happens.</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="green letter">S</span>tyle
-                                    </td>
-                                    <td>
-                                        How the action occurs (qualitative).
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="yellow letter">T</span>ime
-                                    </td>
-                                    <td>When the action occurs.</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="orange letter">L</span
-                                        >ocation
-                                    </td>
-                                    <td>Where the action occurs.</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="red letter">E</span>ntity
-                                    </td>
-                                    <td>Who or what performs the action.</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </details>
         </div>
 
         <div class="container" id="container">
@@ -324,13 +235,6 @@
         <script>
             const uid = () => "g" + Math.random().toString(36).slice(2, 9);
             const addTextBtn = document.getElementById("addText");
-            const addEntityBtn = document.getElementById("addEntity");
-            const addLocationBtn = document.getElementById("addLocation");
-            const addTimeBtn = document.getElementById("addTime");
-            const addCircumstanceBtn =
-                document.getElementById("addCircumstance");
-            const addStyleBtn = document.getElementById("addStyle");
-            const addActionBtn = document.getElementById("addAction");
             const textInput = document.getElementById("textInput");
             const addGlossBtn = document.getElementById("addGloss");
             const glossInput = document.getElementById("glossInput");
@@ -339,6 +243,7 @@
 
             var lastSelectionText = null;
             var lastSelectionRange = null;
+            var lastSelectionColor = null;
 
             function autoRotateFeature() {
                 if (!addGlossBtn.disabled) {
@@ -365,10 +270,6 @@
                     // 5. Add 'selected' to the new square
                     squares[nextIndex].classList.add("selected");
 
-                    // Adding a Braille Blank to bypass trim checks (assuming no content manually typed), as we'll want a label-less look
-                    if (glossInput.value.trim().length == 0)
-                        glossInput.value = "\u2800";
-
                     addGlossBtn.click();
                 }
             }
@@ -381,65 +282,21 @@
                 document.getElementById("glossLayer").innerHTML = "";
             });
 
-            addCircumstanceBtn.addEventListener("click", () => {
-                if (!isSelectionInSpan()) {
-                    glossInput.value = "C";
-                    document.getElementById("violetSquare").click();
-                    addGlossBtn.click();
-                }
-            });
-
-            addActionBtn.addEventListener("click", () => {
-                if (!isSelectionInSpan()) {
-                    glossInput.value = "A";
-                    document.getElementById("blueSquare").click();
-                    addGlossBtn.click();
-                }
-            });
-
-            addStyleBtn.addEventListener("click", () => {
-                if (!isSelectionInSpan()) {
-                    glossInput.value = "S";
-                    document.getElementById("greenSquare").click();
-                    addGlossBtn.click();
-                }
-            });
-
-            addTimeBtn.addEventListener("click", () => {
-                if (!isSelectionInSpan()) {
-                    glossInput.value = "T";
-                    document.getElementById("yellowSquare").click();
-                    addGlossBtn.click();
-                }
-            });
-
-            addLocationBtn.addEventListener("click", () => {
-                if (!isSelectionInSpan()) {
-                    glossInput.value = "L";
-                    document.getElementById("orangeSquare").click();
-                    addGlossBtn.click();
-                }
-            });
-
-            addEntityBtn.addEventListener("click", () => {
-                if (!isSelectionInSpan()) {
-                    glossInput.value = "E";
-                    document.getElementById("redSquare").click();
-                    addGlossBtn.click();
-                }
-            });
-
             addGlossBtn.addEventListener("click", () => {
                 const noColorCheckbox =
                     document.getElementById("noColorCheckbox");
 
-                const text = glossInput.value.trim();
-                if (!text) return alert("Enter a gloss first.");
                 if (lastSelectionRange == null)
                     return alert("Select some Japanese text first.");
                 const range = lastSelectionRange;
                 if (!container.contains(range.commonAncestorContainer))
                     return alert("Select some Japanese text first.");
+
+                // Adding a Braille Blank to bypass trim checks (assuming no content manually typed), as we'll want a label-less look
+                if (glossInput.value.trim().length == 0)
+                    glossInput.value = "\u2800";
+
+                const text = glossInput.value.trim();
 
                 const rect = range.getClientRects()[0];
                 if (!rect || rect.width === 0)
@@ -462,7 +319,29 @@
                 }
                 span.dataset.glossId = glossId;
                 span.appendChild(frag);
-                range.insertNode(span);
+
+                var tempDataGlossId = null;
+                // If the parentElement of our range selection is a span, we want to replace it with our new span, otherwise we just insert the new span into the range.
+                if (
+                    range.commonAncestorContainer != null &&
+                    range.commonAncestorContainer.parentElement != null &&
+                    range.commonAncestorContainer.parentElement.tagName ===
+                        "SPAN"
+                ) {
+                    const parentSpan =
+                        range.commonAncestorContainer.parentElement;
+
+                    tempDataGlossId = parentSpan.dataset.glossId;
+                    parentSpan.replaceWith(span);
+                } else {
+                    range.insertNode(span);
+                }
+
+                if (tempDataGlossId != null) {
+                    const selector = `div[data-gloss-id="${tempDataGlossId}"]`;
+                    const elementToRemove = document.querySelector(selector);
+                    if (elementToRemove) elementToRemove.remove();
+                }
 
                 const box = document.createElement("div");
                 box.className = "gloss";
@@ -491,33 +370,40 @@
                 document.getElementById("lastSelectionTextPreview").innerText =
                     "";
                 document.getElementById("addGloss").disabled = true;
-                document.querySelectorAll(".presets button").forEach((b) => {
-                    b.disabled = true;
-                });
                 glossInput.value = "";
                 window.getSelection().removeAllRanges();
             }
 
             window.addEventListener("keydown", (e) => {
+                const textInput = document.getElementById("textInput");
                 const glossInput = document.getElementById("glossInput");
-                const autoCheckbox = document.getElementById("autoCheckbox");
+                const autoWithGlossCheckbox = document.getElementById(
+                    "autoWithGlossCheckbox",
+                );
+                const isTextInputAdded =
+                    document.getElementById("jpText").innerHTML.trim() !== "";
 
-                if (e.key === "Enter" && autoCheckbox.checked)
-                    autoRotateFeature();
-                else if (e.key === "Enter") addGlossBtn.click();
+                if (
+                    e.key === "Enter" &&
+                    document.activeElement === textInput &&
+                    textInput.value.trim() !== ""
+                ) {
+                    addTextBtn.click();
+                } else if (e.key === "Enter" && !isTextInputAdded)
+                    textInput.focus();
+                else if (e.key === "Enter" && autoWithGlossCheckbox.checked) {
+                    if (document.activeElement !== glossInput) {
+                        glossInput.focus();
+                    } else {
+                        autoRotateFeature();
+                    }
+                } else if (
+                    e.key === "Enter" &&
+                    document.activeElement !== glossInput
+                ) {
+                    glossInput.focus();
+                } else if (e.key === "Enter") addGlossBtn.click();
                 else if (e.key === "Delete") removeFormatting();
-                else if (e.key === "1" && document.activeElement != glossInput)
-                    addCircumstanceBtn.click();
-                else if (e.key === "2" && document.activeElement != glossInput)
-                    addActionBtn.click();
-                else if (e.key === "3" && document.activeElement != glossInput)
-                    addStyleBtn.click();
-                else if (e.key === "4" && document.activeElement != glossInput)
-                    addTimeBtn.click();
-                else if (e.key === "5" && document.activeElement != glossInput)
-                    addLocationBtn.click();
-                else if (e.key === "6" && document.activeElement != glossInput)
-                    addEntityBtn.click();
             });
 
             document.addEventListener("mouseup", function (event) {
@@ -549,6 +435,7 @@
                         document.execCommand("copy");
                     }
 
+                    // If we have either selected fresh japanese text or have fully selected a pre-existing parent span
                     if (selectedText.length > 0) {
                         lastSelectionText = selectedText;
                         if (window.getSelection().rangeCount > 0) {
@@ -557,15 +444,31 @@
                                 .getRangeAt(0);
                         }
                         document.getElementById("addGloss").disabled = false;
-                        document
-                            .querySelectorAll(".presets button")
-                            .forEach((b) => {
-                                b.disabled = false;
-                            });
                         document.getElementById(
                             "lastSelectionTextPreview",
                         ).innerText =
                             " ► " + truncateWithLastChar(lastSelectionText, 30);
+
+                        // Assuming we are not in auto mode and the value of lastSelectionColor is not null, we should set the color picker to that color. This will allow for easy re-coloring of existing glosses.
+                        if (
+                            lastSelectionColor &&
+                            !document.getElementById("autoWithGlossCheckbox")
+                                .checked
+                        ) {
+                            const colorSquare = document.getElementById(
+                                lastSelectionColor + "Square",
+                            );
+                            if (colorSquare) {
+                                document
+                                    .querySelectorAll(
+                                        ".color-picker-container .color-square",
+                                    )
+                                    .forEach((square) =>
+                                        square.classList.remove("selected"),
+                                    );
+                                colorSquare.classList.add("selected");
+                            }
+                        }
                     }
                 }
             });
@@ -706,7 +609,27 @@
                 const selectedText = selection.toString().trim();
                 const parentText = parentElement.innerText.trim();
 
-                return selectedText === parentText && selectedText.length > 0;
+                const result =
+                    selectedText === parentText && selectedText.length > 0;
+
+                // Storing off the last color (if any) related to our most recent complete selection.
+                if (result) {
+                    lastSelectionColor = parentElement.classList.contains("red")
+                        ? "red"
+                        : parentElement.classList.contains("orange")
+                          ? "orange"
+                          : parentElement.classList.contains("yellow")
+                            ? "yellow"
+                            : parentElement.classList.contains("green")
+                              ? "green"
+                              : parentElement.classList.contains("blue")
+                                ? "blue"
+                                : parentElement.classList.contains("violet")
+                                  ? "violet"
+                                  : null;
+                }
+
+                return result;
             }
 
             function removeFormatting() {
@@ -739,7 +662,6 @@
                     const selector = `div[data-gloss-id="${targetId}"]`;
                     const elementToRemove = document.querySelector(selector);
                     if (elementToRemove) elementToRemove.remove();
-                    resetState();
                 }
             }
         </script>
