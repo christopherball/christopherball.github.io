@@ -5,23 +5,47 @@
         <title>Japanese Glosser</title>
         <style>
             body {
-                background-color: #1e1e2e;
-                color: #e0e0e0;
+                background-color: #181818;
+                color: #c1c1c1;
                 font-family: "Hiragino Sans", "Meiryo", sans-serif;
+                margin: 0;
+                padding: 24px;
+            }
+
+            h2 {
+                margin: 0 0 4px;
+                font-size: 19px;
+                font-weight: 600;
+                letter-spacing: 0.02em;
+            }
+
+            #app {
+                max-width: 860px;
+                margin: 0 auto;
             }
 
             .container {
                 position: relative;
                 display: inline-block;
-                font-size: 2em;
-                margin-bottom: 6em;
+                margin-top: 20px;
+                padding: 0px 16px 24px 16px;
+                background: #363636;
+                border: 1px solid #333;
+                border-radius: 6px;
+                font-size: 30px;
+                line-height: 1;
+                color: #c1c1c1;
+                width: 88%;
             }
 
             #jpText {
                 position: relative;
                 z-index: 1;
-                line-height: 2.2;
+                line-height: 2.5;
                 font-weight: 200;
+                text-box-trim: trim-both;
+                margin-top: 10px;
+                margin-bottom: 24px;
             }
 
             #jpText:focus {
@@ -62,7 +86,7 @@
             }
 
             input {
-                width: 448px;
+                width: 80%;
                 border: 2px solid transparent;
             }
 
@@ -193,45 +217,46 @@
         </style>
     </head>
     <body>
-        <h3>Japanese Glosser</h3>
-        <div id="controls">
-            <div class="color-picker-container">
-                <div id="violetSquare" class="color-square violet selected">
-                    ■
+        <div id="app">
+            <h2>Japanese Glosser</h2>
+            <div id="controls">
+                <div class="color-picker-container">
+                    <div id="violetSquare" class="color-square violet selected">
+                        ■
+                    </div>
+                    <div id="blueSquare" class="color-square blue">■</div>
+                    <div id="greenSquare" class="color-square green">■</div>
+                    <div id="yellowSquare" class="color-square yellow">■</div>
+                    <div id="orangeSquare" class="color-square orange">■</div>
+                    <div id="redSquare" class="color-square red">■</div>
+                    <div class="checkboxContainer">
+                        <input
+                            type="checkbox"
+                            id="autoWithGlossCheckbox"
+                            title="Bypass that makes the Enter key, after text selection, jump to the gloss input while applying automatic color rotation for visual chunking." />
+                        <label for="autoWithGlossCheckbox">Auto</label>
+                    </div>
+                    <div class="checkboxContainer">
+                        <input
+                            type="checkbox"
+                            id="noColorCheckbox"
+                            title="Bypass that allows uncolored gloss to be applied." />
+                        <label for="noColorCheckbox">No Color</label>
+                    </div>
+                    <span id="lastSelectionTextPreview"></span>
                 </div>
-                <div id="blueSquare" class="color-square blue">■</div>
-                <div id="greenSquare" class="color-square green">■</div>
-                <div id="yellowSquare" class="color-square yellow">■</div>
-                <div id="orangeSquare" class="color-square orange">■</div>
-                <div id="redSquare" class="color-square red">■</div>
-                <div class="checkboxContainer">
-                    <input
-                        type="checkbox"
-                        id="autoWithGlossCheckbox"
-                        title="Bypass that makes the Enter key, after text selection, jump to the gloss input while applying automatic color rotation for visual chunking." />
-                    <label for="autoWithGlossCheckbox">Auto</label>
-                </div>
-                <div class="checkboxContainer">
-                    <input
-                        type="checkbox"
-                        id="noColorCheckbox"
-                        title="Bypass that allows uncolored gloss to be applied." />
-                    <label for="noColorCheckbox">No Color</label>
-                </div>
-                <span id="lastSelectionTextPreview"></span>
+                <input id="textInput" placeholder="(Japanese)" />
+                <button id="addText">Add Text</button>
+                <div class="spacer"><br /></div>
+                <input id="glossInput" placeholder="(Gloss)" />
+                <button id="addGloss" disabled="true">Add Gloss</button>
             </div>
-            <input id="textInput" placeholder="(Japanese)" />
-            <button id="addText">Add Text</button>
-            <div class="spacer"><br /></div>
-            <input id="glossInput" placeholder="(Gloss)" />
-            <button id="addGloss" disabled="true">Add Gloss</button>
-        </div>
 
-        <div class="container" id="container">
-            <div id="jpText" tabindex="0"></div>
-            <div class="gloss-layer" id="glossLayer"></div>
+            <div class="container" id="container">
+                <div id="jpText" tabindex="0"></div>
+                <div class="gloss-layer" id="glossLayer"></div>
+            </div>
         </div>
-
         <script>
             // Creates a short id used to link each inline text span with its positioned gloss box.
             const uid = () => "g" + Math.random().toString(36).slice(2, 9);
@@ -303,8 +328,7 @@
                 const text = glossInput.value.trim();
 
                 const rect = getUsableSelectionRect(range);
-                if (!rect)
-                    return alert("Invalid selection.");
+                if (!rect) return alert("Invalid selection.");
                 const containerRect = container.getBoundingClientRect();
                 const centerX = rect.left - containerRect.left + rect.width / 2;
                 const topY = rect.bottom - containerRect.top + 3;
@@ -362,7 +386,7 @@
                 box.style.top = `${Math.round(topY)}px`;
                 box.style.maxWidth = `${Math.round(rect.width) - 1}px`; // limit width to selection width
                 box.style.width = `${Math.round(rect.width) - 1}px`;
-                box.style.transform = `translateX(-${Math.round(rect.width / 2)}px)`;
+                box.style.transform = `translateX(-${Math.round(rect.width / 2) + 2}px)`;
                 glossLayer.appendChild(box);
 
                 resetState();
@@ -635,10 +659,7 @@
                         (node) => node.nodeType === Node.TEXT_NODE,
                     );
 
-                if (
-                    !textNode ||
-                    textNode.textContent.trim() !== selected
-                ) {
+                if (!textNode || textNode.textContent.trim() !== selected) {
                     return false;
                 }
 
@@ -681,10 +702,7 @@
                             : endpoint.offset - selectedText.length;
                     const end = start + selectedText.length;
 
-                    if (
-                        start >= 0 &&
-                        text.slice(start, end) === selectedText
-                    ) {
+                    if (start >= 0 && text.slice(start, end) === selectedText) {
                         const normalizedRange = document.createRange();
                         normalizedRange.setStart(endpoint.node, start);
                         normalizedRange.setEnd(endpoint.node, end);
