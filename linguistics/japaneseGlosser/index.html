@@ -467,11 +467,8 @@
                         selectionContainsHtml ||
                         (selectionInSpan && !entireParentSelected)
                     ) {
-                        document.execCommand("copy");
                         resetState();
                         return;
-                    } else {
-                        document.execCommand("copy");
                     }
 
                     // If we have either selected fresh japanese text or have fully selected a pre-existing parent span
