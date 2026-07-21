@@ -2,6 +2,7 @@
 <html lang="ja">
     <head>
         <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Japanese Glosser</title>
         <link rel="stylesheet" href="includes/index.css" />
     </head>
@@ -34,11 +35,14 @@
                     </div>
                     <span id="lastSelectionTextPreview"></span>
                 </div>
-                <input id="textInput" placeholder="(Japanese)" />
-                <button id="addText">Add Text</button>
-                <div class="spacer"><br /></div>
-                <input id="glossInput" placeholder="(Gloss)" />
-                <button id="addGloss" disabled="true">Add Gloss</button>
+                <div class="control-row">
+                    <input id="textInput" placeholder="(Japanese)" />
+                    <button id="addText">Add Text</button>
+                </div>
+                <div class="control-row">
+                    <input id="glossInput" placeholder="(Gloss)" />
+                    <button id="addGloss" disabled="true">Add Gloss</button>
+                </div>
             </div>
 
             <div class="container" id="container">

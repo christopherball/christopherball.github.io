@@ -21,8 +21,9 @@ h2 {
 }
 
 .container {
+    box-sizing: border-box;
     position: relative;
-    display: inline-block;
+    display: block;
     margin-top: 20px;
     padding: 0px 16px 24px 16px;
     background: #363636;
@@ -31,7 +32,7 @@ h2 {
     font-size: 30px;
     line-height: 1;
     color: #c1c1c1;
-    width: calc(100% - 37px);
+    width: 100%;
 }
 
 #jpText {
@@ -77,13 +78,22 @@ h2 {
 }
 
 #controls {
-    gap: 8px;
-    align-items: center;
+    box-sizing: border-box;
+    display: grid;
+    gap: 4px;
 }
 
 input {
-    width: calc(100% - 106px);
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: 22px;
+    padding: 2px 4px;
     border: 2px solid transparent;
+    border-radius: 0;
+    font: inherit;
+    font-size: 12px;
+    line-height: 16px;
 }
 
 .checkboxContainer {
@@ -103,10 +113,34 @@ label {
 }
 
 button {
+    box-sizing: border-box;
     width: 88px;
+    height: 22px;
+    padding: 2px 8px;
     cursor: pointer;
     border: 2px solid transparent;
     border-radius: 0px;
+    font: inherit;
+    font-size: 12px;
+    line-height: 16px;
+    color: #111;
+    background-color: #f0f0f0;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+button:disabled {
+    color: #777;
+    background-color: #bdbdbd;
+    cursor: default;
+}
+
+.control-row {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 88px;
+    gap: 4px;
+    width: 100%;
 }
 
 rt {
@@ -205,8 +239,4 @@ td:first-child,
 
 summary {
     font-size: 12px;
-}
-
-.spacer {
-    height: 1px;
 }
