@@ -1,4 +1,5 @@
 body {
+    --focus-color: #c1c1c1;
     background-color: #181818;
     color: #c1c1c1;
     font-family: "Hiragino Sans", "Meiryo", sans-serif;
@@ -125,11 +126,11 @@ textarea {
 input:not([type="checkbox"]):focus,
 textarea:focus {
     outline: none;
-    border-color: rgb(45, 213, 255);
+    border-color: var(--focus-color);
     background-color: #ffffff;
     box-shadow:
         0 0 0 2px #181818,
-        0 0 0 4px rgb(45, 213, 255);
+        0 0 0 4px var(--focus-color);
     caret-color: #111;
 }
 

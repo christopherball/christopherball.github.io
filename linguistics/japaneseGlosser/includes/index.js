@@ -6,10 +6,35 @@ const addGlossBtn = document.getElementById("addGloss");
 const glossInput = document.getElementById("glossInput");
 const glossLayer = document.getElementById("glossLayer");
 const container = document.getElementById("container");
+const colorClassNames = ["red", "orange", "yellow", "green", "blue", "violet"];
 
 var lastSelectionText = null;
 var lastSelectionRange = null;
 var lastSelectionColor = null;
+
+function getContainerTextColor() {
+    return getComputedStyle(container).color;
+}
+
+function getSelectedSwatchColor() {
+    const selectedSquare = document.querySelector(".color-square.selected");
+
+    if (!selectedSquare) {
+        return getContainerTextColor();
+    }
+
+    return getComputedStyle(selectedSquare).color;
+}
+
+function updateFocusColor() {
+    const noColorCheckbox = document.getElementById("noColorCheckbox");
+    const focusColor =
+        noColorCheckbox && noColorCheckbox.checked
+            ? getContainerTextColor()
+            : getSelectedSwatchColor();
+
+    document.body.style.setProperty("--focus-color", focusColor);
+}
 
 // Suppresses gloss hover while the user is actively selecting text in the glossing area.
 function updateGlossHoverState() {
@@ -58,6 +83,7 @@ function autoRotateFeature() {
 
         // 5. Add 'selected' to the new square
         squares[nextIndex].classList.add("selected");
+        updateFocusColor();
     }
 }
 
@@ -281,6 +307,7 @@ document.addEventListener("mouseup", function (event) {
                             square.classList.remove("selected"),
                         );
                     colorSquare.classList.add("selected");
+                    updateFocusColor();
                 }
             }
         }
@@ -311,6 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             square.classList.add("selected");
             lastSelectionColor = square.id.replace("Square", ""); // Update lastSelectionColor when a color is selected
+            updateFocusColor();
         });
     });
 
@@ -324,8 +352,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById("autoWithGlossCheckbox").checked =
                         false;
                 }
+                updateFocusColor();
             });
         });
+
+    updateFocusColor();
 });
 
 // Shortens the selection preview while preserving the final character for context.
@@ -577,19 +608,10 @@ function isEntireParentSelected() {
 
     // Storing off the last color (if any) related to our most recent complete selection.
     if (result) {
-        lastSelectionColor = parentElement.classList.contains("red")
-            ? "red"
-            : parentElement.classList.contains("orange")
-              ? "orange"
-              : parentElement.classList.contains("yellow")
-                ? "yellow"
-                : parentElement.classList.contains("green")
-                  ? "green"
-                  : parentElement.classList.contains("blue")
-                    ? "blue"
-                    : parentElement.classList.contains("violet")
-                      ? "violet"
-                      : null;
+        lastSelectionColor =
+            colorClassNames.find((color) =>
+                parentElement.classList.contains(color),
+            ) || null;
     }
 
     return result;
