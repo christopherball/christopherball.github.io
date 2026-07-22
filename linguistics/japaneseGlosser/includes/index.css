@@ -81,6 +81,17 @@ h2 {
     z-index: 3;
 }
 
+body.has-jp-text-selection .gloss {
+    pointer-events: none;
+}
+
+body.has-jp-text-selection .gloss:hover {
+    background: transparent;
+    max-height: 39px;
+    overflow: hidden;
+    z-index: 2;
+}
+
 .underlined {
     text-decoration: underline;
     text-decoration-thickness: 1.6px;

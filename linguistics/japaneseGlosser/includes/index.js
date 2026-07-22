@@ -11,6 +11,28 @@ var lastSelectionText = null;
 var lastSelectionRange = null;
 var lastSelectionColor = null;
 
+// Suppresses gloss hover while the user is actively selecting text in the glossing area.
+function updateGlossHoverState() {
+    const selection = window.getSelection();
+    const jpText = document.getElementById("jpText");
+    const hasJpTextSelection =
+        selection &&
+        !selection.isCollapsed &&
+        selection.rangeCount > 0 &&
+        selection.toString().trim().length > 0 &&
+        jpText &&
+        (jpText.contains(selection.anchorNode) ||
+            jpText.contains(selection.focusNode) ||
+            selection.intersectsNode(jpText));
+
+    document.body.classList.toggle(
+        "has-jp-text-selection",
+        Boolean(hasJpTextSelection),
+    );
+}
+
+document.addEventListener("selectionchange", updateGlossHoverState);
+
 // Applies the current gloss and advances the active color for rapid chunk-by-chunk glossing.
 function autoRotateFeature() {
     if (!addGlossBtn.disabled) {
@@ -134,6 +156,7 @@ function resetState() {
     document.getElementById("addGloss").disabled = true;
     glossInput.value = "";
     window.getSelection().removeAllRanges();
+    updateGlossHoverState();
 }
 
 // Routes keyboard shortcuts for adding text, focusing gloss input, auto mode, and deletion.
