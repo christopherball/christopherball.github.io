@@ -61,14 +61,39 @@ function autoRotateFeature() {
     }
 }
 
-// Loads the entered Japanese sentence into the selectable text area and clears old glosses.
+// Loads the entered Japanese text into the selectable text area and clears old glosses.
 addTextBtn.addEventListener("click", () => {
-    let text = textInput.value.trim();
-    text = text.replace(/。/g, "。<br/>");
-
-    document.getElementById("jpText").innerHTML = text;
+    renderJapaneseText(textInput.value);
     document.getElementById("glossLayer").innerHTML = "";
+    document.getElementById("jpText").focus();
 });
+
+// Splits pasted text into display lines using dictionary bullets, manual line breaks,
+// and Japanese full stops.
+function getJapaneseTextLines(rawText) {
+    const text = rawText
+        .trim()
+        .replace(/\r\n?/g, "\n")
+        .replace(/\s*•\s*/g, "\n")
+        .replace(/。/g, "。\n");
+
+    return text
+        .split(/\n+/)
+        .map((line) => line.trim())
+        .filter((line) => line.length > 0);
+}
+
+function renderJapaneseText(rawText) {
+    const jpText = document.getElementById("jpText");
+    jpText.textContent = "";
+
+    getJapaneseTextLines(rawText).forEach((line, index) => {
+        if (index > 0) {
+            jpText.appendChild(document.createElement("br"));
+        }
+        jpText.appendChild(document.createTextNode(line));
+    });
+}
 
 // Wraps the stored selection in a colored span and places its gloss box below the text.
 addGlossBtn.addEventListener("click", () => {
@@ -146,6 +171,7 @@ addGlossBtn.addEventListener("click", () => {
     glossLayer.appendChild(box);
 
     resetState();
+    document.getElementById("jpText").focus();
 });
 
 // Clears the active selection state after a gloss is added, deleted, or rejected.
@@ -169,29 +195,39 @@ window.addEventListener("keydown", (e) => {
     const isTextInputAdded =
         document.getElementById("jpText").innerHTML.trim() !== "";
 
-    if (
-        e.key === "Enter" &&
-        document.activeElement === textInput &&
-        textInput.value.trim() !== ""
-    ) {
-        addTextBtn.click();
-    } else if (e.key === "Enter" && !isTextInputAdded) textInput.focus();
-    else if (e.key === "Enter" && autoWithGlossCheckbox.checked) {
+    if (e.key === "Enter" && document.activeElement === textInput) {
+        if (textInput.value.trim() !== "" && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            addTextBtn.click();
+        }
+        return;
+    }
+
+    if (e.key === "Enter" && !isTextInputAdded) {
+        e.preventDefault();
+        textInput.focus();
+    } else if (e.key === "Enter" && autoWithGlossCheckbox.checked) {
+        e.preventDefault();
         if (document.activeElement !== glossInput) {
             glossInput.focus();
         } else {
             autoRotateFeature();
         }
     } else if (e.key === "Enter" && document.activeElement !== glossInput) {
+        e.preventDefault();
         glossInput.focus();
-    } else if (e.key === "Enter") addGlossBtn.click();
-    else if (e.key === "Delete") removeFormatting();
+    } else if (e.key === "Enter") {
+        e.preventDefault();
+        addGlossBtn.click();
+    } else if (e.key === "Delete") removeFormatting();
 });
 
 // Captures valid mouse selections while rejecting selections that cross existing gloss boundaries.
 document.addEventListener("mouseup", function (event) {
     // Ignore if the user clicked an input or textarea
-    const isInput = ["input", "textarea"].includes(event.target.tagName);
+    const isInput = ["input", "textarea"].includes(
+        event.target.tagName.toLowerCase(),
+    );
     if (isInput) return;
 
     // Get the selection object

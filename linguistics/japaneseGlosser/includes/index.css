@@ -104,17 +104,46 @@ body.has-jp-text-selection .gloss:hover {
     gap: 4px;
 }
 
-input {
+input,
+textarea {
     box-sizing: border-box;
     width: 100%;
     min-width: 0;
-    height: 22px;
     padding: 2px 4px;
     border: 2px solid transparent;
     border-radius: 0;
     font: inherit;
     font-size: 12px;
     line-height: 16px;
+    background-color: #f0f0f0;
+    transition:
+        background-color 120ms ease,
+        border-color 120ms ease,
+        box-shadow 120ms ease;
+}
+
+input:not([type="checkbox"]):focus,
+textarea:focus {
+    outline: none;
+    border-color: rgb(45, 213, 255);
+    background-color: #ffffff;
+    box-shadow:
+        0 0 0 2px #181818,
+        0 0 0 4px rgb(45, 213, 255);
+    caret-color: #111;
+}
+
+input {
+    height: 22px;
+}
+
+textarea {
+    min-height: 52px;
+    resize: vertical;
+}
+
+#textInput + #addText {
+    height: 52px;
 }
 
 .checkboxContainer {

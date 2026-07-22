@@ -12,7 +12,7 @@ The app is intentionally lightweight: it is plain HTML, CSS, and JavaScript with
 - Use `Auto` mode to rapidly gloss successive selections while rotating colors
 - Use `No Color` mode for plain, uncolored glosses
 - Select an existing gloss chunk to recolor, relabel, or delete it
-- Automatically inserts line breaks after Japanese full stops (`。`)
+- Automatically inserts line breaks after Japanese full stops (`。`) and bullet-pointed dictionary examples (`•`)
 
 ## Running Locally
 
@@ -29,7 +29,7 @@ Then visit `http://127.0.0.1:8000/`.
 ## Basic Usage
 
 1. Enter Japanese text in the first input.
-2. Click `Add Text`, or press `Enter` while the text input is focused.
+2. Click `Add Text`, or press `Ctrl+Enter` / `Cmd+Enter` while the text input is focused.
 3. Select a portion of the Japanese text.
 4. Enter a gloss in the gloss input.
 5. Click `Add Gloss`, or press `Enter`.
@@ -38,7 +38,7 @@ To remove a gloss, select the glossed Japanese text and press `Delete`.
 
 ## Keyboard Flow
 
-- `Enter` in the Japanese text input: add the text to the page
+- `Ctrl+Enter` / `Cmd+Enter` in the Japanese text input: add the text to the page
 - `Enter` after selecting Japanese text: focus the gloss input
 - `Enter` in the gloss input: apply the gloss
 - `Enter` with `Auto` enabled: focus/apply glosses and rotate to the next color
