@@ -70,8 +70,6 @@ h2 {
     text-align: center;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    border-left: 1px grey solid;
-    border-right: 1px grey solid;
     z-index: 2;
 }
 
@@ -94,9 +92,41 @@ body.has-jp-text-selection .gloss:hover {
 }
 
 .underlined {
-    text-decoration: underline;
-    text-decoration-thickness: 1.6px;
-    text-underline-offset: 4px;
+    display: inline-block;
+    position: relative;
+    text-decoration: none;
+}
+
+.underlined::before,
+.underlined::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+}
+
+.underlined::before {
+    bottom: 0.81em;
+    height: 1.6px;
+    background: currentColor;
+}
+
+.underlined::after {
+    bottom: calc(0.81em - 2.2px);
+    height: 6px;
+    border-radius: 999px;
+    background:
+        radial-gradient(
+            circle 3px at left center,
+            currentColor 99%,
+            transparent 100%
+        ),
+        radial-gradient(
+            circle 3px at right center,
+            currentColor 99%,
+            transparent 100%
+        );
 }
 
 #controls {
@@ -109,12 +139,12 @@ input,
 textarea {
     box-sizing: border-box;
     width: 100%;
+    font-weight: 300 !important;
     min-width: 0;
     padding: 2px 4px;
     border: 2px solid transparent;
     border-radius: 0;
     font: inherit;
-    font-size: 12px;
     line-height: 16px;
     background-color: #f0f0f0;
     transition:

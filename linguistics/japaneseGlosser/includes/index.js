@@ -139,8 +139,9 @@ addGlossBtn.addEventListener("click", () => {
     const rect = getUsableSelectionRect(range);
     if (!rect) return alert("Invalid selection.");
     const containerRect = container.getBoundingClientRect();
-    const centerX = rect.left - containerRect.left + rect.width / 2;
+    const leftX = Math.round(rect.left - containerRect.left);
     const topY = rect.bottom - containerRect.top + 3;
+    const glossWidth = Math.max(1, Math.round(rect.width));
 
     // Wrap selected content safely
     const frag = range.extractContents();
@@ -189,11 +190,10 @@ addGlossBtn.addEventListener("click", () => {
     }
     box.dataset.glossId = glossId;
     box.textContent = text;
-    box.style.left = `${Math.round(centerX)}px`;
+    box.style.left = `${leftX}px`;
     box.style.top = `${Math.round(topY)}px`;
-    box.style.maxWidth = `${Math.round(rect.width) - 1}px`; // limit width to selection width
-    box.style.width = `${Math.round(rect.width) - 1}px`;
-    box.style.transform = `translateX(-${Math.round(rect.width / 2) + 2}px)`;
+    box.style.maxWidth = `${glossWidth}px`;
+    box.style.width = `${glossWidth}px`;
     glossLayer.appendChild(box);
 
     resetState();
